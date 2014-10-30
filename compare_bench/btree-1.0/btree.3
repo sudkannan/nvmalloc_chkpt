@@ -1,0 +1,102 @@
+.\" Copyright 2001 John-Mark Gurney
+.\" All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions
+.\" are met:
+.\" 1. Redistributions of source code must retain the above copyright
+.\"    notice, this list of conditions and the following disclaimer.
+.\" 2. Redistributions in binary form must reproduce the above copyright
+.\"    notice, this list of conditions and the following disclaimer in the
+.\"    documentation and/or other materials provided with the distribution.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+.\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+.\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+.\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+.\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+.\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+.\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+.\" SUCH DAMAGE.
+.\"
+.\"	$Id: btree.3,v 1.1.2.1 2001/03/28 06:17:12 jmg Exp $
+.\"
+.\" Note: The date here should be updated whenever a non-trivial
+.\" change is made to the manual page.
+.Dd March 2, 2001
+.Dt BTREE 3
+.Os
+.Sh NAME
+.Nm btree
+.Nd indexing of elements using a B-Tree
+.Sh LIBRARY
+B-Tree Library (libbtree, -lbtree)
+.Sh SYNOPSIS
+.Fd #include <btree.h>
+.Ft typedef "void *" bt_data_t
+.\" Why I need a blank line, I don't know, but it is necessary
+
+.Ft "struct btree *"
+.Fn bt_create "int (*)(bt_data_t, bt_data_t)" "int nodesize
+.Ft void
+.Fn bt_insert "struct btree *" bt_data_t
+.Ft int
+.Fn bt_delete "struct btree *" bt_data_t
+.Ft bt_data_t
+.Fn bt_max "struct btree *"
+.Ft bt_data_t
+.Fn bt_min "struct btree *"
+.Ft bt_data_t
+.Fn bt_find "struct btree *" bt_data_t
+.Ft void
+.Fn bt_dumptree "struct btree *"
+.Ft void
+.Fn bt_treestats "struct btree *"
+.Ft int
+.Fn bt_checktree "struct btree *" "bt_data_t min" "bt_data_t max"
+.Sh DESCRIPTION
+The
+.Nm btree
+library provides a way to index data.  The data is stored using a B-Tree
+which allows logrithmic searches, inserts and deletes.
+.Pp
+The
+.Nm bt_create
+function creates a B-Tree.  You are required to specify a function that will
+compare the data that you pass in.  It also allows you to specify how large
+each node of the tree will be.  This will be dependent upon the architecture
+of the machine, but usally a
+.Nm nodesize
+of 512 (bytes) will give good performance.
+.\" .Sh RETURN VALUES
+.Sh SEE ALSO
+.Rs
+.%A Cormen, Leiserson, and Rivest
+.%B Introduction to Algorithms
+.%O ISBN-0-07-013143-0
+.Re
+.Sh DIAGNOSTICS
+None.
+.\" .Sh ERRORS
+.Sh HISTORY
+I have written a newer version that stores an array of shorts (limiting
+number of keys in a node) that indexes into the array of keys and nodes.
+This prevents as much memory to be copied when making space for a node
+durning insert, or removing space when you delete a key.
+.Pp
+This is only useful when you are doing many more insert/deletes or have
+to use large node sizes.  Otherwise the extra indirection (this may be
+due to lack of good optimization) incures a significant performance
+penalty (around ~2.4 times slower).  Currently that code is still
+unreleased.
+.Sh AUTHOR
+This
+manual page was written by
+.An John-Mark Gurney Aq jmg@FreeBSD.ORG .
+.Sh BUGS
+None that I am aware of.  If you encounter a bug, please send the details
+to
+.An John-Mark Gurney Aq jmg@FreeBSD.ORG .

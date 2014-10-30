@@ -1,0 +1,18 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:529: checking how to run the C preprocessor
+configure:550: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:609: checking for ANSI C header files
+configure:622: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:689: gcc -o conftest    conftest.c  1>&5
+configure: In function 'main':
+configure:684: warning: incompatible implicit declaration of built-in function 'exit'
+configure:716: checking for sys/time.h
+configure:726: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:754: checking for working const
+configure:808: gcc -c   conftest.c 1>&5
+configure:829: checking for inline
+configure:843: gcc -c   conftest.c 1>&5
+configure:869: checking whether time.h and sys/time.h may both be included
+configure:883: gcc -c   conftest.c 1>&5
