@@ -13,7 +13,7 @@ void *nv_restart_(char *var, int *id);
 int nvchkpt_all_(int *mype);
 
 //void* my_alloc_(unsigned int* n, char *s, int *iid);
-void* alloc_( unsigned int size, char *var, int id, int commit_size);
+void* alloc_( size_t size, char *var, int id, size_t commit_size);
 
 
 //Non persistent malloc
