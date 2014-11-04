@@ -4,33 +4,25 @@
  *   The master task distributes an array to the workers in chunks, zero pads for equal load balancing
  *   The workers sort and return to the master, which does a final merge
  ******************************************************************************/
-#define _GNU_SOURCE
-#include <dlfcn.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include "util_func.h"
 #include <sys/time.h>
 #include <math.h>
 #include <sched.h>
+#include "jemalloc/jemalloc.h"
+#include "nv_map.h"
 #include <pthread.h>
+#include "nv_rmtckpt.h"
 #include <signal.h>
 #include <sys/queue.h>
 #include <sys/resource.h>
-
-#include "jemalloc/jemalloc.h"
-#include "nv_map.h"
 #include "error_codes.h"
 #include "nv_def.h"
 #include "np_malloc.h"
-#include "nv_rmtckpt.h"
-#include "util_func.h"
-#include "nv_transact.h"
-#include "checkpoint.h"
-#include "hash_maps.h"
-
-#include "malloc_hook.h"
 
 
 //#define _CHKPTIF_DEBUG
@@ -41,15 +33,13 @@
 #define FREQUENCY 1
 //#define FREQ_MEASURE
 #define MAXVARLEN 30
+#define BASEID 600
 
 #ifdef _USE_CMU_NVMALLOC
 #include "nvmalloc.h"
 static unsigned int cmu_nvallocinit=0;
-#define MAX_CMU_PAGES 50600 //1 GB pages
+#define MAX_CMU_PAGES 262144*2 //1 GB pages
 #endif
-
-static unsigned int BASEPROCID=0;
-
 
 /*void showdata(double *v, int n, int id);
 double * merge(double *A, int asize, double *B, int bsize);
@@ -71,9 +61,6 @@ struct timeval g_chkpt_inter_strt, g_chkpt_inter_end;
 int g_mypid=0;
 size_t totalsize;
 
-
-
-
 //flags
 u_int8_t init_chkpt;
 
@@ -90,7 +77,8 @@ int curr_chunkid =0;
 int prev_chunkid =0;
 
 pthread_mutex_t alloc_mtx = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t dealloc_mtx = PTHREAD_MUTEX_INITIALIZER;
+
+
 
 #define handle_error(msg) \
 		do { perror(msg); exit(EXIT_FAILURE); } while (0)
@@ -130,6 +118,7 @@ handler(int sig, siginfo_t *si, void *unused)
 #endif
 	}
 }
+
 
 
 int assign_aff() {
@@ -203,6 +192,9 @@ int mysleep(int time) {
 
 void* set_protection(void *arg)
 {
+
+
+	long  chkpt_itr_time = 0;
 	long itr;
 	long simtime;
 	long sleep_time;
@@ -305,6 +297,7 @@ void start_async_commit()
 
 #endif
 
+
 /* To calculate simulation time */
 long simulationtime(struct timeval start, struct timeval end )
 {
@@ -338,59 +331,6 @@ int endtime_(int *mype, float *itr) {
 }
 
 
-unsigned int BASEID_GET(){
-
-	if(!BASEPROCID){
-#ifdef _USERANDOM_PROCID
-
-	  struct timeval currtime;
-
-	  gettimeofday(&currtime, NULL);
-
-	  BASEPROCID= gen_rand(currtime.tv_usec % 533333, (
-					currtime.tv_usec+1) % 543333);
-
-	  printf("BASEPROCID %u\n",BASEPROCID);
-#else
-	  BASEPROCID = 600;	
-#endif
-	}
-	return BASEPROCID;
-
-}
-
-int nvinit_(UINT pid) {
-
-	//my_init_hook();
-	return 0; 
-}
-
-int app_stop_(int pid){
-
-	pid =  BASEID_GET() + 1;
-	return	app_exec_finish(pid);
-}
-
-
-
-extern "C" {
-
-int nvinit(UINT pid) {
-
-	//my_init_hook();
-	pid = BASEID_GET() + 1;
-	//return load_process(pid, 1);
-	return nv_initialize(pid);
-}
-
-int c_app_stop_(int mype) {
-
-   UINT	pid =  BASEID_GET() + 1;
-   return app_stop_(pid);
-}
-
-}
-
 void *nv_jemalloc(size_t size, rqst_s *rqst) {
 
 	return je_malloc_((size_t)size, rqst);
@@ -400,18 +340,15 @@ void* nvread_(char *var, int id)
 {
 	void *buffer = NULL;
 	rqst_s rqst;
-        size_t len=0;
 
-	id = BASEID_GET();
+
+	id = BASEID;
 	rqst.pid = id+1;
 	rqst.var_name = (char *)malloc(MAXVARLEN);
 	memcpy(rqst.var_name,var,MAXVARLEN);
 	rqst.var_name[MAXVARLEN] = 0;
 	rqst.no_dram_flg = 1;
 	//fprintf(stdout,"proc %d var %s\n",id, rqst.var_name);
-#ifdef _USE_BASIC_MMAP
-       return read_mmap_file(&rqst, &len);
-#endif
 	buffer = nv_map_read(&rqst, NULL);
 
 #ifdef _USE_SHADOWCOPY
@@ -425,37 +362,13 @@ void* nvread_(char *var, int id)
 	return buffer;
 }
 
-void* nvread_id_(unsigned int varid, int id)
-{
-    void *buffer = NULL;
-    rqst_s rqst;
-        size_t len=0;
-
-    id = BASEID_GET();
-    rqst.pid = id+1;
-    rqst.var_name = NULL;
-    rqst.no_dram_flg = 1;
-	rqst.id =  varid;
-    //fprintf(stdout,"proc %d var %s\n",id, rqst.var_name);
-#ifdef _USE_BASIC_MMAP
-       return read_mmap_file(&rqst, &len);
-#endif
-    buffer = nv_map_read(&rqst, NULL);
-
-#ifdef _USE_SHADOWCOPY
-    buffer = rqst.log_ptr;
-#endif
-    assert(buffer);
-
-    return buffer;
-}
 
 int mallocid = 0;
 void* npvalloc_( size_t size)
 {
 
 	struct rqst_struct nprqst;
-	int id =  BASEID_GET();
+	int id =  BASEID;
 	void *ret = NULL;
 
 	nprqst.pid = id+1;
@@ -471,14 +384,13 @@ void npvfree_(void* mem)
 	np_free(mem);
 }
 
-
 extern "C" {
 
 void* npv_c_alloc_( size_t size, unsigned long *ptr)
 {
 
 	struct rqst_struct nprqst;
-	int id =  BASEID_GET();
+	int id =  BASEID;
 	void *ret = NULL;
 
 	nprqst.pid = id+1;
@@ -503,9 +415,9 @@ void* npv_c_realloc_( void*ptr, size_t size){
 extern "C" {
 void npv_c_free_(void* mem)
 {
-	pthread_mutex_lock(&dealloc_mtx);
-	np_free(mem);
-	pthread_mutex_unlock(&dealloc_mtx);
+	//pthread_mutex_lock(&alloc_mtx);
+	//np_free(mem);
+	//pthread_mutex_unlock(&alloc_mtx);
 }
 }
 extern "C" {
@@ -531,32 +443,14 @@ void* realloc( void*ptr, size_t size){
 }*/
 }
 
-
-/*static void
-fault_handler(int sig, siginfo_t *si, void *unused)
-{
-	int curr_chunkid=0;
-	size_t length = disable_alloc_prot(si->si_addr);
-	assert(length > 0);
-}*/
-
-
 extern "C" {
-void* pnvalloc_( size_t size, char *var, int rqstid, unsigned long *ptr)
+void* p_c_nvalloc_( size_t size, char *var, int rqstid)
 {
- void *ptr1 = malloc(size);
- fprintf(stdout,"ptr %lu \n", (unsigned long)ptr1);	
- *ptr = (unsigned long)ptr1;
-}
-}
 
-
-extern "C" {
-void* p_c_nvalloc_( size_t size, char *var, int rqstid, int tid)
-{
 	void *buffer = NULL;
 	rqst_s rqst;
-	int id = BASEID_GET() + tid;
+	int id = BASEID;
+
 
 #ifdef _USE_CMU_NVMALLOC
 	if(!cmu_nvallocinit){
@@ -572,7 +466,6 @@ void* p_c_nvalloc_( size_t size, char *var, int rqstid, int tid)
 	rqst.commitsz = size;
 	rqst.log_ptr = NULL;
 	rqst.var_name = NULL;
-
 #ifdef _USE_SHADOWCOPY
 	rqst.no_dram_flg = 0;
 #else
@@ -586,10 +479,6 @@ void* p_c_nvalloc_( size_t size, char *var, int rqstid, int tid)
 	}else{
 		rqst.id = rqstid;
 	}
-#ifdef _USE_BASIC_MMAP
-	   fprintf(stdout,"creating basic map file \n");	
-       return create_mmap_file(&rqst);
-#endif
 
 #ifdef _ENABLE_RESTART
 	buffer = nv_map_read(&rqst, NULL);
@@ -598,97 +487,45 @@ void* p_c_nvalloc_( size_t size, char *var, int rqstid, int tid)
 	 }
 #endif
 
+	je_malloc_((size_t)size, &rqst);
 
 #ifdef _USE_SHADOWCOPY
-//#ifdef _USE_TRANSACTION
 
 #ifdef _USE_UNDO_LOG
-	buffer = je_malloc_((size_t)size, &rqst);
-	assert(buffer);
+	buffer = rqst.nv_ptr;
+	assert(rqst.nv_ptr);
 #else
-	je_malloc_((size_t)size, &rqst);
 	buffer = rqst.log_ptr;
 	assert(rqst.log_ptr);
 #endif
 
 #else //NOT _USE_SHADOWCOPY
-	buffer = je_malloc_((size_t)size, &rqst);
-
-	assert(buffer);
+	buffer = rqst.nv_ptr;
+	assert(rqst.nv_ptr);
 #endif
+	/*fprintf(stdout, "allocated nvchunk %s,"
+		"size %u addr: %lu\n,",
+		 rqst.var_name,
+		 size,
+		 (unsigned long)buffer);*/
+
 	if(rqst.var_name)
 		free(rqst.var_name);
-
-    /*struct sigaction sa;
-    struct sched_param param;
-
-    sa.sa_flags = SA_SIGINFO;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_sigaction = fault_handler;
-    if (sigaction(SIGSEGV, &sa, NULL) == -1)
-        handle_error("sigaction");
-
-	set_chunk_protection(buffer, size, 1);	*/
-	fprintf(stdout,"rqst.nv_ptr %lu \n",(unsigned long)rqst.nv_ptr);
-	return rqst.nv_ptr;
+	return buffer;
 }
-
-
-void p_c_mmap_free(char *varname, void *ptr){
-
-  rqst_s  rqst;
-#ifdef _USE_BASIC_MMAP
-
-  if(varname !=NULL){
-	 rqst.var_name = (char *)malloc(MAXVARLEN);
-	 memcpy(rqst.var_name,varname,MAXVARLEN);
-	 rqst.var_name[MAXVARLEN] = 0;
-   }
-   rqst.nv_ptr = ptr;
-   assert(ptr);	
-   close_mmap_file(&rqst);	
-   if(rqst.var_name)
-        free(rqst.var_name);
-#endif
-}
-
 
 void p_c_free_(void *ptr) {
 	//je_free(ptr);
 }
-}
 
+
+}
 
 void* nvalloc_( size_t size, char *var, int id)
 {
 
-	return p_c_nvalloc_(size,var, id, 0);
+	return p_c_nvalloc_(size,var, id);
 }
-
-void nvfree_(void *ptr){
-	p_c_free_(ptr);
-}
-
-#ifdef _USE_BASIC_MMAP
-void mmap_free(char *varname, void *ptr){
-
-  rqst_s  rqst;
-
-  if(varname !=NULL){
-	 rqst.var_name = (char *)malloc(MAXVARLEN);
-	 memcpy(rqst.var_name,varname,MAXVARLEN);
-	 rqst.var_name[MAXVARLEN] = 0;
-   }
-
-   rqst.nv_ptr = ptr;
-
-   close_mmap_file(&rqst);	
-   if(rqst.var_name)
-        free(rqst.var_name);
-}
-#endif
-
-
 
 
 extern "C" {
@@ -696,9 +533,8 @@ void* p_c_nvread_(char *var, int id)
 {
 	void *buffer = NULL;
 	rqst_s rqst;
-	size_t len =0;
 
-	id = BASEID_GET();
+	id = BASEID;
 	rqst.pid = id+1;
 	rqst.var_name = (char *)malloc(MAXVARLEN);
 	memcpy(rqst.var_name,var,MAXVARLEN);
@@ -708,11 +544,7 @@ void* p_c_nvread_(char *var, int id)
 #else
 	rqst.no_dram_flg = 1;
 #endif
-
-#ifdef _USE_BASIC_MMAP
-       return read_mmap_file(&rqst, &len);
-#endif
-	fprintf(stdout,"proc %d var %s\n",id, rqst.var_name);
+	//fprintf(stdout,"proc %d var %s\n",id, rqst.var_name);
 	buffer = nv_map_read(&rqst, NULL);
 	//buffer = rqst.log_ptr;
 
@@ -730,15 +562,11 @@ void* p_c_nvread_len(char *var, int id, size_t *chunksize)
 	void *buffer = NULL;
 	rqst_s rqst;
 
-	id = BASEID_GET();
+
+	id = BASEID;
 	rqst.pid = id+1;
 	rqst.var_name = (char *)calloc(MAXVARLEN, sizeof(char));
-	strcpy(rqst.var_name,var);
-
-#ifdef _USE_BASIC_MMAP
-       return read_mmap_file(&rqst, chunksize);
-#endif
-
+	memcpy(rqst.var_name,var,MAXVARLEN);
 
 #ifdef  _USE_SHADOWCOPY
 	rqst.no_dram_flg = 0;
@@ -751,39 +579,19 @@ void* p_c_nvread_len(char *var, int id, size_t *chunksize)
 #endif
 	*chunksize = rqst.bytes;
 
-
-
 	if(rqst.var_name)
 		free(rqst.var_name);
 	return buffer;
 }
 }
 
-void* nvread_len(char *var, int id, size_t *chunksize) {
-	p_c_nvread_len(var,id, chunksize);
-}
-
-
-/*Finds the nvchunk corresponding to 
-the pointer and flushes the cache*/
-int nvsync(void *ptr, size_t len){
-	//return nv_sync_obj(ptr);
-	return nv_sync_chunk(ptr,len);
-}
-
-
 #ifdef _USE_TRANSACTION
 extern "C" {
-
-int commit_noarg(void) {
-	nvcommit_noarg();	
-}
-
 int p_c_nvcommit(size_t size, char *var, int id)
 {
 	rqst_s rqst;
 
-	id = BASEID_GET();
+	id = BASEID;
 	rqst.pid = id+1;
 	rqst.bytes = size;
 	rqst.id = 0;	  
@@ -798,46 +606,25 @@ int p_c_nvcommit(size_t size, char *var, int id)
 
 int p_c_nvcommitobj(void *addr, int id)
 {
-#ifndef _DUMMY_TRANS
 	return nv_commit_obj(addr);
-#else
-	return 0;
-#endif
 }
 
 int p_c_nvcommitword(void *wordaddr)
 {
-#ifndef _DUMMY_TRANS
 	return nv_commit_word(wordaddr);
-#else
-	return 0;
-#endif
 }
-}
-
-int nvcommitobj(void *addr, int id)
-{
-#ifndef _DUMMY_TRANS
-	return nv_commit_obj(addr);
-#else
-	return 0;
-#endif
 }
 
 int nvcommitword_(void *wordaddr)
 {
-#ifndef _DUMMY_TRANS
 	return nv_commit_word(wordaddr);
-#else
-	return 0;
-#endif
 }
 
 
 int nvcommit_(size_t size, char *var, int id)
 {
 	rqst_s rqst;
-	id = BASEID_GET();
+	id = BASEID;
 	rqst.pid = id+1;
 	rqst.bytes = size;
 	rqst.id = 0;
@@ -853,60 +640,30 @@ int nvcommit_(size_t size, char *var, int id)
 }
 
 
+
 ///////////////////////TRANSACTION BEGIN///////////////////////
 extern "C" {
 
 /*C - uses object addr to start transaction*/
 int c_begin_trans_obj(void *addr, int pid){
-#ifndef _DUMMY_TRANS
 	return nv_begintrans_obj(addr);
-#else
-	return 0;
-#endif
 }
 
 /*C - uses word addr to start transaction*/
 int c_begin_trans_wrd(void *addr, size_t size, int pid){
-#ifndef _DUMMY_TRANS
+
 	return nv_begintrans_wrd(addr, size);
-#else
-	return 0;
-#endif
-}
-
-int store_word(nvword_t *addr, nvword_t value) {
-#ifndef _DUMMY_TRANS
-	return store_log(addr,value);
-#else
-	return 0;
-#endif
-}
-nvword_t load_word(nvword_t *addr){
-#ifndef _DUMMY_TRANS
-	return load_log(addr);
-#else
-	return NULL;
-#endif
-
 }
 
 }
 
 int begin_trans_wrd(void *addr, size_t size,int pid){
-#ifndef _DUMMY_TRANS
 	return nv_begintrans_wrd(addr, size);
-#else
-	return 0;
-#endif
 }
 
 /*C++ uses object addr to start transaction*/
 int begin_trans_obj(void *addr, int pid){
-#ifndef _DUMMY_TRANS
 	return nv_begintrans_obj(addr);
-#else
-	return 0;
-#endif
 }
 
 #endif
@@ -916,22 +673,12 @@ extern "C" {
 
 void* c_load_ptr(void **ptr){
 
-#ifdef _ENABLE_SWIZZLING
 	return load_valid_addr(ptr);
-#else
-	return NULL;
-#endif
 }
 }
 
 void* load_ptr(void **ptr) {
-
-#ifdef _ENABLE_SWIZZLING
 	return load_valid_addr(ptr);
-#else
-	return NULL;
-#endif
-
 }
 
 ///////////////////////ALLOC RELATED///////////////////////
@@ -942,9 +689,12 @@ void* alloc_( unsigned int size, char *var, int id, int commit_size)
 	rqst_s rqst;
 
 	//init_checkpoint(id+1);
+
 	//#ifdef _ASYNC_LCL_CHK
 	//exclude_aff(ASYNC_CORE);
 	//#endif
+
+
 #ifdef ENABLE_RESTART
 	buffer = nvread(var, id);
 	if(buffer) {
@@ -953,6 +703,7 @@ void* alloc_( unsigned int size, char *var, int id, int commit_size)
 		return buffer;
 	}
 #endif
+
 	g_mypid = id+1;
 	rqst.id = ++mallocid;
 	rqst.pid = id+1;
@@ -981,13 +732,18 @@ void* alloc_( unsigned int size, char *var, int id, int commit_size)
 
 // allocates n bytes using the 
 void* my_alloc_(unsigned int* n, char *s, int *iid, int *cmtsize) {
+
 	return alloc_(*n, s, *iid, *cmtsize);
 }
 
 
 
+
+
 int fd = -1;
+
 void write_io_(char* fname, float *buff, int *size, int *restart) {
+
 
 	if(fd == -1 || *restart) 	
 		fd = open(fname, O_WRONLY | O_CREAT | O_TRUNC,0777);
@@ -998,6 +754,7 @@ void write_io_(char* fname, float *buff, int *size, int *restart) {
 	lseek(fd, *size, SEEK_SET);
 	//fprintf(stdout ,"SIZE %d written %u name %s , fd %d\n",*size, sz, fname, fd);
 }
+
 
 
 void my_free_(char* arr) {
@@ -1032,7 +789,7 @@ int nvchkpt_all_(int *mype) {
 		fprintf(stdout,"CHECKPOINT TIME: %ld \n ",
         simulation_time(g_chkpt_inter_strt, g_chkpt_inter_end));
 	}*/
-	*mype = BASEID_GET();
+	*mype = BASEID;
 	rqst.pid = *mype + 1;
 	g_mypid =   rqst.pid;
 
@@ -1062,7 +819,11 @@ int nvchkpt_all_(int *mype) {
 }
 
 
+int app_stop_(int pid){
 
+	pid =  BASEID + 1;
+	return	app_exec_finish(pid);
+}
 
 
 
@@ -1073,7 +834,7 @@ void* nv_shadow_copy(void *src_ptr, size_t size, char *var, int pid, size_t comm
 	rqst_s rqst;
 	int id =0;
 
-	id = BASEID_GET();
+	id = BASEID;
 	//init_checkpoint(id+1);
 	g_mypid = id+ 1;
 
@@ -1189,174 +950,3 @@ int nvchkpt_veclist(void *vec) {
 
 
 #endif
-
-
-
-unsigned int uid=0;
-void *prev_ptr;
-size_t prev_size=0;
-
-#ifdef _USE_HOTPAGE
-void* malloc(size_t size){
-
-	void *ptr;	
-  	void* (*libc_malloc)(size_t);
-    struct sigaction sa;
-    struct sched_param param;
-
-    sa.sa_flags = SA_SIGINFO;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_sigaction = fault_handler;
-    if (sigaction(SIGSEGV, &sa, NULL) == -1)
-        handle_error("sigaction");
-
-  //pthread_mutex_lock(&alloc_mtx);
-#ifdef _USE_CMU_NVMALLOC
-   if(!cmu_nvallocinit){
-     nvmalloc_init(MAX_CMU_PAGES, 0);
-     cmu_nvallocinit = 1;
-  }
-  ptr = nvmalloc(size);	
-#else
-    //ptr = npv_c_alloc_(size, NULL);
-    fprintf(stderr,"before malloc\n");
-    *(void **)(&libc_malloc) = dlsym(RTLD_NEXT, "malloc");
-    fprintf(stderr,"malloco %lu \n", prev_ptr);
-	if(prev_ptr) {
-	    add_map(prev_ptr,prev_size); 	
-    	set_chunk_protection(prev_ptr, prev_size, 1);
-	}
-    prev_ptr = libc_malloc(size);
-#endif
-
-	fprintf(stdout,"new: adding map \n");
-	add_map(mem,sz);
-
-  //pthread_mutex_unlock(&alloc_mtx);
-  return prev_ptr;
-}
-
-void* operator new(size_t sz)
-{
-    void* mem;
-    //pthread_mutex_lock(&alloc_mtx);
-    mem = malloc(sz);
-    //pthread_mutex_unlock(&alloc_mtx);
-    return mem;
-}
-
-void operator delete(void* ptr)
-{
-    //pthread_mutex_lock(&dealloc_mtx);
-	free(ptr);
-    //pthread_mutex_unlock(&dealloc_mtx);
-}
-#endif
-
-
-#ifdef _USE_MALLOCLIB
-void* malloc(size_t size){
-
-	void *ptr;	
-
-  	pthread_mutex_lock(&alloc_mtx);
-
-#ifdef _USE_CMU_NVMALLOC
-   if(!cmu_nvallocinit){
-     nvmalloc_init(MAX_CMU_PAGES, 0);
-     cmu_nvallocinit = 1;
-  }
-  ptr = nvmalloc(size);	
-#else
-  ptr = npv_c_alloc_(size, NULL);
-#endif
-  pthread_mutex_unlock(&alloc_mtx);
-  return ptr;
-}
-
-void* calloc(size_t typesz, size_t data){
-
-  void *ptr;
-  pthread_mutex_lock(&alloc_mtx);	
-#ifdef _USE_CMU_NVMALLOC
-   if(!cmu_nvallocinit){
-     nvmalloc_init(MAX_CMU_PAGES, 0);
-     cmu_nvallocinit = 1;
-  }
-
- ptr = nvmalloc(data*typesz);
-#else
-  ptr = npv_c_alloc_(typesz*data, NULL);
-#endif
-  pthread_mutex_unlock(&alloc_mtx);	
-  return ptr;
-
-}
-
-void* realloc(void *ptr, size_t size) {
-
-   	pthread_mutex_lock(&alloc_mtx);
-   	//fprintf(stdout,"custome realloc %u\n", size);	
-	ptr= np_realloc(ptr, size);
-	pthread_mutex_unlock(&alloc_mtx);
-	return ptr;
-}
-
-
-void free(void *ptr){
-
-    pthread_mutex_lock(&dealloc_mtx);
-#ifdef _USE_CMU_NVMALLOC
-	//nvfree(ptr);
-#else
-    //np_free(ptr);
-#endif
-    pthread_mutex_unlock(&dealloc_mtx);
-}
-
-
-void* operator new(size_t sz)
-{
-    void* mem;
-
-    pthread_mutex_lock(&alloc_mtx);
-
-#ifdef _USE_CMU_NVMALLOC
-	   if(!cmu_nvallocinit){
-	     nvmalloc_init(MAX_CMU_PAGES, 0);
-    	 cmu_nvallocinit = 1;
-	  }
-	 mem = nvmalloc(sz);
-#else
-    mem = npv_c_alloc_(sz, NULL);
-#endif
-
-    pthread_mutex_unlock(&alloc_mtx);
-    return mem;
-}
-
-
-void operator delete(void* ptr)
-{
-    //fprintf(stdout,"deleting\n");
-    //free(ptr);
-    pthread_mutex_lock(&dealloc_mtx);
-#ifdef _USE_CMU_NVMALLOC
-	//nvfree(ptr);
-#else
-    //np_free(ptr);
-#endif
-    pthread_mutex_unlock(&dealloc_mtx);
-}
-
-#endif
-
-
-
-
-
-
-
-
-
-

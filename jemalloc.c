@@ -814,7 +814,6 @@ je_malloc_(size_t size, rqst_s *rqst)
 	prof_thr_cnt_t *cnt JEMALLOC_CC_SILENCE_INIT(NULL);
 
 
-
 #ifdef _USENVRAM
 	unsigned int offset;
     size_t logptr_sz;
@@ -823,7 +822,6 @@ je_malloc_(size_t size, rqst_s *rqst)
     logptr_sz = size;
     size = rqst->commitsz;
 #endif
-
 
 
 #ifdef _USE_DISKMAP
@@ -837,8 +835,6 @@ je_malloc_(size_t size, rqst_s *rqst)
 
 	if (size == 0)
 		size = 1;
-
-
 
 	if (config_prof && opt_prof) {
 		usize = s2u(size);
