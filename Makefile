@@ -123,8 +123,8 @@ BENCHMARK_OBJS = $(BENCH)/c-hashtable/hashtable.o $(BENCH)/c-hashtable/tester.o 
 		 $(BENCH)/c-hashtable/hashtable_itr.o $(BENCH)/malloc_bench/nvmalloc_bench.o \
 		 $(BENCH)/benchmark.o
 
-#$(src_path)/c_io.o: $(src_path)/c_io.cc 
-#	$(CXX) -c $(src_path)/c_io.cc -o $(src_path)/c_io.o $(LIBS) $(CPPFLAGS)
+$(src_path)/c_io.o: $(src_path)/c_io.cc 
+	$(CXX) -c $(src_path)/c_io.cc -o $(src_path)/c_io.o $(LIBS) $(CPPFLAGS)
 
 #$(src_path)/c_io.o: $(src_path)/c_io.c
 #	$(CC) -c $(src_path)/c_io.c -o $(src_path)/c_io.o $(LIBS) $(CFLAGS)

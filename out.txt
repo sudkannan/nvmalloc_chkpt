@@ -1,0 +1,1341 @@
+0000000000000000 a 
+000000000024fa40 b a
+00000000000117f0 t a0alloc
+0000000000017750 t a0calloc
+0000000000017760 t a0free
+0000000000017740 t a0malloc
+                 U abort@@GLIBC_2.2.5
+000000000000c0c0 T add_alloc_map
+000000000000f750 T add_map
+000000000024d548 B addr
+000000000024d440 B addr_cache
+000000000000ed50 T add_to_mmap_cache
+000000000024c470 B alloc_itr
+000000000024c500 B allocmap
+000000000024c468 B allocmap_arr
+000000000024c448 B allocmap_long
+000000000024c440 B allocmap_sz
+000000000024c4c0 B alloc_prot_map
+000000000024c460 B alloc_prot_map_arr
+000000000024fa68 b allocs
+000000000000ed40 T app_exec_finish
+000000000001cc50 t arena_alloc_junk_small
+00000000000084f4 t arena_avail_comp.part.3
+0000000000017c10 t arena_avail_tree_insert
+0000000000018f30 t arena_avail_tree_nsearch
+0000000000019010 t arena_avail_tree_remove
+0000000000018100 t arena_bin_index.part.9
+000000000024ddc0 b arena_bin_info
+0000000000019980 t arena_bin_lower_run.isra.19
+000000000001c560 t arena_bin_malloc_hard
+00000000000199e0 t arena_bin_runs_first
+00000000000198d0 t arena_bin_runs_insert
+0000000000019820 t arena_bin_runs_remove
+0000000000020070 t arena_boot
+0000000000000000 a arena.c
+0000000000019ab0 t arena_chunk_alloc
+000000000001e400 t arena_dalloc_bin
+000000000001df20 t arena_dalloc_bin_locked
+000000000001c2c0 t arena_dalloc_bin_run
+000000000001d100 t arena_dalloc_junk_small
+000000000001e850 t arena_dalloc_large
+000000000001e770 t arena_dalloc_large_locked
+00000000000083bb t arena_dalloc.part.22
+000000000001e4e0 t arena_dalloc_small
+000000000000837b t arena_malloc.isra.18.part.19
+000000000000876a t arena_malloc.isra.29.part.30
+000000000001da80 t arena_malloc_large
+000000000001d670 t arena_malloc_small
+0000000000008cc0 t arena_mapbits_binind_get.part.2
+0000000000008f3a t arena_mapbits_binind_get.part.3
+00000000000082bb t arena_mapbits_binind_get.part.5
+0000000000008574 t arena_mapbits_large_set.part.7
+0000000000008ca0 t arena_mapbits_large_size_get.part.1
+00000000000085b4 t arena_mapbits_large_size_get.part.10
+0000000000008f1a t arena_mapbits_large_size_get.part.2
+000000000000829b t arena_mapbits_large_size_get.part.4
+0000000000008594 t arena_mapbits_small_runind_get.part.8
+0000000000008614 t arena_mapbits_small_set.part.14
+0000000000008534 t arena_mapbits_unallocated_set.part.5
+0000000000008554 t arena_mapbits_unallocated_size_get.part.6
+00000000000085d4 t arena_mapbits_unallocated_size_set.part.11
+0000000000008efa t arena_mapp_get.part.1
+0000000000008514 t arena_mapp_get.part.4
+000000000024fa08 b arena_maxclass
+000000000001fd80 t arena_new
+000000000001db60 t arena_palloc
+00000000000207d0 t arena_postfork_child
+0000000000020720 t arena_postfork_parent
+0000000000020660 t arena_prefork
+000000000001cc20 t arena_prof_accum
+000000000001def0 t arena_prof_promoted
+000000000001b630 t arena_purge
+000000000001cbf0 t arena_purge_all
+000000000001ee10 t arena_ralloc
+000000000001e890 t arena_ralloc_no_move
+000000000001a9f0 t arena_run_alloc
+000000000001a900 t arena_run_alloc_helper
+0000000000008634 t arena_run_comp.part.15
+000000000001ab40 t arena_run_dalloc
+000000000000870a t arena_run_reg_alloc.part.23
+0000000000019ef0 t arena_run_split
+0000000000018130 t arena_run_tree_insert
+0000000000018760 t arena_run_tree_remove
+00000000000186d0 t arena_run_tree_search
+000000000001c110 t arena_run_trim_tail
+000000000024dd90 b arenas
+0000000000008f5a t arena_salloc.isra.4.part.5
+00000000000245b0 t arenas_bin_i_index
+000000000024b380 d arenas_bin_i_node
+0000000000028220 t arenas_bin_i_nregs_ctl
+00000000000282b0 t arenas_bin_i_run_size_ctl
+0000000000028190 t arenas_bin_i_size_ctl
+000000000024bb90 d arenas_bin_node
+000000000024d5a3 b arenas_booted
+0000000000010280 t arenas_cleanup
+0000000000010ec0 t arenas_extend
+0000000000025790 t arenas_initialized_ctl
+000000000024dd60 b arenas_lock
+00000000000245d0 t arenas_lrun_i_index
+000000000024b300 d arenas_lrun_i_node
+0000000000028340 t arenas_lrun_i_size_ctl
+000000000024bb80 d arenas_lrun_node
+00000000000283c0 t arenas_narenas_ctl
+00000000000285c0 t arenas_nbins_ctl
+0000000000028640 t arenas_nhbins_ctl
+00000000000286c0 t arenas_nlruns_ctl
+000000000024b100 d arenas_node
+00000000000284c0 t arenas_page_ctl
+0000000000027340 t arenas_purge_ctl
+0000000000028440 t arenas_quantum_ctl
+000000000001e540 t arena_stats_merge
+0000000000028540 t arenas_tcache_max_ctl
+0000000000000018 b arenas_tls
+000000000024dd98 b arenas_tsd
+000000000001ccd0 t arena_tcache_fill_small
+                 U __assert_fail@@GLIBC_2.2.5
+000000000003b460 t atexit
+0000000000000000 a atomic.c
+0000000000020880 t base_alloc
+0000000000020a20 t base_boot
+0000000000000000 a base.c
+0000000000020960 t base_calloc
+000000000024d620 b base_mtx
+000000000024d610 b base_next_addr
+00000000000209a0 t base_node_alloc
+00000000000209f0 t base_node_dealloc
+000000000024d600 b base_nodes
+000000000024d618 b base_pages
+000000000024d608 b base_past_addr
+0000000000020a60 t base_postfork_child
+0000000000020a50 t base_postfork_parent
+0000000000020a40 t base_prefork
+0000000000017900 t bin_info_run_size_calc
+0000000000000000 a bitmap.c
+00000000000085f4 t bitmap_get.isra.12.part.13
+0000000000037790 t bitmap_info_init
+0000000000037840 t bitmap_info_ngroups
+0000000000037880 t bitmap_init
+0000000000037850 t bitmap_size
+000000000024c380 b .bss
+000000000024c364 B __bss_start
+000000000002c530 t bt_init
+0000000000034120 t buferror
+000000000024c3a0 B bw_it
+000000000024c3c0 B bw_map
+0000000000000000 a cache_flush.cc
+0000000000000000 a checkpoint.cc
+000000000024d190 B checpt_cnt
+000000000024d210 B chkpt_itr_time
+000000000024d2e0 B chkpt_mutex
+00000000000367e0 t choose_arena
+0000000000031960 t choose_arena.constprop.18
+0000000000018670 t choose_arena.constprop.36
+0000000000011250 t choose_arena_hard
+0000000000008dd6 t choose_arena.part.10
+000000000000835b t choose_arena.part.16
+000000000000872a t choose_arena.part.25
+000000000000916a t choose_arena.part.5
+0000000000008948 t choose_arena.part.9
+00000000000373c0 t chunk_alloc
+0000000000037d60 t chunk_alloc_dss
+0000000000037b40 t chunk_alloc_mmap
+00000000000376e0 t chunk_boot
+0000000000000000 a chunk.c
+000000000024d340 B chunk_cache
+0000000000036f50 t chunk_dealloc
+0000000000037d50 t chunk_dealloc_mmap
+0000000000037dc0 t chunk_dss_boot
+0000000000000000 a chunk_dss.c
+0000000000037e10 t chunk_dss_postfork_child
+0000000000037e00 t chunk_dss_postfork_parent
+0000000000037df0 t chunk_dss_prefork
+000000000024c650 B chunk_fault_list
+000000000024c354 d chunk_id
+0000000000037d90 t chunk_in_dss
+000000000024c570 B chunk_itr
+000000000024c580 B chunkmap
+0000000000000000 a chunk_mmap.c
+000000000024f9e8 b chunk_npages
+00000000000371e0 t chunk_recycle
+000000000024d7e0 b chunks_ad
+000000000024fa00 b chunksize
+000000000024fa10 b chunksize_mask
+000000000024f9c0 b chunks_mtx
+000000000024f9f0 b chunks_rtree
+000000000024d820 b chunks_szad
+0000000000000000 a c_io.c
+0000000000000000 a ckh.c
+0000000000021610 t ckh_count
+00000000000210d0 t ckh_delete
+0000000000022b10 t ckh_insert
+00000000000088e8 t ckh_isearch.part.5
+0000000000021640 t ckh_iter
+0000000000020ca0 t ckh_new
+00000000000243d0 t ckh_pointer_hash
+00000000000244e0 t ckh_pointer_keycomp
+0000000000021880 t ckh_remove
+00000000000228d0 t ckh_search
+0000000000023ec0 t ckh_string_hash
+0000000000024370 t ckh_string_keycomp
+000000000024d780 b cleanups
+                 U close@@GLIBC_2.2.5
+0000000000000000 n .comment
+000000000024c380 b completed.6972
+0000000000027580 t config_debug_ctl
+00000000000275f0 t config_dss_ctl
+0000000000027660 t config_fill_ctl
+00000000000276d0 t config_lazy_lock_ctl
+0000000000027740 t config_mremap_ctl
+00000000000277b0 t config_munmap_ctl
+000000000024b7a0 d config_node
+0000000000027820 t config_prof_ctl
+0000000000027890 t config_prof_libgcc_ctl
+0000000000027900 t config_prof_libunwind_ctl
+0000000000027970 t config_stats_ctl
+00000000000279e0 t config_tcache_ctl
+0000000000027a50 t config_tls_ctl
+0000000000027ac0 t config_utrace_ctl
+0000000000027b30 t config_valgrind_ctl
+0000000000027ba0 t config_xmalloc_ctl
+000000000000ff70 T CreateMapFile
+0000000000010070 T CreateSharedMem
+0000000000000000 a crtstuff.c
+0000000000000000 a crtstuff.c
+0000000000024680 t ctl_arena_clear
+0000000000029340 t ctl_boot
+00000000000291d0 t ctl_bymib
+00000000000290b0 t ctl_byname
+0000000000000000 a ctl.c
+000000000024d6b0 b ctl_epoch
+0000000000028750 t ctl_init
+000000000024d6b8 b ctl_initialized
+0000000000026e80 t ctl_lookup
+000000000024d6c0 b ctl_mtx
+0000000000029180 t ctl_nametomib
+0000000000024850 t ctl_refresh
+000000000024d660 b ctl_stats
+000000000024dc84 b curr_chunkid
+                 U __cxa_atexit@@GLIBC_2.2.5
+                 U __cxa_begin_catch@@CXXABI_1.3
+                 U __cxa_end_catch@@CXXABI_1.3
+                 w __cxa_finalize@@GLIBC_2.2.5
+                 U __cxa_rethrow@@CXXABI_1.3
+000000000024c2f8 d .data
+000000000024d27c B dataPresent
+000000000024d2a0 B dataPresentCondition
+000000000024a700 d .data.rel.ro
+0000000000000000 N .debug_abbrev
+0000000000000000 N .debug_aranges
+0000000000000000 N .debug_info
+0000000000000000 N .debug_line
+0000000000000000 N .debug_loc
+0000000000000000 N .debug_ranges
+0000000000000000 N .debug_str
+0000000000009990 t deregister_tm_clones
+000000000024c3f0 B diff_pages
+000000000000f930 T disable_alloc_prot
+0000000000009a00 t __do_global_dtors_aux
+000000000024a6f0 t __do_global_dtors_aux_fini_array_entry
+000000000024c2f8 d __dso_handle
+000000000024d274 B dummy_var
+000000000024c300 d DW.ref.__gxx_personality_v0
+000000000024bba0 d .dynamic
+000000000024bba0 d _DYNAMIC
+0000000000002a10 r .dynstr
+0000000000000a00 r .dynsym
+000000000024c364 D _edata
+0000000000042e30 r .eh_frame
+0000000000041ab4 r .eh_frame_hdr
+000000000024d155 B enable_debug
+000000000024d154 B enable_optimze
+000000000024d153 B enable_shadow
+000000000024d150 B enable_stats
+000000000024d152 B enable_trans
+000000000024d151 B enable_undolog
+000000000024fae0 B _end
+0000000000025980 t epoch_ctl
+                 U __errno_location@@GLIBC_2.2.5
+                 U exit@@GLIBC_2.2.5
+0000000000000000 a extent.c
+000000000002a640 t extent_tree_ad_first
+000000000002a960 t extent_tree_ad_insert
+000000000002b6e0 t extent_tree_ad_iter
+000000000002b5c0 t extent_tree_ad_iter_recurse
+000000000002b630 t extent_tree_ad_iter_start
+000000000002a670 t extent_tree_ad_last
+000000000002a620 t extent_tree_ad_new
+000000000002a6a0 t extent_tree_ad_next
+000000000002a880 t extent_tree_ad_nsearch
+000000000002a760 t extent_tree_ad_prev
+000000000002a8f0 t extent_tree_ad_psearch
+000000000002ae00 t extent_tree_ad_remove
+000000000002b840 t extent_tree_ad_reverse_iter
+000000000002b720 t extent_tree_ad_reverse_iter_recurse
+000000000002b790 t extent_tree_ad_reverse_iter_start
+000000000002a820 t extent_tree_ad_search
+0000000000029380 t extent_tree_szad_first
+0000000000029710 t extent_tree_szad_insert
+000000000002a470 t extent_tree_szad_iter
+000000000002a340 t extent_tree_szad_iter_recurse
+000000000002a3b0 t extent_tree_szad_iter_start
+00000000000293b0 t extent_tree_szad_last
+0000000000029360 t extent_tree_szad_new
+00000000000293e0 t extent_tree_szad_next
+00000000000295f0 t extent_tree_szad_nsearch
+00000000000294b0 t extent_tree_szad_prev
+0000000000029680 t extent_tree_szad_psearch
+0000000000029b90 t extent_tree_szad_remove
+000000000002a5e0 t extent_tree_szad_reverse_iter
+000000000002a4b0 t extent_tree_szad_reverse_iter_recurse
+000000000002a520 t extent_tree_szad_reverse_iter_start
+0000000000029580 t extent_tree_szad_search
+000000000024d1e0 B fault_chunk
+000000000024c6c0 B fault_count
+000000000000fa20 T fault_handler
+000000000024d1a0 B fault_hist
+000000000024d198 B fault_itr
+000000000024c700 B fault_stat
+                 U fileno@@GLIBC_2.2.5
+000000000000e4b0 T findoffset
+000000000003b47c T _fini
+000000000003b47c t .fini
+000000000024a6f0 t .fini_array
+                 U fopen@@GLIBC_2.2.5
+                 U __fprintf_chk@@GLIBC_2.3.4
+                 U fputc@@GLIBC_2.2.5
+0000000000009a40 t frame_dummy
+000000000024a6c0 t __frame_dummy_init_array_entry
+0000000000049bd8 r __FRAME_END__
+000000000024fa70 b freed
+                 U free@@GLIBC_2.2.5
+                 U ftruncate@@GLIBC_2.2.5
+                 U fwrite@@GLIBC_2.2.5
+0000000000049bdc r .gcc_except_table
+000000000024faa0 b g_chkpt_inter_end
+000000000024fad0 b g_chkpt_inter_strt
+000000000024c640 B g_chkptlock
+000000000024fac0 b g_end
+000000000000bfd0 T get_alloc_size
+000000000000c0b0 T get_chnk_cnt_frm_map
+000000000000c040 T get_chunk_from_map
+000000000000c300 T get_chunk_from_map_o1
+000000000000c210 T get_chunk_with_id
+                 U getenv@@GLIBC_2.2.5
+000000000000f230 T get_frm_mmap_cache
+000000000000e4e0 T get_proc_num_maps
+000000000000e3b0 T get_proc_strtaddress
+000000000000c3d0 T get_vma_size
+000000000024c6e0 B g_fault_count
+000000000024c308 D g_file_desc
+000000000024c000 d _GLOBAL_OFFSET_TABLE_
+00000000000095d0 t _GLOBAL__sub_I_checkpoint.cc
+00000000000092f0 t _GLOBAL__sub_I_hash_maps.cc
+0000000000009810 t _GLOBAL__sub_I_nv_map.cc
+0000000000009960 t _GLOBAL__sub_I_pin_mapper.cc
+0000000000009220 t _GLOBAL__sub_I_util_func.cc
+000000000024d880 b _gm_
+                 w __gmon_start__
+000000000024dd0c b g_mypid
+0000000000000228 r .gnu.hash
+0000000000005074 r .gnu.version
+0000000000005320 r .gnu.version_r
+000000000024bdb0 d .got
+000000000024c000 d .got.plt
+000000000024fa80 b g_start
+000000000000fdf0 T gt_spin_lock
+000000000000fd90 T gt_spinlock_init
+000000000000fe10 T gt_spin_unlock
+0000000000000000 a gtthread_spinlocks.cc
+                 U __gxx_personality_v0@@CXXABI_1.3
+0000000000000000 a hash.c
+000000000024c458 B hash_cache
+0000000000000000 a hash_maps.cc
+0000000000008908 t hash.part.6
+000000000024c450 B hashtable
+000000000024d700 b huge
+000000000024e958 b huge_allocated
+000000000002c3c0 t huge_boot
+0000000000000000 a huge.c
+000000000002bb10 t huge_dalloc
+000000000002ba50 t huge_malloc
+000000000024e920 b huge_mtx
+000000000024e948 b huge_ndalloc
+000000000024e950 b huge_nmalloc
+000000000002b910 t huge_palloc
+000000000002c430 t huge_postfork_child
+000000000002c420 t huge_postfork_parent
+000000000002c410 t huge_prefork
+000000000002c2e0 t huge_prof_ctx_get
+000000000002c350 t huge_prof_ctx_set
+000000000002bbf0 t huge_ralloc
+000000000002ba70 t huge_ralloc_no_move
+000000000002c270 t huge_salloc
+0000000000008988 t idalloc.part.13
+0000000000008df6 t idalloc.part.13
+000000000024c540 B id_chunk_map
+000000000024d550 B idx
+000000000000839b t imalloc.part.20
+0000000000011c30 t imemalign
+0000000000007bf8 T _init
+0000000000007bf8 t .init
+000000000024a6c0 t .init_array
+000000000024d320 B initCache
+000000000024d5c0 b init_lock
+0000000000037e20 t init_mparams.part.1
+000000000003e4a0 r interval_invs.8332
+0000000000011930 t ipalloc
+0000000000008968 t ipalloc.part.12
+00000000000083db t ipalloc.part.23
+000000000000878a t ipalloc.part.31
+00000000000083fb t iralloc.part.24
+000000000000833b t isalloc.part.11
+0000000000008d76 t isalloc.part.6
+000000000024c3f8 B it
+000000000024dd10 b iter_count
+                 w _ITM_deregisterTMCloneTable
+                 w _ITM_registerTMCloneTable
+000000000024a6f8 d .jcr
+000000000024a6f8 d __JCR_END__
+000000000024a6f8 d __JCR_LIST__
+0000000000012890 t je_aligned_alloc
+0000000000014950 t je_allocm
+00000000000128d0 t je_calloc
+0000000000016d90 t je_dallocm
+0000000000013d10 t je_free
+0000000000014820 t je_mallctl
+00000000000148e0 t je_mallctlbymib
+0000000000014890 t je_mallctlnametomib
+0000000000012350 t je_malloc_
+0000000000000000 a jemalloc.c
+000000000024dda0 b je_malloc_conf
+000000000024f9b0 b je_malloc_message
+0000000000010e40 t jemalloc_postfork_child
+0000000000010dc0 t jemalloc_postfork_parent
+0000000000010d40 t jemalloc_prefork
+0000000000014810 t je_malloc_stats_print
+0000000000014500 t je_malloc_usable_size
+00000000000144d0 t je_memalign
+0000000000017540 t je_nallocm
+0000000000012880 t je_posix_memalign
+0000000000015430 t je_rallocm
+0000000000012de0 t je_realloc
+0000000000016a30 t je_sallocm
+                 w _Jv_RegisterClasses
+000000000024c480 B life_map
+000000000000eed0 T load_process
+000000000024d278 B local_chkpt_cnt
+000000000000f290 T locate_mmapobj_node
+                 U lseek@@GLIBC_2.2.5
+                 U madvise@@GLIBC_2.2.5
+00000000000102b0 t malloc_conf_init
+0000000000036610 t malloc_cprintf
+                 U malloc@@GLIBC_2.2.5
+000000000024dd08 b mallocid
+000000000024d580 b malloc_id
+0000000000010f30 t malloc_init_hard
+000000000024d5f0 b malloc_initialized
+000000000024d5e8 b malloc_initializer
+000000000002c440 t malloc_mutex_init
+000000000002c4e0 t malloc_mutex_postfork_child
+000000000002c4d0 t malloc_mutex_postfork_parent
+000000000002c4c0 t malloc_mutex_prefork
+00000000000366a0 t malloc_printf
+0000000000036500 t malloc_snprintf
+0000000000034150 t malloc_strtoumax
+0000000000036f40 t malloc_tsd_boot
+0000000000036ef0 t malloc_tsd_cleanup_register
+00000000000369b0 t malloc_tsd_dalloc
+0000000000036850 t malloc_tsd_malloc
+0000000000036740 t malloc_tsd_no_cleanup
+0000000000036590 t malloc_vcprintf
+0000000000034340 t malloc_vsnprintf
+0000000000034100 t malloc_write
+000000000024f9f8 b map_bias
+000000000000e5e0 T map_nvram_state
+000000000024d220 B map_tree
+0000000000000000 a mb.c
+                 U memcmp@@GLIBC_2.2.5
+                 U memcpy@@GLIBC_2.14
+                 U memmove@@GLIBC_2.2.5
+                 U memset@@GLIBC_2.2.5
+000000000024c5c0 B metadata_vmas
+000000000000e8c0 T _mmap
+                 U mmap@@GLIBC_2.2.5
+000000000024c740 B mmap_ref_cache
+000000000024cb40 B mmap_size_cache
+000000000024cd40 B mmap_strt_addr_cache
+000000000000d600 T mmap_wrap
+000000000024dc40 b mparams
+                 U mprotect@@GLIBC_2.2.5
+                 U mremap@@GLIBC_2.2.5
+                 U munmap@@GLIBC_2.2.5
+000000000002c520 t mutex_boot
+0000000000000000 a mutex.c
+000000000024d280 B mutex_set
+000000000024c400 B mymap
+                 U nanosleep@@GLIBC_2.2.5
+000000000024dd88 b narenas
+000000000024d7c0 b ncleanups
+000000000024dda8 b ncpus
+000000000024d324 B next_entry
+000000000024c734 B next_mmap_entry
+000000000024f990 b nhbins
+0000000000000200 r .note.gnu.build-id
+000000000003a5c0 t np_calloc
+000000000024c360 d np_chunk_id
+000000000003b1b0 t np_dlcalloc
+0000000000039c00 t np_dlmalloc
+000000000003a630 t np_free
+000000000003a0d0 t np_malloc
+0000000000000000 a np_malloc.c
+000000000024d870 b np_mmap_startaddr
+000000000024d860 b np_nvmap
+000000000024d868 b np_nvoffset
+000000000024c35c d np_procid
+000000000003b220 t np_realloc
+0000000000038bc0 t np_setup_nvmalloc_mapfile
+0000000000038c60 t np_usenvmap
+000000000003b370 t nvalloc_
+000000000024d240 B nvarg
+0000000000037550 t nv_chunk_alloc
+0000000000037c30 t nv_chunk_alloc_mmap
+000000000000ecc0 T nv_commit
+0000000000000000 a nv_debug.cc
+000000000024c358 d nv_devzero_fd
+000000000000d180 T nv_disablprot
+000000000000e400 T nv_initialize
+000000000003b2c0 t nv_jemalloc
+000000000024d540 B nvlib_cflushcntr
+0000000000000000 a nv_map.cc
+000000000000f0b0 T nv_map_read
+000000000000f740 T nvm_persist
+0000000000037a10 t nv_pages_map.constprop.2
+000000000003b2d0 t nvread_
+000000000000f390 T nv_record_chunk
+0000000000000000 a nv_stats.cc
+000000000000fd20 T nv_sync_chunk
+0000000000000000 a nv_transact.cc
+                 U open@@GLIBC_2.2.5
+000000000024d5a1 b opt_abort
+0000000000027c10 t opt_abort_ctl
+000000000024d5a0 b opt_junk
+0000000000027e90 t opt_junk_ctl
+000000000024c348 d opt_lg_chunk
+0000000000027c90 t opt_lg_chunk_ctl
+000000000024c310 d opt_lg_dirty_mult
+0000000000027d90 t opt_lg_dirty_mult_ctl
+000000000024c320 d opt_lg_prof_interval
+0000000000024560 t opt_lg_prof_interval_ctl
+000000000024c328 d opt_lg_prof_sample
+0000000000024550 t opt_lg_prof_sample_ctl
+000000000024c338 d opt_lg_tcache_max
+0000000000028110 t opt_lg_tcache_max_ctl
+000000000024d588 b opt_narenas
+0000000000027d10 t opt_narenas_ctl
+000000000024b400 d opt_node
+000000000024d743 b opt_prof
+000000000024d740 b opt_prof_accum
+00000000000245a0 t opt_prof_accum_ctl
+000000000024c330 d opt_prof_active
+0000000000024540 t opt_prof_active_ctl
+0000000000024520 t opt_prof_ctl
+000000000024c318 d opt_prof_final
+0000000000024580 t opt_prof_final_ctl
+000000000024d742 b opt_prof_gdump
+0000000000024570 t opt_prof_gdump_ctl
+000000000024d741 b opt_prof_leak
+0000000000024590 t opt_prof_leak_ctl
+000000000024e980 b opt_prof_prefix
+0000000000024530 t opt_prof_prefix_ctl
+000000000024d598 b opt_quarantine
+0000000000027f90 t opt_quarantine_ctl
+000000000024d594 b opt_redzone
+0000000000028010 t opt_redzone_ctl
+000000000024d758 b opt_stats_print
+0000000000027e10 t opt_stats_print_ctl
+000000000024c340 d opt_tcache
+0000000000028090 t opt_tcache_ctl
+000000000024d593 b opt_utrace
+00000000000244f0 t opt_utrace_ctl
+000000000024d592 b opt_valgrind
+0000000000024500 t opt_valgrind_ctl
+000000000024d591 b opt_xmalloc
+0000000000024510 t opt_xmalloc_ctl
+000000000024d590 b opt_zero
+0000000000027f10 t opt_zero_ctl
+0000000000037a90 t pages_map.constprop.3
+0000000000037b30 t pages_purge
+00000000000379e0 t pages_trim.part.1
+                 U perror@@GLIBC_2.2.5
+0000000000000000 a pin_mapper.cc
+0000000000007c20 t .plt
+000000000024d160 B pntr_lst
+000000000024d158 B pntrlst_tree
+000000000024dc88 b precommit
+000000000024dca0 b precommit_cond
+000000000024dce0 b precommit_mtx
+000000000003f180 r __PRETTY_FUNCTION__.10210
+0000000000041a26 r __PRETTY_FUNCTION__.6069
+0000000000041a1a r __PRETTY_FUNCTION__.6121
+00000000000419f0 r __PRETTY_FUNCTION__.6200
+0000000000041a34 r __PRETTY_FUNCTION__.6319
+0000000000041a42 r __PRETTY_FUNCTION__.6360
+0000000000041a50 r __PRETTY_FUNCTION__.6386
+0000000000041a10 r __PRETTY_FUNCTION__.6420
+0000000000041a08 r __PRETTY_FUNCTION__.6462
+000000000003cfe2 r __PRETTY_FUNCTION__.8001
+000000000003e410 r __PRETTY_FUNCTION__.8001
+000000000003eea3 r __PRETTY_FUNCTION__.8001
+000000000003f0b9 r __PRETTY_FUNCTION__.8001
+000000000003f693 r __PRETTY_FUNCTION__.8001
+000000000003fa33 r __PRETTY_FUNCTION__.8001
+0000000000040bd0 r __PRETTY_FUNCTION__.8001
+00000000000411d8 r __PRETTY_FUNCTION__.8001
+000000000003d083 r __PRETTY_FUNCTION__.8005
+000000000003f0aa r __PRETTY_FUNCTION__.8005
+000000000003cf4e r __PRETTY_FUNCTION__.8014
+000000000003e434 r __PRETTY_FUNCTION__.8014
+000000000003ef2b r __PRETTY_FUNCTION__.8014
+000000000003cff1 r __PRETTY_FUNCTION__.8020
+000000000003e41f r __PRETTY_FUNCTION__.8020
+000000000003eeb2 r __PRETTY_FUNCTION__.8020
+000000000003f0c8 r __PRETTY_FUNCTION__.8020
+000000000003f6a2 r __PRETTY_FUNCTION__.8020
+000000000003fa42 r __PRETTY_FUNCTION__.8020
+0000000000040bdf r __PRETTY_FUNCTION__.8020
+00000000000411e7 r __PRETTY_FUNCTION__.8020
+000000000003e6f6 r __PRETTY_FUNCTION__.8034
+000000000003e701 r __PRETTY_FUNCTION__.8043
+000000000003e475 r __PRETTY_FUNCTION__.8069
+000000000003cf79 r __PRETTY_FUNCTION__.8108
+000000000003e8a3 r __PRETTY_FUNCTION__.8108
+000000000003ee74 r __PRETTY_FUNCTION__.8108
+000000000003f744 r __PRETTY_FUNCTION__.8108
+000000000003fad3 r __PRETTY_FUNCTION__.8108
+0000000000040c87 r __PRETTY_FUNCTION__.8108
+00000000000411b4 r __PRETTY_FUNCTION__.8108
+000000000003e880 r __PRETTY_FUNCTION__.8122
+000000000003cfb0 r __PRETTY_FUNCTION__.8128
+000000000003e7f0 r __PRETTY_FUNCTION__.8128
+000000000003ee40 r __PRETTY_FUNCTION__.8128
+000000000003f700 r __PRETTY_FUNCTION__.8128
+000000000003fb10 r __PRETTY_FUNCTION__.8128
+0000000000040cc0 r __PRETTY_FUNCTION__.8128
+0000000000041180 r __PRETTY_FUNCTION__.8128
+000000000003e820 r __PRETTY_FUNCTION__.8134
+000000000003cf90 r __PRETTY_FUNCTION__.8141
+000000000003faf0 r __PRETTY_FUNCTION__.8141
+0000000000040ca0 r __PRETTY_FUNCTION__.8141
+000000000003e900 r __PRETTY_FUNCTION__.8169
+000000000003e7a0 r __PRETTY_FUNCTION__.8176
+000000000003e840 r __PRETTY_FUNCTION__.8185
+0000000000041aa8 r __PRETTY_FUNCTION__.8187
+000000000003e6a0 r __PRETTY_FUNCTION__.8202
+000000000003d047 r __PRETTY_FUNCTION__.8232
+000000000003e3e7 r __PRETTY_FUNCTION__.8232
+000000000003ef07 r __PRETTY_FUNCTION__.8232
+000000000003f166 r __PRETTY_FUNCTION__.8232
+000000000003f6e7 r __PRETTY_FUNCTION__.8232
+000000000003fa97 r __PRETTY_FUNCTION__.8232
+0000000000040c27 r __PRETTY_FUNCTION__.8232
+0000000000041247 r __PRETTY_FUNCTION__.8232
+000000000003cffe r __PRETTY_FUNCTION__.8236
+000000000003e399 r __PRETTY_FUNCTION__.8236
+000000000003eebf r __PRETTY_FUNCTION__.8236
+000000000003f157 r __PRETTY_FUNCTION__.8236
+000000000003f684 r __PRETTY_FUNCTION__.8236
+000000000003fa4f r __PRETTY_FUNCTION__.8236
+0000000000040bc1 r __PRETTY_FUNCTION__.8236
+00000000000411f4 r __PRETTY_FUNCTION__.8236
+000000000003d030 r __PRETTY_FUNCTION__.8246
+000000000003e3d0 r __PRETTY_FUNCTION__.8246
+000000000003eef0 r __PRETTY_FUNCTION__.8246
+000000000003f140 r __PRETTY_FUNCTION__.8246
+000000000003f6d0 r __PRETTY_FUNCTION__.8246
+000000000003fa80 r __PRETTY_FUNCTION__.8246
+0000000000040c10 r __PRETTY_FUNCTION__.8246
+0000000000041230 r __PRETTY_FUNCTION__.8246
+000000000003d010 r __PRETTY_FUNCTION__.8250
+000000000003e3b0 r __PRETTY_FUNCTION__.8250
+000000000003eed0 r __PRETTY_FUNCTION__.8250
+000000000003f120 r __PRETTY_FUNCTION__.8250
+000000000003f6b0 r __PRETTY_FUNCTION__.8250
+000000000003fa60 r __PRETTY_FUNCTION__.8250
+0000000000040bf0 r __PRETTY_FUNCTION__.8250
+0000000000041210 r __PRETTY_FUNCTION__.8250
+000000000003d056 r __PRETTY_FUNCTION__.8274
+000000000003e3f6 r __PRETTY_FUNCTION__.8274
+000000000003ef16 r __PRETTY_FUNCTION__.8274
+000000000003f71d r __PRETTY_FUNCTION__.8274
+000000000003faa6 r __PRETTY_FUNCTION__.8274
+0000000000040c36 r __PRETTY_FUNCTION__.8274
+0000000000041256 r __PRETTY_FUNCTION__.8274
+000000000003cf10 r __PRETTY_FUNCTION__.8306
+000000000003e370 r __PRETTY_FUNCTION__.8306
+000000000003ee60 r __PRETTY_FUNCTION__.8306
+000000000003f730 r __PRETTY_FUNCTION__.8306
+000000000003f9d0 r __PRETTY_FUNCTION__.8306
+0000000000040ba0 r __PRETTY_FUNCTION__.8306
+00000000000411a0 r __PRETTY_FUNCTION__.8306
+000000000003cef0 r __PRETTY_FUNCTION__.8315
+000000000003e350 r __PRETTY_FUNCTION__.8315
+000000000003ee20 r __PRETTY_FUNCTION__.8315
+000000000003f670 r __PRETTY_FUNCTION__.8315
+000000000003f9b0 r __PRETTY_FUNCTION__.8315
+0000000000040b80 r __PRETTY_FUNCTION__.8315
+0000000000041160 r __PRETTY_FUNCTION__.8315
+000000000003e810 r __PRETTY_FUNCTION__.8321
+000000000003e520 r __PRETTY_FUNCTION__.8331
+000000000003d063 r __PRETTY_FUNCTION__.8364
+000000000003e403 r __PRETTY_FUNCTION__.8364
+0000000000041263 r __PRETTY_FUNCTION__.8364
+000000000003cfcd r __PRETTY_FUNCTION__.8373
+000000000003fb2d r __PRETTY_FUNCTION__.8373
+0000000000040cdd r __PRETTY_FUNCTION__.8373
+000000000003cf24 r __PRETTY_FUNCTION__.8383
+000000000003e384 r __PRETTY_FUNCTION__.8383
+000000000003ee83 r __PRETTY_FUNCTION__.8383
+000000000003f753 r __PRETTY_FUNCTION__.8383
+000000000003f9e4 r __PRETTY_FUNCTION__.8383
+0000000000040bb4 r __PRETTY_FUNCTION__.8383
+00000000000411c3 r __PRETTY_FUNCTION__.8383
+000000000003eda3 r __PRETTY_FUNCTION__.8397
+000000000003d070 r __PRETTY_FUNCTION__.8412
+000000000003fab3 r __PRETTY_FUNCTION__.8412
+000000000003cf46 r __PRETTY_FUNCTION__.8422
+000000000003e42c r __PRETTY_FUNCTION__.8422
+000000000003ef23 r __PRETTY_FUNCTION__.8422
+000000000003cfda r __PRETTY_FUNCTION__.8429
+000000000003fb3a r __PRETTY_FUNCTION__.8429
+000000000003e391 r __PRETTY_FUNCTION__.8447
+000000000003ee90 r __PRETTY_FUNCTION__.8447
+000000000003f760 r __PRETTY_FUNCTION__.8447
+000000000003f9f1 r __PRETTY_FUNCTION__.8447
+00000000000411d0 r __PRETTY_FUNCTION__.8447
+000000000003cede r __PRETTY_FUNCTION__.8461
+000000000003cf60 r __PRETTY_FUNCTION__.8473
+000000000003f100 r __PRETTY_FUNCTION__.8473
+000000000003fba0 r __PRETTY_FUNCTION__.8559
+0000000000041550 r __PRETTY_FUNCTION__.8562
+0000000000041450 r __PRETTY_FUNCTION__.8563
+000000000003eb60 r __PRETTY_FUNCTION__.8564
+0000000000041140 r __PRETTY_FUNCTION__.8567
+00000000000414cf r __PRETTY_FUNCTION__.8571
+000000000003edcb r __PRETTY_FUNCTION__.8574
+000000000003fac0 r __PRETTY_FUNCTION__.8574
+000000000004153f r __PRETTY_FUNCTION__.8574
+000000000003f770 r __PRETTY_FUNCTION__.8576
+000000000003fa20 r __PRETTY_FUNCTION__.8578
+0000000000041530 r __PRETTY_FUNCTION__.8578
+00000000000414a0 r __PRETTY_FUNCTION__.8579
+00000000000413da r __PRETTY_FUNCTION__.8583
+000000000003f570 r __PRETTY_FUNCTION__.8587
+0000000000040c70 r __PRETTY_FUNCTION__.8590
+00000000000413e8 r __PRETTY_FUNCTION__.8591
+00000000000414c4 r __PRETTY_FUNCTION__.8591
+000000000003f65e r __PRETTY_FUNCTION__.8593
+000000000003f652 r __PRETTY_FUNCTION__.8600
+000000000003f550 r __PRETTY_FUNCTION__.8600
+000000000003fa00 r __PRETTY_FUNCTION__.8601
+000000000003edf0 r __PRETTY_FUNCTION__.8604
+000000000003f640 r __PRETTY_FUNCTION__.8607
+00000000000413cb r __PRETTY_FUNCTION__.8607
+000000000003fb42 r __PRETTY_FUNCTION__.8610
+000000000003f620 r __PRETTY_FUNCTION__.8614
+0000000000040c50 r __PRETTY_FUNCTION__.8614
+000000000003d0a0 r __PRETTY_FUNCTION__.8618
+00000000000413bd r __PRETTY_FUNCTION__.8628
+00000000000414e0 r __PRETTY_FUNCTION__.8629
+000000000003f88c r __PRETTY_FUNCTION__.8630
+00000000000413b2 r __PRETTY_FUNCTION__.8632
+00000000000414b0 r __PRETTY_FUNCTION__.8640
+000000000003f530 r __PRETTY_FUNCTION__.8643
+000000000003f87d r __PRETTY_FUNCTION__.8654
+000000000003ef30 r __PRETTY_FUNCTION__.8658
+000000000003f871 r __PRETTY_FUNCTION__.8663
+000000000003ee98 r __PRETTY_FUNCTION__.8666
+000000000003ee12 r __PRETTY_FUNCTION__.8670
+00000000000410dc r __PRETTY_FUNCTION__.8672
+000000000003f510 r __PRETTY_FUNCTION__.8675
+000000000003ee07 r __PRETTY_FUNCTION__.8688
+000000000003e666 r __PRETTY_FUNCTION__.8693
+000000000003edd7 r __PRETTY_FUNCTION__.8700
+000000000003edc0 r __PRETTY_FUNCTION__.8708
+000000000003edb0 r __PRETTY_FUNCTION__.8718
+00000000000410e0 r __PRETTY_FUNCTION__.8722
+000000000003ed90 r __PRETTY_FUNCTION__.8723
+000000000003ed70 r __PRETTY_FUNCTION__.8746
+000000000003e5d0 r __PRETTY_FUNCTION__.8776
+000000000003f866 r __PRETTY_FUNCTION__.8784
+000000000003f85b r __PRETTY_FUNCTION__.8789
+000000000003f4f0 r __PRETTY_FUNCTION__.8795
+000000000003f850 r __PRETTY_FUNCTION__.8795
+000000000003e650 r __PRETTY_FUNCTION__.8808
+000000000003f4d0 r __PRETTY_FUNCTION__.8808
+000000000003f840 r __PRETTY_FUNCTION__.8822
+000000000003f820 r __PRETTY_FUNCTION__.8828
+000000000003f806 r __PRETTY_FUNCTION__.8835
+000000000003f7fb r __PRETTY_FUNCTION__.8839
+000000000003f7f0 r __PRETTY_FUNCTION__.8843
+000000000003f4b0 r __PRETTY_FUNCTION__.8851
+000000000003f490 r __PRETTY_FUNCTION__.8883
+000000000003e8c0 r __PRETTY_FUNCTION__.8903
+000000000003e8e0 r __PRETTY_FUNCTION__.8988
+000000000003e860 r __PRETTY_FUNCTION__.9020
+000000000003e710 r __PRETTY_FUNCTION__.9115
+000000000003e540 r __PRETTY_FUNCTION__.9127
+000000000003e6c0 r __PRETTY_FUNCTION__.9154
+000000000003e920 r __PRETTY_FUNCTION__.9169
+000000000003e770 r __PRETTY_FUNCTION__.9183
+000000000003e6d0 r __PRETTY_FUNCTION__.9209
+000000000003e940 r __PRETTY_FUNCTION__.9225
+000000000003e952 r __PRETTY_FUNCTION__.9255
+000000000003e7d0 r __PRETTY_FUNCTION__.9279
+000000000003d078 r __PRETTY_FUNCTION__.9289
+000000000003e580 r __PRETTY_FUNCTION__.9297
+000000000003cf53 r __PRETTY_FUNCTION__.9304
+000000000003e610 r __PRETTY_FUNCTION__.9310
+000000000003e5f0 r __PRETTY_FUNCTION__.9326
+000000000003cf3c r __PRETTY_FUNCTION__.9332
+000000000003e680 r __PRETTY_FUNCTION__.9334
+000000000003cf31 r __PRETTY_FUNCTION__.9345
+000000000003e6e0 r __PRETTY_FUNCTION__.9355
+000000000003ced6 r __PRETTY_FUNCTION__.9359
+000000000003e750 r __PRETTY_FUNCTION__.9361
+000000000003cec0 r __PRETTY_FUNCTION__.9369
+000000000003e730 r __PRETTY_FUNCTION__.9373
+000000000003cead r __PRETTY_FUNCTION__.9402
+000000000003e5b0 r __PRETTY_FUNCTION__.9408
+000000000003f191 r __PRETTY_FUNCTION__.9411
+000000000003ceb5 r __PRETTY_FUNCTION__.9413
+000000000003e594 r __PRETTY_FUNCTION__.9427
+000000000003cea2 r __PRETTY_FUNCTION__.9435
+000000000003e560 r __PRETTY_FUNCTION__.9435
+000000000003ce97 r __PRETTY_FUNCTION__.9451
+000000000003e630 r __PRETTY_FUNCTION__.9454
+000000000003ce8c r __PRETTY_FUNCTION__.9458
+000000000003f0a0 r __PRETTY_FUNCTION__.9463
+000000000003ce81 r __PRETTY_FUNCTION__.9466
+000000000003ce70 r __PRETTY_FUNCTION__.9471
+000000000003ce50 r __PRETTY_FUNCTION__.9479
+000000000003ce30 r __PRETTY_FUNCTION__.9487
+000000000003f0e0 r __PRETTY_FUNCTION__.9531
+000000000003e440 r __PRETTY_FUNCTION__.9538
+000000000003e460 r __PRETTY_FUNCTION__.9559
+000000000003e320 r __PRETTY_FUNCTION__.9599
+000000000003e337 r __PRETTY_FUNCTION__.9620
+000000000024dc80 b prev_chunkid
+000000000024d140 B prev_proc_id
+000000000024d148 B prev_proc_obj
+                 U __printf_chk@@GLIBC_2.3.4
+000000000024c350 d proc_id
+000000000024d270 B proc_list_init
+000000000024d268 B proc_map_start
+000000000024dd8c b proc_persist_id
+000000000024d218 B proc_tree
+000000000024c600 B proc_vmas
+0000000000024600 t prof_active_ctl
+000000000002c560 t prof_backtrace
+000000000002c6b0 t prof_boot0
+000000000002c6e0 t prof_boot1
+000000000002c710 t prof_boot2
+0000000000000000 a prof.c
+0000000000024610 t prof_dump_ctl
+000000000002c620 t prof_gdump
+000000000002c5c0 t prof_idump
+000000000024e968 b prof_interval
+0000000000024620 t prof_interval_ctl
+000000000002c590 t prof_lookup
+000000000002c5f0 t prof_mdump
+000000000024b080 d prof_node
+000000000024e964 b prof_promote
+000000000024d744 b prof_tdata_booted
+000000000002c680 t prof_tdata_cleanup
+000000000002c650 t prof_tdata_init
+0000000000000020 b prof_tdata_tls
+000000000024e960 b prof_tdata_tsd
+000000000000fae0 T protect_all_chunks
+000000000003b440 t __pthread_atfork
+000000000003b440 t pthread_atfork
+0000000000000000 a pthread_atfork.c
+                 w __pthread_key_create@@GLIBC_2.2.5
+                 U pthread_key_create@@GLIBC_2.2.5
+                 U pthread_mutexattr_destroy@@GLIBC_2.2.5
+                 U pthread_mutexattr_init@@GLIBC_2.2.5
+                 U pthread_mutex_init@@GLIBC_2.2.5
+                 U pthread_mutex_lock@@GLIBC_2.2.5
+                 U pthread_mutex_unlock@@GLIBC_2.2.5
+                 U pthread_self@@GLIBC_2.2.5
+                 U pthread_setspecific@@GLIBC_2.2.5
+                 U puts@@GLIBC_2.2.5
+000000000002d820 t quarantine
+000000000002e790 t quarantine_boot
+000000000024d748 b quarantine_booted
+0000000000000000 a quarantine.c
+000000000002d2c0 t quarantine_cleanup
+000000000002c9b0 t quarantine_drain
+000000000002c7d0 t quarantine_init
+0000000000000028 b quarantine_tls
+000000000024d74c b quarantine_tsd
+0000000000008db6 t quarantine_tsd_set.part.9
+                 U rand@@GLIBC_2.2.5
+                 U __rawmemchr@@GLIBC_2.2.5
+0000000000000000 a rbtree.cc
+                 U readlink@@GLIBC_2.2.5
+000000000000c2d0 T record_chunks
+000000000000c370 T record_metadata_vma
+000000000000c3a0 T record_vmas
+                 U __register_atfork@@GLIBC_2.3.2
+00000000000099c0 t register_tm_clones
+0000000000005450 r .rela.dyn
+0000000000007358 r .rela.plt
+0000000000038780 t release_unused_segments.constprop.5
+000000000000f810 T remove_map
+000000000003b4a0 r .rodata
+000000000024a740 d root_node
+0000000000000000 a rtree.c
+000000000002e7e0 t rtree_new
+0000000000008832 t sa2u.part.2
+0000000000008654 t sa2u.part.20
+00000000000082fb t sa2u.part.8
+000000000024c3f4 B same_pages
+                 U sbrk@@GLIBC_2.2.5
+000000000024dd20 b set_affinity
+000000000024d558 B shm_addr
+                 U shmat@@GLIBC_2.2.5
+                 U shmget@@GLIBC_2.2.5
+                 U sigaction@@GLIBC_2.2.5
+                 U sigemptyset@@GLIBC_2.2.5
+000000000024c660 B sig_queue
+000000000003e960 r small_size2bin
+000000000024c6e4 B spin_init
+000000000024c6d0 B spinlock_fault
+                 U __sprintf_chk@@GLIBC_2.3.4
+                 U __stack_chk_fail@@GLIBC_2.4
+000000000024d760 b stack_nelms
+000000000024fab8 b startT
+000000000024fab0 b startTime
+00000000000255b0 t stats_active_ctl
+0000000000025650 t stats_allocated_ctl
+000000000002e9f0 t stats_arena_print
+0000000000026030 t stats_arenas_i_bins_j_allocated_ctl
+0000000000025a30 t stats_arenas_i_bins_j_curruns_ctl
+0000000000024630 t stats_arenas_i_bins_j_index
+0000000000025eb0 t stats_arenas_i_bins_j_ndalloc_ctl
+0000000000025d30 t stats_arenas_i_bins_j_nfills_ctl
+0000000000025c70 t stats_arenas_i_bins_j_nflushes_ctl
+0000000000025f70 t stats_arenas_i_bins_j_nmalloc_ctl
+000000000024acc0 d stats_arenas_i_bins_j_node
+0000000000025df0 t stats_arenas_i_bins_j_nrequests_ctl
+0000000000025af0 t stats_arenas_i_bins_j_nreruns_ctl
+0000000000025bb0 t stats_arenas_i_bins_j_nruns_ctl
+000000000024bb70 d stats_arenas_i_bins_node
+00000000000263f0 t stats_arenas_i_index
+0000000000026640 t stats_arenas_i_large_allocated_ctl
+00000000000264e0 t stats_arenas_i_large_ndalloc_ctl
+0000000000026590 t stats_arenas_i_large_nmalloc_ctl
+000000000024ae40 d stats_arenas_i_large_node
+0000000000026430 t stats_arenas_i_large_nrequests_ctl
+00000000000260f0 t stats_arenas_i_lruns_j_curruns_ctl
+0000000000024650 t stats_arenas_i_lruns_j_index
+0000000000026270 t stats_arenas_i_lruns_j_ndalloc_ctl
+0000000000026330 t stats_arenas_i_lruns_j_nmalloc_ctl
+000000000024abe0 d stats_arenas_i_lruns_j_node
+00000000000261b0 t stats_arenas_i_lruns_j_nrequests_ctl
+000000000024bb60 d stats_arenas_i_lruns_node
+0000000000026bc0 t stats_arenas_i_mapped_ctl
+0000000000026a60 t stats_arenas_i_nmadvise_ctl
+000000000024a9e0 d stats_arenas_i_node
+0000000000026b10 t stats_arenas_i_npurge_ctl
+0000000000026dd0 t stats_arenas_i_nthreads_ctl
+0000000000026d20 t stats_arenas_i_pactive_ctl
+0000000000026c70 t stats_arenas_i_pdirty_ctl
+00000000000269b0 t stats_arenas_i_purged_ctl
+0000000000026900 t stats_arenas_i_small_allocated_ctl
+00000000000267a0 t stats_arenas_i_small_ndalloc_ctl
+0000000000026850 t stats_arenas_i_small_nmalloc_ctl
+000000000024aee0 d stats_arenas_i_small_node
+00000000000266f0 t stats_arenas_i_small_nrequests_ctl
+000000000024bb50 d stats_arenas_node
+0000000000000000 a stats.c
+000000000024d750 b stats_cactive
+00000000000256f0 t stats_cactive_ctl
+000000000024fa20 b stats_chunks
+0000000000025470 t stats_chunks_current_ctl
+0000000000025330 t stats_chunks_high_ctl
+000000000024b000 d stats_chunks_node
+00000000000253d0 t stats_chunks_total_ctl
+0000000000025290 t stats_huge_allocated_ctl
+0000000000025150 t stats_huge_ndalloc_ctl
+00000000000251f0 t stats_huge_nmalloc_ctl
+000000000024af80 d stats_huge_node
+0000000000025510 t stats_mapped_ctl
+000000000024a880 d stats_node
+00000000000304c0 t stats_print
+0000000000010c20 t stats_print_atexit
+                 U stderr@@GLIBC_2.2.5
+                 U stdout@@GLIBC_2.2.5
+000000000024d194 B stop_history_coll
+000000000024fa90 b stopT
+                 U strcat@@GLIBC_2.2.5
+                 U strchr@@GLIBC_2.2.5
+                 U strcmp@@GLIBC_2.2.5
+                 U __strcpy_chk@@GLIBC_2.3.4
+                 U strcpy@@GLIBC_2.2.5
+                 U strdup@@GLIBC_2.2.5
+                 U strlen@@GLIBC_2.2.5
+                 U strncmp@@GLIBC_2.2.5
+                 U strtol@@GLIBC_2.2.5
+000000000024b340 d super_arenas_bin_i_node
+000000000024b2c0 d super_arenas_lrun_i_node
+000000000024a700 d super_root_node
+000000000024ac80 d super_stats_arenas_i_bins_j_node
+000000000024aba0 d super_stats_arenas_i_lruns_j_node
+000000000024a9a0 d super_stats_arenas_i_node
+0000000000038d20 t sys_alloc.constprop.6
+                 U syscall@@GLIBC_2.2.5
+                 U sysconf@@GLIBC_2.2.5
+000000000024a6c0 b .tbss
+0000000000031ca0 t tcache_alloc_small_hard
+0000000000032a40 t tcache_arena_associate
+0000000000032e80 t tcache_arena_dissociate
+0000000000032570 t tcache_bin_flush_large
+0000000000031ce0 t tcache_bin_flush_small
+000000000024f9a0 b tcache_bin_info
+0000000000033c00 t tcache_boot0
+0000000000033f30 t tcache_boot1
+000000000024d75d b tcache_booted
+0000000000000000 a tcache.c
+0000000000032aa0 t tcache_create
+0000000000020a70 t tcache_dalloc_large
+0000000000032ef0 t tcache_destroy
+000000000024d75c b tcache_enabled_booted
+0000000000008245 t tcache_enabled_get
+00000000000086b4 t tcache_enabled_get
+0000000000008892 t tcache_enabled_get
+0000000000008b2c t tcache_enabled_get
+0000000000008d20 t tcache_enabled_get
+0000000000008fba t tcache_enabled_get
+00000000000090f4 t tcache_enabled_get
+000000000000918a t tcache_enabled_set.constprop.10
+0000000000009042 t tcache_enabled_set.constprop.14
+00000000000089a8 t tcache_enabled_set.constprop.17
+0000000000008e16 t tcache_enabled_set.constprop.18
+000000000000841b t tcache_enabled_set.constprop.27
+00000000000087aa t tcache_enabled_set.constprop.34
+0000000000008ba2 t tcache_enabled_set.constprop.8
+0000000000000000 d tcache_enabled_tls
+000000000024f998 b tcache_enabled_tsd
+0000000000008b0c t tcache_enabled_tsd_set.part.2
+00000000000090d4 t tcache_enabled_tsd_set.part.2
+0000000000008694 t tcache_enabled_tsd_set.part.22
+0000000000008225 t tcache_enabled_tsd_set.part.3
+0000000000008872 t tcache_enabled_tsd_set.part.4
+0000000000008aac t tcache_enabled_tsd_set.part.41
+0000000000008d00 t tcache_enabled_tsd_set.part.5
+0000000000008f9a t tcache_enabled_tsd_set.part.7
+0000000000032970 t tcache_event_hard
+000000000000831b t tcache_event.part.10
+0000000000009022 t tcache_event.part.10
+000000000000874a t tcache_event.part.26
+0000000000008b82 t tcache_event.part.3
+000000000000914a t tcache_event.part.3
+0000000000008928 t tcache_event.part.7
+0000000000008d96 t tcache_event.part.7
+0000000000008a30 t tcache_get.part.10
+0000000000008e9e t tcache_get.part.11
+00000000000084a3 t tcache_get.part.17
+0000000000008c2a t tcache_get.part.5
+000000000024f988 b tcache_maxclass
+000000000024bb00 d tcache_node
+00000000000319e0 t tcache_salloc
+0000000000032ca0 t tcache_stats_merge
+0000000000033b60 t tcache_thread_cleanup
+0000000000000030 b tcache_tls
+000000000024f9a8 b tcache_tsd
+0000000000008aec t tcache_tsd_get.part.1
+00000000000090b4 t tcache_tsd_get.part.1
+0000000000008205 t tcache_tsd_get.part.2
+0000000000008674 t tcache_tsd_get.part.21
+0000000000008852 t tcache_tsd_get.part.3
+0000000000008ce0 t tcache_tsd_get.part.4
+0000000000008a8c t tcache_tsd_get.part.40
+0000000000008f7a t tcache_tsd_get.part.6
+0000000000010cb0 t tcache_tsd_set
+00000000000185e0 t tcache_tsd_set
+0000000000020c10 t tcache_tsd_set
+000000000002b880 t tcache_tsd_set
+000000000002c740 t tcache_tsd_set
+00000000000318e0 t tcache_tsd_set
+0000000000036750 t tcache_tsd_set
+0000000000009002 t tcache_tsd_set.part.9
+000000000024a6b8 d .tdata
+00000000000081f0 t .text
+000000000024d5a2 b thread_allocated_booted
+0000000000028a80 t thread_allocated_ctl
+00000000000289d0 t thread_allocatedp_ctl
+0000000000000008 b thread_allocated_tls
+000000000024dd40 b thread_allocated_tsd
+0000000000008acc t thread_allocated_tsd_get.part.42
+00000000000082db t thread_allocated_tsd_get.part.7
+0000000000028b30 t thread_arena_ctl
+0000000000028920 t thread_deallocated_ctl
+0000000000028870 t thread_deallocatedp_ctl
+000000000024dd24 b thread_init
+000000000024ba00 d thread_node
+0000000000028dd0 t thread_tcache_enabled_ctl
+0000000000028fd0 t thread_tcache_flush_ctl
+                 U time@@GLIBC_2.2.5
+                 U __tls_get_addr@@GLIBC_2.3
+00000000000381d0 t tmalloc_large.constprop.3
+0000000000037ea0 t tmalloc_small.constprop.2
+000000000024c368 d __TMC_END__
+000000000024dd18 b total_bytes
+000000000024c6e8 B total_size
+0000000000000000 a tsd.c
+0000000000033fb0 t u2s
+                 U _Unwind_Resume@@GCC_3.0
+000000000024d156 B useCacheFlush
+000000000024c730 B use_map_cache
+0000000000000000 a util.c
+0000000000000000 a util_func.cc
+00000000000274f0 t version_ctl
+000000000024c5b0 B vma_itr
+                 U write@@GLIBC_2.2.5
+0000000000010120 T Writeline
+0000000000033f80 t wrtmessage
+                 U __xpg_strerror_r@@GLIBC_2.3.4
+000000000000d5d0 T file_error(char*)
+000000000000db40 T find_chunk(mmapobj*, unsigned int)
+000000000000aeb0 T hash_clear()
+000000000000bde0 T ht_newpair(char*, unsigned int)
+000000000000fa30 T print_stat()
+000000000000a6a0 t print_tree(rbtree_t*)
+000000000000bbb0 T flush_cache(void*, unsigned long)
+000000000000ae10 T hash_delete(std::string)
+000000000000b090 T hash_insert(std::string, int)
+000000000000a870 T jenkin_hash(char*, unsigned int)
+000000000000d9d0 T copy_chunkoj(chunkobj*, chunkobj*)
+000000000000dab0 T copy_mmapobj(mmapobj*, mmapobj*)
+000000000000dc70 T find_mmapobj(unsigned int, proc_obj*)
+000000000000e350 T find_process(int)
+000000000000aa20 T memcpy_delay(void*, void*, unsigned long)
+000000000000fe70 T DEBUG_MMAPOBJ(mmapobj*)
+000000000000fe60 T DEBUG_PROCOBJ(proc_obj*)
+000000000000a770 T MurmurHash64A(void const*, int, unsigned int)
+000000000000a200 t rbtree_create()
+000000000000a360 t rbtree_delete(rbtree_t*, void*, int (*)(rbtree_node_t*, void*, void*))
+000000000000a250 t rbtree_insert(rbtree_t*, void*, void*, int (*)(rbtree_node_t*, void*, void*))
+000000000000a220 t rbtree_lookup(rbtree_t*, void*, int (*)(rbtree_node_t*, void*, void*))
+000000000000fe90 T DEBUG_CHUNKOBJ(chunkobj*)
+000000000000cec0 T get_next_chunk(int)
+000000000000aef0 T hash_increment(std::string)
+000000000000ad50 T setup_map_file(char*, unsigned int)
+000000000000acd0 T create_map_file(char*, int, char*, int)
+000000000000e800 T create_map_tree()
+000000000000fe80 T DEBUG_MMAPOBJ_T(mmapobj*)
+000000000000ab60 T find_hash_total()
+000000000000a8c0 T gen_id_from_str(char*)
+000000000000fd80 T get_cflush_cntr()
+000000000000db00 T get_process_obj(mmapobj*)
+000000000000d660 T init_chunk_tree(mmapobj*)
+000000000000a6c0 T simulation_time(timeval, timeval)
+000000000000b240 T add_bw_timestamp(int, timeval, timeval, unsigned long)
+000000000000fea0 T DEBUG_CHUNKOBJ_T(chunkobj*)
+000000000000a8f0 T gen_id_from_str1(char*)
+000000000000fd70 T incr_cflush_cntr()
+000000000000e590 T iterate_mmap_obj(rbtree_node_t*)
+000000000000fd60 T addto_cflush_cntr(unsigned int)
+000000000000e7a0 T init_pntrlst_tree()
+000000000000e530 T iterate_chunk_obj(rbtree_node_t*)
+000000000000aac0 T memcpy_delay_temp(void*, void*, unsigned long)
+000000000000a490 t print_tree_helper(rbtree_node_t*, int)
+000000000000d0e0 T remove_chunk_prot(void*, int*)
+000000000000e450 T create_new_process(unsigned int)
+000000000000ac40 T generate_file_name(char*, int, char*)
+000000000000fdb0 T gt_actual_spinlock(int volatile*)
+000000000000e100 T intialize_proc_obj(unsigned int, proc_obj*)
+000000000000de20 T restore_chunk_objs(mmapobj*, int)
+000000000000ce20 T add_chunk_fault_lst(int)
+000000000000ee70 T add_mmapobj_to_proc(proc_obj*, rqst_struct*, unsigned long, unsigned long)
+000000000000a970 T check_modify_access(int)
+000000000000e840 T insert_mmapobj_node(unsigned long, unsigned long, int, int)
+000000000000d090 T set_chunk_protection(void*, unsigned long, int)
+000000000000ce50 T find_chunk_fault_list(int)
+000000000000db70 T find_vmaid_from_chunk(rbtree_node_t*, unsigned int)
+000000000000dce0 T map_to_get_chunk_list(mmapobj*, rqst_struct*)
+000000000000cf40 T print_chunk_fault_lst()
+000000000000ce80 T find_nxtchunk_faultlst(int)
+000000000000abb0 T print_all_bw_timestamp()
+000000000000adc0 T check_existing_map_file(char*)
+000000000000da20 T initialize_mmapobj_tree(proc_obj*)
+000000000000dbd0 T find_mmapobj_from_chunkid(unsigned int, proc_obj*)
+000000000000cfc0 T set_chunk_protection_ulong(unsigned long, unsigned long, int)
+000000000000cf20 T check_chunk_fault_lst_empty()
+000000000000fe40 T DEBUG(char const*, ...)
+000000000000bf50 T ht_get(hashtable_s*, char*)
+000000000000be30 T ht_set(hashtable_s*, char*, unsigned int)
+000000000000a9c0 T msleep(unsigned long)
+000000000000fe50 T DEBUG_T(char const*, ...)
+000000000000bd90 T ht_hash(hashtable_s*, char*)
+000000000000d3c0 T IntComp(rbtree_node_t*, void*, void*)
+000000000000a6e0 T gen_rand(int, int)
+000000000000a980 T __nsleep(timespec const*, timespec*)
+000000000000d3a0 T CompRange(rbtree_node_t*, void*, void*)
+000000000000eb70 T get_chunk(rqst_struct*)
+000000000000ade0 T hash_find(std::string)
+000000000000bd10 T ht_create(int)
+000000000000e7d0 T nv_munmap(void*, unsigned long)
+000000000000a700 T rand_word(char*, int)
+                 U operator delete(void*)@@GLIBCXX_3.4
+000000000024c634 b init_alloc
+000000000000ed90 t add_mmapobj(mmapobj*, proc_obj*)
+0000000000009fc0 t grandparent(rbtree_node_t*)
+0000000000009b20 t lookup_node(rbtree_t*, void*, int (*)(rbtree_node_t*, void*, void*))
+0000000000009a80 t rotate_left(rbtree_t*, rbtree_node_t*)
+000000000000d6a0 t add_chunkobj(mmapobj*, chunkobj*)
+000000000000d3e0 t add_proc_obj(proc_obj*)
+0000000000009be0 t delete_case2(rbtree_t*, rbtree_node_t*)
+000000000000a040 t insert_case3(rbtree_t*, rbtree_node_t*)
+0000000000009ad0 t rotate_right(rbtree_t*, rbtree_node_t*)
+000000000000d480 t find_proc_obj(int)
+000000000000d780 t create_mmapobj(rqst_struct*, unsigned long, proc_obj*, unsigned long)
+000000000024d308 b pntrlst_tree_init
+000000000000e130 t create_or_load_proc_obj(int)
+0000000000009f40 t uncle(rbtree_node_t*)
+000000000024d560 b pin_map
+0000000000009b70 t sibling(rbtree_node_t*)
+000000000024c630 b alloc_cnt
+000000000000d570 t std::_Hashtable<unsigned long, std::pair<unsigned long const, unsigned long>, std::allocator<std::pair<unsigned long const, unsigned long> >, std::__detail::_Select1st, std::equal_to<unsigned long>, std::hash<unsigned long>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_find_before_node(unsigned long, unsigned long const&, unsigned long) const [clone .isra.53]
+                 U std::ctype<char>::_M_widen_init() const@@GLIBCXX_3.4.11
+                 U std::__detail::_Prime_rehash_policy::_M_next_bkt(unsigned long) const@@GLIBCXX_3.4.18
+                 U std::__detail::_Prime_rehash_policy::_M_need_rehash(unsigned long, unsigned long, unsigned long) const@@GLIBCXX_3.4.18
+                 U std::ostream::put(char)@@GLIBCXX_3.4
+                 U std::ostream::flush()@@GLIBCXX_3.4
+                 U std::ostream& std::ostream::_M_insert<unsigned long>(unsigned long)@@GLIBCXX_3.4.9
+                 U std::string::_Rep::_M_destroy(std::allocator<char> const&)@@GLIBCXX_3.4
+                 U std::string::_Rep::_M_dispose(std::allocator<char> const&)@@GLIBCXX_3.4
+                 U std::string::_Rep::_S_empty_rep_storage@@GLIBCXX_3.4
+                 U std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::string const&)@@GLIBCXX_3.4
+000000000000bbd0 t std::_Hashtable<int, std::pair<int const, unsigned long>, std::allocator<std::pair<int const, unsigned long> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_allocate_buckets(unsigned long) [clone .isra.67]
+000000000000cba0 W std::_Hashtable<int, std::pair<int const, unsigned long>, std::allocator<std::pair<int const, unsigned long> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_insert_unique_node(unsigned long, unsigned long, std::__detail::_Hash_node<std::pair<int const, unsigned long>, false>*)
+000000000000bc70 t std::_Hashtable<int, std::pair<int const, chunkobj*>, std::allocator<std::pair<int const, chunkobj*> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_allocate_buckets(unsigned long) [clone .isra.65]
+000000000000c780 W std::_Hashtable<int, std::pair<int const, chunkobj*>, std::allocator<std::pair<int const, chunkobj*> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_insert_unique_node(unsigned long, unsigned long, std::__detail::_Hash_node<std::pair<int const, chunkobj*>, false>*)
+000000000000d520 t std::_Hashtable<unsigned long, std::pair<unsigned long const, unsigned long>, std::allocator<std::pair<unsigned long const, unsigned long> >, std::__detail::_Select1st, std::equal_to<unsigned long>, std::hash<unsigned long>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_allocate_buckets(unsigned long) [clone .isra.44]
+000000000000bc20 t std::_Hashtable<unsigned long, std::pair<unsigned long const, unsigned long>, std::allocator<std::pair<unsigned long const, unsigned long> >, std::__detail::_Select1st, std::equal_to<unsigned long>, std::hash<unsigned long>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_allocate_buckets(unsigned long) [clone .isra.64]
+000000000000c5d0 W std::_Hashtable<unsigned long, std::pair<unsigned long const, unsigned long>, std::allocator<std::pair<unsigned long const, unsigned long> >, std::__detail::_Select1st, std::equal_to<unsigned long>, std::hash<unsigned long>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_insert_unique_node(unsigned long, unsigned long, std::__detail::_Hash_node<std::pair<unsigned long const, unsigned long>, false>*)
+000000000000bcc0 t std::_Hashtable<void*, std::pair<void* const, chunkobj*>, std::allocator<std::pair<void* const, chunkobj*> >, std::__detail::_Select1st, std::equal_to<void*>, std::hash<void*>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_allocate_buckets(unsigned long) [clone .isra.66]
+000000000000c930 W std::_Hashtable<void*, std::pair<void* const, chunkobj*>, std::allocator<std::pair<void* const, chunkobj*> >, std::__detail::_Select1st, std::equal_to<void*>, std::hash<void*>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_insert_unique_node(unsigned long, unsigned long, std::__detail::_Hash_node<std::pair<void* const, chunkobj*>, false>*)
+000000000000d270 W std::_Deque_base<int, std::allocator<int> >::_M_initialize_map(unsigned long)
+000000000000d200 W std::_Deque_base<int, std::allocator<int> >::~_Deque_base()
+000000000000d200 W std::_Deque_base<int, std::allocator<int> >::~_Deque_base()
+000000000000c520 W std::unordered_map<int, unsigned long, std::hash<int>, std::equal_to<int>, std::allocator<std::pair<int const, unsigned long> > >::~unordered_map()
+000000000000c520 W std::unordered_map<int, unsigned long, std::hash<int>, std::equal_to<int>, std::allocator<std::pair<int const, unsigned long> > >::~unordered_map()
+000000000000c460 W std::unordered_map<int, chunkobj*, std::hash<int>, std::equal_to<int>, std::allocator<std::pair<int const, chunkobj*> > >::~unordered_map()
+000000000000c460 W std::unordered_map<int, chunkobj*, std::hash<int>, std::equal_to<int>, std::allocator<std::pair<int const, chunkobj*> > >::~unordered_map()
+000000000000c400 W std::unordered_map<unsigned long, unsigned long, std::hash<unsigned long>, std::equal_to<unsigned long>, std::allocator<std::pair<unsigned long const, unsigned long> > >::~unordered_map()
+000000000000c400 W std::unordered_map<unsigned long, unsigned long, std::hash<unsigned long>, std::equal_to<unsigned long>, std::allocator<std::pair<unsigned long const, unsigned long> > >::~unordered_map()
+000000000000c4c0 W std::unordered_map<void*, chunkobj*, std::hash<void*>, std::equal_to<void*>, std::allocator<std::pair<void* const, chunkobj*> > >::~unordered_map()
+000000000000c4c0 W std::unordered_map<void*, chunkobj*, std::hash<void*>, std::equal_to<void*>, std::allocator<std::pair<void* const, chunkobj*> > >::~unordered_map()
+000000000000fba0 W std::map<int, int, std::less<int>, std::allocator<std::pair<int const, int> > >::~map()
+000000000000fba0 W std::map<int, int, std::less<int>, std::allocator<std::pair<int const, int> > >::~map()
+000000000000b550 W std::map<int, BWSTAT*, std::less<int>, std::allocator<std::pair<int const, BWSTAT*> > >::~map()
+000000000000b550 W std::map<int, BWSTAT*, std::less<int>, std::allocator<std::pair<int const, BWSTAT*> > >::~map()
+000000000000c5c0 W std::map<void*, unsigned long, std::less<void*>, std::allocator<std::pair<void* const, unsigned long> > >::~map()
+000000000000c5c0 W std::map<void*, unsigned long, std::less<void*>, std::allocator<std::pair<void* const, unsigned long> > >::~map()
+000000000000fbf0 W std::map<void*, chunkobj*, std::less<void*>, std::allocator<std::pair<void* const, chunkobj*> > >::~map()
+000000000000fbf0 W std::map<void*, chunkobj*, std::less<void*>, std::allocator<std::pair<void* const, chunkobj*> > >::~map()
+000000000000b500 W std::map<std::string, int, std::less<std::string>, std::allocator<std::pair<std::string const, int> > >::~map()
+000000000000b500 W std::map<std::string, int, std::less<std::string>, std::allocator<std::pair<std::string const, int> > >::~map()
+000000000000d1d0 W std::list<int, std::allocator<int> >::~list()
+000000000000d1d0 W std::list<int, std::allocator<int> >::~list()
+000000000000d260 W std::queue<int, std::deque<int, std::allocator<int> > >::~queue()
+000000000000d260 W std::queue<int, std::deque<int, std::allocator<int> > >::~queue()
+                 U std::__detail::_List_node_base::_M_hook(std::__detail::_List_node_base*)@@GLIBCXX_3.4.15
+                 U std::__detail::_List_node_base::_M_unhook()@@GLIBCXX_3.4.15
+000000000000cd50 W std::__detail::_Map_base<int, std::pair<int const, unsigned long>, std::allocator<std::pair<int const, unsigned long> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true>, true>::operator[](int const&)
+000000000000fc90 W std::__detail::_Map_base<unsigned long, std::pair<unsigned long const, unsigned long>, std::allocator<std::pair<unsigned long const, unsigned long> >, std::__detail::_Select1st, std::equal_to<unsigned long>, std::hash<unsigned long>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true>, true>::operator[](unsigned long&&)
+000000000000fc00 W std::__detail::_Map_base<unsigned long, std::pair<unsigned long const, unsigned long>, std::allocator<std::pair<unsigned long const, unsigned long> >, std::__detail::_Select1st, std::equal_to<unsigned long>, std::hash<unsigned long>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true>, true>::operator[](unsigned long const&)
+000000000000cae0 W std::__detail::_Map_base<void*, std::pair<void* const, chunkobj*>, std::allocator<std::pair<void* const, chunkobj*> >, std::__detail::_Select1st, std::equal_to<void*>, std::hash<void*>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true>, true>::operator[](void* const&)
+                 U std::ios_base::Init::Init()@@GLIBCXX_3.4
+                 U std::ios_base::Init::~Init()@@GLIBCXX_3.4
+000000000000fb60 W std::_Rb_tree<int, std::pair<int const, int>, std::_Select1st<std::pair<int const, int> >, std::less<int>, std::allocator<std::pair<int const, int> > >::_M_erase(std::_Rb_tree_node<std::pair<int const, int> >*)
+000000000000ba20 W std::_Rb_tree<int, std::pair<int const, BWSTAT*>, std::_Select1st<std::pair<int const, BWSTAT*> >, std::less<int>, std::allocator<std::pair<int const, BWSTAT*> > >::_M_get_insert_unique_pos(int const&)
+000000000000bac0 W std::_Rb_tree<int, std::pair<int const, BWSTAT*>, std::_Select1st<std::pair<int const, BWSTAT*> >, std::less<int>, std::allocator<std::pair<int const, BWSTAT*> > >::_M_get_insert_hint_unique_pos(std::_Rb_tree_const_iterator<std::pair<int const, BWSTAT*> >, int const&)
+000000000000b510 W std::_Rb_tree<int, std::pair<int const, BWSTAT*>, std::_Select1st<std::pair<int const, BWSTAT*> >, std::less<int>, std::allocator<std::pair<int const, BWSTAT*> > >::_M_erase(std::_Rb_tree_node<std::pair<int const, BWSTAT*> >*)
+000000000000c580 W std::_Rb_tree<void*, std::pair<void* const, unsigned long>, std::_Select1st<std::pair<void* const, unsigned long> >, std::less<void*>, std::allocator<std::pair<void* const, unsigned long> > >::_M_erase(std::_Rb_tree_node<std::pair<void* const, unsigned long> >*)
+000000000000fbb0 W std::_Rb_tree<void*, std::pair<void* const, chunkobj*>, std::_Select1st<std::pair<void* const, chunkobj*> >, std::less<void*>, std::allocator<std::pair<void* const, chunkobj*> > >::_M_erase(std::_Rb_tree_node<std::pair<void* const, chunkobj*> >*)
+000000000000b910 W std::_Rb_tree<std::string, std::pair<std::string const, int>, std::_Select1st<std::pair<std::string const, int> >, std::less<std::string>, std::allocator<std::pair<std::string const, int> > >::_M_insert_unique_(std::_Rb_tree_const_iterator<std::pair<std::string const, int> >, std::pair<std::string const, int> const&)
+000000000000b560 W std::_Rb_tree<std::string, std::pair<std::string const, int>, std::_Select1st<std::pair<std::string const, int> >, std::less<std::string>, std::allocator<std::pair<std::string const, int> > >::_M_get_insert_unique_pos(std::string const&)
+000000000000b6b0 W std::_Rb_tree<std::string, std::pair<std::string const, int>, std::_Select1st<std::pair<std::string const, int> >, std::less<std::string>, std::allocator<std::pair<std::string const, int> > >::_M_get_insert_hint_unique_pos(std::_Rb_tree_const_iterator<std::pair<std::string const, int> >, std::string const&)
+000000000000b370 W std::_Rb_tree<std::string, std::pair<std::string const, int>, std::_Select1st<std::pair<std::string const, int> >, std::less<std::string>, std::allocator<std::pair<std::string const, int> > >::find(std::string const&)
+000000000000b460 W std::_Rb_tree<std::string, std::pair<std::string const, int>, std::_Select1st<std::pair<std::string const, int> >, std::less<std::string>, std::allocator<std::pair<std::string const, int> > >::_M_erase(std::_Rb_tree_node<std::pair<std::string const, int> >*)
+                 U std::basic_ios<char, std::char_traits<char> >::clear(std::_Ios_Iostate)@@GLIBCXX_3.4
+                 U operator new(unsigned long)@@GLIBCXX_3.4
+                 U std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@@GLIBCXX_3.4.9
+                 U std::__throw_bad_cast()@@GLIBCXX_3.4
+                 U std::__throw_bad_alloc()@@GLIBCXX_3.4
+                 U std::_Rb_tree_decrement(std::_Rb_tree_node_base*)@@GLIBCXX_3.4
+                 U std::_Rb_tree_increment(std::_Rb_tree_node_base*)@@GLIBCXX_3.4
+                 U std::_Rb_tree_rebalance_for_erase(std::_Rb_tree_node_base*, std::_Rb_tree_node_base&)@@GLIBCXX_3.4
+                 U std::_Rb_tree_insert_and_rebalance(bool, std::_Rb_tree_node_base*, std::_Rb_tree_node_base*, std::_Rb_tree_node_base&)@@GLIBCXX_3.4
+                 U std::cout@@GLIBCXX_3.4
+000000000024d568 b std::__ioinit
+000000000024c430 b std::__ioinit
+000000000024c638 b std::__ioinit
+000000000024c6b0 b std::__ioinit
+000000000024d30c b std::__ioinit
+00000000000081f0 t std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*) [clone .part.1]
+000000000003bea0 r nv_map_read::__PRETTY_FUNCTION__
+000000000003c240 r copy_chunkoj(chunkobj*, chunkobj*)::__PRETTY_FUNCTION__
+000000000003c1c0 r copy_mmapobj(mmapobj*, mmapobj*)::__PRETTY_FUNCTION__
+000000000003bef0 r load_process::__PRETTY_FUNCTION__
+000000000003c2e0 r nv_sync_chunk::__PRETTY_FUNCTION__
+000000000003b6a0 r setup_map_file(char*, unsigned int)::__PRETTY_FUNCTION__
+000000000003c280 r init_chunk_tree(mmapobj*)::__PRETTY_FUNCTION__
+000000000003bed0 r map_nvram_state::__PRETTY_FUNCTION__
+000000000003bfa0 r nv_record_chunk::__PRETTY_FUNCTION__
+000000000003b880 r remove_chunk_prot(void*, int*)::__PRETTY_FUNCTION__
+000000000003c010 r create_new_process(unsigned int)::__PRETTY_FUNCTION__
+000000000003c140 r restore_chunk_objs(mmapobj*, int)::__PRETTY_FUNCTION__
+000000000003c0c0 r add_mmapobj_to_proc(proc_obj*, rqst_struct*, unsigned long, unsigned long)::__PRETTY_FUNCTION__
+000000000003be60 r locate_mmapobj_node::__PRETTY_FUNCTION__
+000000000003b7a0 r get_chunk_from_map_o1::__PRETTY_FUNCTION__
+000000000003c180 r map_to_get_chunk_list(mmapobj*, rqst_struct*)::__PRETTY_FUNCTION__
+000000000003c200 r initialize_mmapobj_tree(proc_obj*)::__PRETTY_FUNCTION__
+000000000003be20 r _mmap::__PRETTY_FUNCTION__
+000000000003be00 r get_chunk(rqst_struct*)::__PRETTY_FUNCTION__
+000000000003bde0 r nv_commit::__PRETTY_FUNCTION__
+000000000003c4e0 r Writeline::__PRETTY_FUNCTION__
+000000000003c040 r add_mmapobj(mmapobj*, proc_obj*)::__PRETTY_FUNCTION__
+000000000003b600 r grandparent(rbtree_node_t*)::__PRETTY_FUNCTION__
+000000000003c100 r add_chunkobj(mmapobj*, chunkobj*)::__PRETTY_FUNCTION__
+000000000003b5c0 r delete_case6(rbtree_t*, rbtree_node_t*)::__PRETTY_FUNCTION__
+000000000003b5e0 r insert_case5(rbtree_t*, rbtree_node_t*)::__PRETTY_FUNCTION__
+000000000003c080 r create_mmapobj(rqst_struct*, unsigned long, proc_obj*, unsigned long)::__PRETTY_FUNCTION__
+000000000003bf60 r create_chunkobj(rqst_struct*, mmapobj*)::__PRETTY_FUNCTION__
+000000000003bf20 r update_chunkobj(rqst_struct*, mmapobj*, chunkobj*)::__PRETTY_FUNCTION__
+000000000003bfe0 r create_or_load_proc_obj(int)::__PRETTY_FUNCTION__
+000000000003b650 r uncle(rbtree_node_t*)::__PRETTY_FUNCTION__
+000000000003b630 r sibling(rbtree_node_t*)::__PRETTY_FUNCTION__
