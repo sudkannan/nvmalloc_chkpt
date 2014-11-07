@@ -1977,91 +1977,6 @@ int nvm_persist(void *addr, size_t len, int flags){
 
 
 
-#if 0
-
-unsigned int spin_init =0, g_fault_count=0;
-struct gt_spinlock_t spinlock_fault;
-
-
-void add_map(void* ptr, size_t size){
-
-	struct sigaction sa;
-
-    memset (&sa, 0, sizeof (sa));
-    sigemptyset(&sa.sa_mask);
-    sa.sa_handler = fault_handler;
-    sa.sa_flags   = SA_SIGINFO;
-    if (sigaction(SIGSEGV, &sa, NULL) == -1)
-        handle_error("sigaction"); 
-
-	if(size < 4096) {
-		return;
-	}
-	size = size - size%4096-1;
-	if (mprotect((void *)ptr,size, PROT_READ)==-1) {
-          exit(-1);   
-    }
-	add_alloc_map(ptr, size);
-}
-static void fault_handler (int sig, siginfo_t *si, void *unused)
-{
-    disable_alloc_prot((void *)si->si_addr);
-}
-
-size_t  disable_alloc_prot(void *addr){
-	size_t size = 0;
-	unsigned long faddr; 
-	unsigned long laddr = 0;
-	unsigned long off = 0;
-	size_t protect_len =0;
-
-	//gt_spin_lock(&spinlock_fault);
-	size = get_alloc_size(addr, &faddr);
-	//assert(faddr);
-	//protect_all_chunks();
-	if(faddr){
- 		 laddr = faddr - ((unsigned long)faddr%4096);
-		 //alloc_prot_map[faddr] = 0;
-		 //fault_stat[faddr]++;
-	}
-    else{
-		 laddr = addr - ((unsigned long)addr%4096);
-		  size = 4095;
-	}
-	if (mprotect((void *)laddr,size, PROT_READ|PROT_WRITE)==-1) {
-           exit(-1);   
-    }
-	//gt_spin_unlock(&spinlock_fault);
-	g_fault_count++;
-
-	 return size;
-}
-
-
-
-
-/*size_t  disable_alloc_prot(void *addr){
-	size_t size = 0;
-	unsigned long faddr; 
-	unsigned long laddr = 0;
-	unsigned long off = 0;
-	size_t protect_len =0;
-
-	 laddr = addr - ((unsigned long)addr%4096);
-     size = 4095;
-
-	 fprintf(stdout,"removing protection \n");
-	 if (mprotect((void *)laddr,size, PROT_READ|PROT_WRITE)==-1) {
-           exit(-1);   
-     }
-	 return size;
-}*/
-
-void  remove_map(void *addr){
-
-}
-#endif
-
 
 #if 1
 
@@ -2070,6 +1985,7 @@ struct gt_spinlock_t spinlock_fault;
 //extern struct gt_spinlock_t spin_lock;
 unsigned long *fault_count;
 
+/*******************FAULT HANDLERS*****************************************/
 
 static void SIGABRT_handle(int sig, siginfo_t *si, void *unused)
 {
@@ -2089,12 +2005,22 @@ static void SIGILL_handle(int sig, siginfo_t *si, void *unused)
 }
 
 
-void add_map(void* ptr, size_t size){
+static void fault_handler (int sig, siginfo_t *si, void *unused)
+{
+    disable_alloc_prot((void *)si->si_addr);
+}
+
+/*************************************************************************/
+
+
+void enable_alloc_prot(void* ptr, size_t size){
 
 	struct sigaction sa, sa1, sa2, sa3;
+
+
+
+#if 0 //Disable this, caller takes care of handling faults
 	std::map <void *, size_t>::iterator itr;
-
-
     memset (&sa, 0, sizeof (sa));
     sigemptyset(&sa.sa_mask);
     sa.sa_handler = fault_handler;
@@ -2123,16 +2049,17 @@ void add_map(void* ptr, size_t size){
     sa3.sa_flags   = SA_SIGINFO;
     if (sigaction(SIGILL, &sa3, NULL) == -1)
         handle_error("sigaction"); */
+#endif
+
 	if(size < 4096) {
 		return;
 	}
 	size = size - size%4096-1;
-	add_alloc_map(ptr, size);
+	//add_alloc_map(ptr, size);
 	if (mprotect((void *)ptr,size, PROT_READ)==-1) {
           exit(-1);   
     }
 	//alloc_prot_map[ptr] = 1;
-
 	/*life_map[ptr]=1;
     for( itr= life_map.begin(); itr!=life_map.end(); ++itr){
    	    void *addr = (void *)(*itr).first;
@@ -2148,14 +2075,35 @@ void add_map(void* ptr, size_t size){
 
 
 
-static void fault_handler (int sig, siginfo_t *si, void *unused)
-{
-    disable_alloc_prot((void *)si->si_addr);
+
+/* function to add protection to all the chunks
+ * allocated with NVM library
+ */
+void protect_all_chunks(){
+
+    std::unordered_map<unsigned long, size_t>::iterator itr;
+
+    for( itr= allocmap.begin(); itr!=allocmap.end(); ++itr){
+   	    void *addr = (void *)(*itr).first;
+		int isfault;
+
+		if(!addr) continue;
+
+		isfault = alloc_prot_map[addr];
+		isfault = 0;
+		if(isfault == 0){
+			if (mprotect((void *)addr,(size_t)(*itr).second,PROT_READ)==-1) {
+   		      //exit(-1);
+			}
+			alloc_prot_map[addr]=1;
+		}
+	}
 }
 
 
-void protect_all_chunks(void *faddr); 
-
+/*Function to disable protection of an address chunk
+ *
+ */
 size_t  disable_alloc_prot(void *addr){
 	size_t size = 0;
 	unsigned long faddr; 
@@ -2174,6 +2122,7 @@ size_t  disable_alloc_prot(void *addr){
 		alloc_prot_map[faddr] = 0;
 	}
 
+
 	//assert(faddr);
 	//if(faddr)alloc_prot_map[faddr]=0;
 	/*if(faddr && size){
@@ -2185,53 +2134,30 @@ size_t  disable_alloc_prot(void *addr){
 		 //fprintf(stdout,"%lu %u\n",faddr, fault_stat[faddr]);
 	}
     else*/{
+    	 /* align to page boundaries */
 		 laddr = addr - ((unsigned long)addr%4096);
 		 size = 4095;
 	}
 
-	//if(g_fault_count % 500 == 0) // && g_fault_count < 50000)
-	//protect_all_chunks();
-
 	if (mprotect((void *)laddr,size, PROT_READ|PROT_WRITE)==-1) {
            //exit(-1);   
     }
+
+	/*keep track of fault count*/
 	g_fault_count++;
 
+	/*debugging purpose, need to be removed*/
 	if(g_fault_count%10000 == 0){
 		fprintf(stderr,"g_fault_count %u %u\n",g_fault_count, allocmap.size());
 		//print_stat();
 	}
+
 	//enable_malloc_hook();
 	gt_spin_unlock(&spinlock_fault);
 	//gt_spin_unlock(&spin_lock);
 	return size;
 }
 
-void protect_all_chunks(){ 
-
-    std::unordered_map<unsigned long, size_t>::iterator itr;
-
-	//disable_malloc_hook();
-    for( itr= allocmap.begin(); itr!=allocmap.end(); ++itr){
-   	    void *addr = (void *)(*itr).first;
-		int isfault; 
-
-		if(!addr) continue;
-
-		isfault = alloc_prot_map[addr];
-		isfault = 0;
-		if(isfault == 0){
-			if (mprotect((void *)addr,(size_t)(*itr).second,PROT_READ)==-1) {
-   		      //exit(-1);   
-			}
-			alloc_prot_map[addr]=1;
-			//fprintf(stdout,"%lu %u\n",addr, fault_stat[addr]);
-			//life_map[addr] = 0;
-		}	
-	}
-	//enable_malloc_hook();
-	//fprintf(stdout,"--------------------\n");
-}
 
 void print_stat() {
 
@@ -2279,181 +2205,4 @@ void  remove_map(void *addr){
 	//enable_malloc_hook();
 }
 
-#endif
-
-#if 0
-unsigned int spin_init =0, g_fault_count=0;
-struct gt_spinlock_t spinlock_fault;
-void add_map(void* ptr, size_t size){
-
-	struct sigaction sa;
-	std::map <void *, size_t>::iterator itr;
-
-	/*if(!spin_init){
-		gt_spinlock_init(&spinlock_fault);
-		spin_init =1;
-	}*/
-
-    /* Install segv_handler as the handler for SIGSEGV. */
-    memset (&sa, 0, sizeof (sa));
-    sigemptyset(&sa.sa_mask);
-    sa.sa_handler = fault_handler;
-    sa.sa_flags   = SA_SIGINFO;
-    if (sigaction(SIGSEGV, &sa, NULL) == -1)
-        handle_error("sigaction"); 
-
-#if 0
-	if(size < 4096) {
-		/*fprintf(stdout,"size %u \n", size);
-		size = PAGESIZE-1;
-		add_alloc_map(ptr, size);
-		alloc_prot_map[ptr] = 1;
-	    life_map[ptr]=1;
-	   	//set_chunk_protection(ptr, size, PROT_READ);
-		if (mprotect((void *)ptr,size, PROT_READ)==-1) {
-        	exit(-1);
-		}*/
-		return;
-	}
-#endif
-
-	size = size - size%PAGESIZE -1;
-	add_alloc_map(ptr, size);
-	alloc_prot_map[ptr] = 1;
-	life_map[ptr]=1;
-
-    /*for( itr= life_map.begin(); itr!=life_map.end(); ++itr){
-   	    void *addr = (void *)(*itr).first;
-		int lifecount = life_map[addr];
-		if(lifecount > 2) {
-			alloc_prot_map.erase(addr);
-			allocmap.erase(addr);
-			life_map.erase(addr);
-		}	
-	}*/
-
-	if (mprotect((void *)ptr,size, PROT_READ)==-1) {
-        exit(-1);   
-    }
-   	//set_chunk_protection(ptr, size, PROT_READ);
-}
-
-static void fault_handler (int sig, siginfo_t *si, void *unused)
-{
-	fprintf(stdout,"in fault handler \n");
-	gt_spin_lock(&spinlock_fault);
-    disable_alloc_prot((void *)si->si_addr);
-    gt_spin_unlock(&spinlock_fault);
-	fprintf(stdout,"after fault handler \n");
-}
-
-int firsttime = 1;
-
-void protect_all_chunks(void *faddr){ 
-
-    std::map <void *, size_t>::iterator itr;
-	struct sigaction sa;
-	size_t mapsize=0;
-
-	/*if(firsttime == 110002334){
-		return;
-	}
-	firsttime++;*/
-    /* Install segv_handler as the handler for SIGSEGV. */
-    memset (&sa, 0, sizeof (sa));
-    sigemptyset(&sa.sa_mask);
-    sa.sa_handler = fault_handler;
-    sa.sa_flags   = SA_SIGINFO;
-    if (sigaction(SIGSEGV, &sa, NULL) == -1)
-        handle_error("sigaction"); 
-
-
-	mapsize = allocmap.size();
-	//if(mapsize) {
-	    for( itr= allocmap.begin(); itr!=allocmap.end(); ++itr){
-    	    void *addr = (void *)(*itr).first;
-			int isfault = alloc_prot_map[addr];
-			if(isfault == 0 && (addr != faddr)){
-				if (mprotect((void *)addr,(size_t)(*itr).second,PROT_READ)==-1) {
-    	    	  exit(-1);   
-			    }
-				alloc_prot_map[addr]=1;
-			}
-			life_map[addr]++;
-			/*int lifecount = life_map[addr];
-			if(lifecount > 2 && isfault) {
-       			//fprintf(stderr,"life count %u %u \n", lifecount, g_fault_count);
-				//alloc_prot_map.erase(addr);
-				allocmap.erase(addr);
-				//life_map.erase(addr);
-			}*/	
-			//}
-	    }
-	//}
-	fprintf(stdout,"mapsize exiting %u\n", mapsize);
-}
-
-size_t  disable_alloc_prot(void *addr){
-	size_t size = 0;
-	unsigned long faddr; 
-	unsigned long laddr = 0;
-	unsigned long off = 0;
-	size_t protect_len =0;
-
-	size = get_alloc_size(addr, &faddr);
-	 //set_chunk_protection((ULONG)faddr,size,PROT_READ|PROT_WRITE);
-	 if(faddr && size ){
- 		 laddr = faddr - ((unsigned long)faddr%4096);
-		 alloc_prot_map[faddr] = 0;
-		 fault_stat[faddr]++;
-	 }
-     else {
-		 laddr = addr - ((unsigned long)addr%4096);
-		 size = 4095;
-		 fault_stat[faddr]++;
-	}
-	 if (mprotect((void *)laddr,size, PROT_READ|PROT_WRITE)==-1) {
-           exit(-1);   
-     }
-	// protect_all_chunks(faddr);
-
-	g_fault_count++;
-	if(g_fault_count%10000 == 0){
-		fprintf(stderr,"g_fault_count %u \n",g_fault_count);
-		print_stat();
-	}
-
-	 return size;
-}
-
-void  remove_map(void *addr){
-	size_t size = 0;
-	unsigned long faddr; 
-
-	return 0;
-	size = get_alloc_size(addr, &faddr);
-	 //if(faddr && alloc_prot_map.find(faddr) != alloc_prot_map.end() &&  allocmap.find(faddr) != allocmap.end()){
-	 if(faddr && allocmap.find(faddr) != allocmap.end()){
-		 //fprintf(stdout,"removing element \n");
-		 allocmap.erase(faddr);
-		 alloc_prot_map.erase(faddr);	
-	 }
-
-
-}
-
-void print_stat() {
-
-    std::map <void *, size_t>::iterator itr;
-	unsigned int count = 0;
-	
-	size_t size = fault_stat.size();
-
-    for( itr= fault_stat.begin(); itr!=fault_stat.end(); ++itr){
-        size_t fcount = (size_t)(*itr).second;
-		if(fcount > 1)
-        fprintf(stderr,"chunk %u, fault_count %zu, size %zu\n",count, fcount, size);
-		count++;
-    }
-}
 #endif

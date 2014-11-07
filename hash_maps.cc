@@ -23,6 +23,11 @@
 
 using namespace std;
 
+/* Global variable descriptions.
+ * There are several unused variables
+ * that need to be removed
+ */
+
 std::unordered_map <int, size_t> proc_vmas;
 std::unordered_map <int, size_t> metadata_vmas;
 std::unordered_map<int, size_t>::iterator vma_itr;
@@ -33,8 +38,13 @@ std::unordered_map<int, chunkobj_s *> id_chunk_map;
 std::unordered_map <unsigned long, size_t> allocmap;
 std::unordered_map <unsigned long, size_t> alloc_prot_map;
 std::map <void *, size_t> life_map;
-//std::map <void *, size_t> fault_stat;
+
+
+unsigned long *allocmap_long;
+unsigned long *allocmap_sz;
 std::unordered_map <unsigned long, size_t>::iterator alloc_itr;
+//std::map <void *, size_t> fault_stat;
+//hashtable_t *hashtable = NULL;
 
 #define MAX_ENTRIES 100*1024*1024
 unsigned int *allocmap_arr=NULL;
@@ -49,153 +59,6 @@ UINT vmasize_cache[CACHE_ENTRIES];
 UINT next_vma_entry;
 #endif
 
-struct entry_s {
-	char *key;
-	unsigned int value;
-	struct entry_s *next;
-};
- 
-typedef struct entry_s entry_t;
- 
-struct hashtable_s {
-	int size;
-	struct entry_s **table;	
-};
- 
-typedef struct hashtable_s hashtable_t;
-unsigned long *hash_cache = NULL;
- 
- 
-/* Create a new hashtable. */
-hashtable_t *ht_create( int size ) {
- 
-	hashtable_t *hashtable = NULL;
-	int i;
- 
-	if( size < 1 ) return NULL;
- 
-	/* Allocate the table itself. */
-	if( ( hashtable = malloc( sizeof( hashtable_t ) ) ) == NULL ) {
-		return NULL;
-	}
- 
-	/* Allocate pointers to the head nodes. */
-	if( ( hashtable->table = malloc( sizeof( entry_t * ) * size ) ) == NULL ) {
-		return NULL;
-	}
-	for( i = 0; i < size; i++ ) {
-		hashtable->table[i] = NULL;
-	}
- 
-	hashtable->size = size;
- 
-	return hashtable;	
-}
- 
-/* Hash a string for a particular hash table. */
-int ht_hash( hashtable_t *hashtable, char *key ) {
- 
-	unsigned long int hashval;
-	int i = 0;
- 
-	/* Convert our string to an integer */
-	while( hashval < ULONG_MAX && i < strlen( key ) ) {
-		hashval = hashval << 8;
-		hashval += key[ i ];
-		i++;
-	}
- 
-	return hashval % hashtable->size;
-}
- 
-/* Create a key-value pair. */
-entry_t *ht_newpair( char *key, unsigned int value ) {
-	entry_t *newpair;
- 
-	if( ( newpair = malloc( sizeof( entry_t ) ) ) == NULL ) {
-		return NULL;
-	}
-	if( ( newpair->key = strdup( key ) ) == NULL ) {
-		return NULL;
-	}
-
-	newpair->value = value;
-	newpair->next = NULL;
-	return newpair;
-}
- 
-/* Insert a key-value pair into a hash table. */
-void ht_set( hashtable_t *hashtable, char *key, unsigned int value ) {
-	int bin = 0;
-	entry_t *newpair = NULL;
-	entry_t *next = NULL;
-	entry_t *last = NULL;
- 
-	bin = ht_hash( hashtable, key );
-	next = hashtable->table[ bin ];
-	hash_cache[alloc_cnt] = bin;
- 
-#if 1
-	while( next != NULL && next->key != NULL && strcmp( key, next->key ) > 0 ) {
-		last = next;
-		next = next->next;
-	}
- 
-	/* There's already a pair.  Let's replace that string. */
-	if( next != NULL && next->key != NULL && strcmp( key, next->key ) == 0 ) {
- 
-		//free( next->value );
-		//next->value = strdup( value );
- 		next->value = value;
-
-	/* Nope, could't find it.  Time to grow a pair. */
-	} else {
-		newpair = ht_newpair( key, value );
- 
-		/* We're at the start of the linked list in this bin. */
-		if( next == hashtable->table[ bin ] ) {
-			newpair->next = next;
-			hashtable->table[ bin ] = newpair;
-	
-		/* We're at the end of the linked list in this bin. */
-		} else if ( next == NULL ) {
-			last->next = newpair;
-	
-		/* We're in the middle of the list. */
-		} else  {
-			newpair->next = next;
-			last->next = newpair;
-		}
-	}
-#endif
-}
- 
-/* Retrieve a key-value pair from a hash table. */
-unsigned int ht_get( hashtable_t *hashtable, char *key ) {
-	int bin = 0;
-	entry_t *pair;
- 
-	bin = ht_hash( hashtable, key );
- 
-	/* Step through the bin, looking for our value. */
-	pair = hashtable->table[ bin ];
-	while( pair != NULL && pair->key != NULL && strcmp( key, pair->key ) > 0 ) {
-		pair = pair->next;
-	}
- 
-	/* Did we actually find anything? */
-	if( pair == NULL || pair->key == NULL || strcmp( key, pair->key ) != 0 ) {
-		return NULL;
- 
-	} else {
-		return pair->value;
-	}
-	
-}
-
-hashtable_t *hashtable = NULL;
-unsigned long *allocmap_long; 
-unsigned long *allocmap_sz; 
 
 
 void add_alloc_map(void* ptr, size_t size){
@@ -203,15 +66,7 @@ void add_alloc_map(void* ptr, size_t size){
 	unsigned long addr = (unsigned long)ptr;
 	allocmap[addr] = size;
 
-	/*std::stringstream strstream;
-	std::string str;
-	strstream << addr;
-	char *key = strstream.str().c_str();
-	//fprintf(stdout,"ptr %lu\n",(unsigned long)addr);*/
-
 	if(!init_alloc){
-	    //hashtable = ht_create(MAX_ENTRIES);
-		//hash_cache = (unsigned long *)malloc(sizeof(unsigned long) * MAX_ENTRIES);
 		allocmap_long = (unsigned long *)malloc(sizeof(unsigned long) * MAX_ENTRIES);
 		allocmap_sz = (unsigned long *)malloc(sizeof(unsigned long) * MAX_ENTRIES);
 		init_alloc = 1;
@@ -219,14 +74,13 @@ void add_alloc_map(void* ptr, size_t size){
 	allocmap_long[alloc_cnt]= addr;
 	allocmap_sz[alloc_cnt]= size;
 	alloc_cnt++;
-
-	//fprintf(stdout,"%s \n",key);
-	/*ht_set( hashtable, key, size );
-   	 alloc_cnt++;*/
-	//alloc_prot_map[ptr] = 0;
 }
 
-#if 1
+/* Given an addrress, this function returns which chunk
+ * the address belongs to, and what is its size
+ *  ptr - is the address, and faddr - chunk starting address
+ */
+
 size_t get_alloc_size(void *ptr, unsigned long *faddr){
 
 	int idx = 0;
@@ -260,7 +114,7 @@ size_t get_alloc_size(void *ptr, unsigned long *faddr){
 	}
 	return 0;	
 }
-#endif
+
 
 
 
@@ -448,3 +302,151 @@ size_t get_vma_size(int vmaid){
 }
 
 
+/*****************C HASH TABLE IMPLEMENTATION******************************************/
+
+#if 0
+struct entry_s {
+	char *key;
+	unsigned int value;
+	struct entry_s *next;
+};
+
+typedef struct entry_s entry_t;
+
+struct hashtable_s {
+	int size;
+	struct entry_s **table;
+};
+
+typedef struct hashtable_s hashtable_t;
+unsigned long *hash_cache = NULL;
+
+
+/* Create a new hashtable. */
+hashtable_t *ht_create( int size ) {
+
+	hashtable_t *hashtable = NULL;
+	int i;
+
+	if( size < 1 ) return NULL;
+
+	/* Allocate the table itself. */
+	if( ( hashtable = malloc( sizeof( hashtable_t ) ) ) == NULL ) {
+		return NULL;
+	}
+
+	/* Allocate pointers to the head nodes. */
+	if( ( hashtable->table = malloc( sizeof( entry_t * ) * size ) ) == NULL ) {
+		return NULL;
+	}
+	for( i = 0; i < size; i++ ) {
+		hashtable->table[i] = NULL;
+	}
+
+	hashtable->size = size;
+
+	return hashtable;
+}
+
+/* Hash a string for a particular hash table. */
+int ht_hash( hashtable_t *hashtable, char *key ) {
+
+	unsigned long int hashval;
+	int i = 0;
+
+	/* Convert our string to an integer */
+	while( hashval < ULONG_MAX && i < strlen( key ) ) {
+		hashval = hashval << 8;
+		hashval += key[ i ];
+		i++;
+	}
+
+	return hashval % hashtable->size;
+}
+
+/* Create a key-value pair. */
+entry_t *ht_newpair( char *key, unsigned int value ) {
+	entry_t *newpair;
+
+	if( ( newpair = malloc( sizeof( entry_t ) ) ) == NULL ) {
+		return NULL;
+	}
+	if( ( newpair->key = strdup( key ) ) == NULL ) {
+		return NULL;
+	}
+
+	newpair->value = value;
+	newpair->next = NULL;
+	return newpair;
+}
+
+/* Insert a key-value pair into a hash table. */
+void ht_set( hashtable_t *hashtable, char *key, unsigned int value ) {
+	int bin = 0;
+	entry_t *newpair = NULL;
+	entry_t *next = NULL;
+	entry_t *last = NULL;
+
+	bin = ht_hash( hashtable, key );
+	next = hashtable->table[ bin ];
+	hash_cache[alloc_cnt] = bin;
+
+#if 1
+	while( next != NULL && next->key != NULL && strcmp( key, next->key ) > 0 ) {
+		last = next;
+		next = next->next;
+	}
+
+	/* There's already a pair.  Let's replace that string. */
+	if( next != NULL && next->key != NULL && strcmp( key, next->key ) == 0 ) {
+
+		//free( next->value );
+		//next->value = strdup( value );
+ 		next->value = value;
+
+	/* Nope, could't find it.  Time to grow a pair. */
+	} else {
+		newpair = ht_newpair( key, value );
+
+		/* We're at the start of the linked list in this bin. */
+		if( next == hashtable->table[ bin ] ) {
+			newpair->next = next;
+			hashtable->table[ bin ] = newpair;
+
+		/* We're at the end of the linked list in this bin. */
+		} else if ( next == NULL ) {
+			last->next = newpair;
+
+		/* We're in the middle of the list. */
+		} else  {
+			newpair->next = next;
+			last->next = newpair;
+		}
+	}
+#endif
+}
+
+/* Retrieve a key-value pair from a hash table. */
+unsigned int ht_get( hashtable_t *hashtable, char *key ) {
+	int bin = 0;
+	entry_t *pair;
+
+	bin = ht_hash( hashtable, key );
+
+	/* Step through the bin, looking for our value. */
+	pair = hashtable->table[ bin ];
+	while( pair != NULL && pair->key != NULL && strcmp( key, pair->key ) > 0 ) {
+		pair = pair->next;
+	}
+
+	/* Did we actually find anything? */
+	if( pair == NULL || pair->key == NULL || strcmp( key, pair->key ) != 0 ) {
+		return NULL;
+
+	} else {
+		return pair->value;
+	}
+
+}
+#endif
+/*********************************************************************************/

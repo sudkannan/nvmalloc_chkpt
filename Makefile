@@ -1,4 +1,5 @@
 LOGGING=/usr/lib64/logging
+NVMALLOC_HOME=/home/stewart/checkpoint/nvmalloc_chkpt
 INCLUDE=$(NVMALLOC_HOME)
 src_path=$(NVMALLOC_HOME)
 LIB_PATH := $(NVMALLOC_HOME)
