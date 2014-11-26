@@ -1,0 +1,2304 @@
+m4trace:/usr/share/aclocal-1.11/amversion.m4:14: -1- AC_DEFUN([AM_AUTOMAKE_VERSION], [am__api_version='1.11'
+dnl Some users find AM_AUTOMAKE_VERSION and mistake it for a way to
+dnl require some minimum version.  Point them to the right macro.
+m4_if([$1], [1.11.1], [],
+      [AC_FATAL([Do not call $0, use AM_INIT_AUTOMAKE([$1]).])])dnl
+])
+m4trace:/usr/share/aclocal-1.11/amversion.m4:33: -1- AC_DEFUN([AM_SET_CURRENT_AUTOMAKE_VERSION], [AM_AUTOMAKE_VERSION([1.11.1])dnl
+m4_ifndef([AC_AUTOCONF_VERSION],
+  [m4_copy([m4_PACKAGE_VERSION], [AC_AUTOCONF_VERSION])])dnl
+_AM_AUTOCONF_VERSION(m4_defn([AC_AUTOCONF_VERSION]))])
+m4trace:/usr/share/aclocal-1.11/auxdir.m4:47: -1- AC_DEFUN([AM_AUX_DIR_EXPAND], [dnl Rely on autoconf to set up CDPATH properly.
+AC_PREREQ([2.50])dnl
+# expand $ac_aux_dir to an absolute path
+am_aux_dir=`cd $ac_aux_dir && pwd`
+])
+m4trace:/usr/share/aclocal-1.11/cond.m4:15: -1- AC_DEFUN([AM_CONDITIONAL], [AC_PREREQ(2.52)dnl
+ ifelse([$1], [TRUE],  [AC_FATAL([$0: invalid condition: $1])],
+	[$1], [FALSE], [AC_FATAL([$0: invalid condition: $1])])dnl
+AC_SUBST([$1_TRUE])dnl
+AC_SUBST([$1_FALSE])dnl
+_AM_SUBST_NOTMAKE([$1_TRUE])dnl
+_AM_SUBST_NOTMAKE([$1_FALSE])dnl
+m4_define([_AM_COND_VALUE_$1], [$2])dnl
+if $2; then
+  $1_TRUE=
+  $1_FALSE='#'
+else
+  $1_TRUE='#'
+  $1_FALSE=
+fi
+AC_CONFIG_COMMANDS_PRE(
+[if test -z "${$1_TRUE}" && test -z "${$1_FALSE}"; then
+  AC_MSG_ERROR([[conditional "$1" was never defined.
+Usually this means the macro was only invoked conditionally.]])
+fi])])
+m4trace:/usr/share/aclocal-1.11/depend.m4:28: -1- AC_DEFUN([_AM_DEPENDENCIES], [AC_REQUIRE([AM_SET_DEPDIR])dnl
+AC_REQUIRE([AM_OUTPUT_DEPENDENCY_COMMANDS])dnl
+AC_REQUIRE([AM_MAKE_INCLUDE])dnl
+AC_REQUIRE([AM_DEP_TRACK])dnl
+
+ifelse([$1], CC,   [depcc="$CC"   am_compiler_list=],
+       [$1], CXX,  [depcc="$CXX"  am_compiler_list=],
+       [$1], OBJC, [depcc="$OBJC" am_compiler_list='gcc3 gcc'],
+       [$1], UPC,  [depcc="$UPC"  am_compiler_list=],
+       [$1], GCJ,  [depcc="$GCJ"  am_compiler_list='gcc3 gcc'],
+                   [depcc="$$1"   am_compiler_list=])
+
+AC_CACHE_CHECK([dependency style of $depcc],
+               [am_cv_$1_dependencies_compiler_type],
+[if test -z "$AMDEP_TRUE" && test -f "$am_depcomp"; then
+  # We make a subdir and do the tests there.  Otherwise we can end up
+  # making bogus files that we don't know about and never remove.  For
+  # instance it was reported that on HP-UX the gcc test will end up
+  # making a dummy file named `D' -- because `-MD' means `put the output
+  # in D'.
+  mkdir conftest.dir
+  # Copy depcomp to subdir because otherwise we won't find it if we're
+  # using a relative directory.
+  cp "$am_depcomp" conftest.dir
+  cd conftest.dir
+  # We will build objects and dependencies in a subdirectory because
+  # it helps to detect inapplicable dependency modes.  For instance
+  # both Tru64's cc and ICC support -MD to output dependencies as a
+  # side effect of compilation, but ICC will put the dependencies in
+  # the current directory while Tru64 will put them in the object
+  # directory.
+  mkdir sub
+
+  am_cv_$1_dependencies_compiler_type=none
+  if test "$am_compiler_list" = ""; then
+     am_compiler_list=`sed -n ['s/^#*\([a-zA-Z0-9]*\))$/\1/p'] < ./depcomp`
+  fi
+  am__universal=false
+  m4_case([$1], [CC],
+    [case " $depcc " in #(
+     *\ -arch\ *\ -arch\ *) am__universal=true ;;
+     esac],
+    [CXX],
+    [case " $depcc " in #(
+     *\ -arch\ *\ -arch\ *) am__universal=true ;;
+     esac])
+
+  for depmode in $am_compiler_list; do
+    # Setup a source with many dependencies, because some compilers
+    # like to wrap large dependency lists on column 80 (with \), and
+    # we should not choose a depcomp mode which is confused by this.
+    #
+    # We need to recreate these files for each test, as the compiler may
+    # overwrite some of them when testing with obscure command lines.
+    # This happens at least with the AIX C compiler.
+    : > sub/conftest.c
+    for i in 1 2 3 4 5 6; do
+      echo '#include "conftst'$i'.h"' >> sub/conftest.c
+      # Using `: > sub/conftst$i.h' creates only sub/conftst1.h with
+      # Solaris 8's {/usr,}/bin/sh.
+      touch sub/conftst$i.h
+    done
+    echo "${am__include} ${am__quote}sub/conftest.Po${am__quote}" > confmf
+
+    # We check with `-c' and `-o' for the sake of the "dashmstdout"
+    # mode.  It turns out that the SunPro C++ compiler does not properly
+    # handle `-M -o', and we need to detect this.  Also, some Intel
+    # versions had trouble with output in subdirs
+    am__obj=sub/conftest.${OBJEXT-o}
+    am__minus_obj="-o $am__obj"
+    case $depmode in
+    gcc)
+      # This depmode causes a compiler race in universal mode.
+      test "$am__universal" = false || continue
+      ;;
+    nosideeffect)
+      # after this tag, mechanisms are not by side-effect, so they'll
+      # only be used when explicitly requested
+      if test "x$enable_dependency_tracking" = xyes; then
+	continue
+      else
+	break
+      fi
+      ;;
+    msvisualcpp | msvcmsys)
+      # This compiler won't grok `-c -o', but also, the minuso test has
+      # not run yet.  These depmodes are late enough in the game, and
+      # so weak that their functioning should not be impacted.
+      am__obj=conftest.${OBJEXT-o}
+      am__minus_obj=
+      ;;
+    none) break ;;
+    esac
+    if depmode=$depmode \
+       source=sub/conftest.c object=$am__obj \
+       depfile=sub/conftest.Po tmpdepfile=sub/conftest.TPo \
+       $SHELL ./depcomp $depcc -c $am__minus_obj sub/conftest.c \
+         >/dev/null 2>conftest.err &&
+       grep sub/conftst1.h sub/conftest.Po > /dev/null 2>&1 &&
+       grep sub/conftst6.h sub/conftest.Po > /dev/null 2>&1 &&
+       grep $am__obj sub/conftest.Po > /dev/null 2>&1 &&
+       ${MAKE-make} -s -f confmf > /dev/null 2>&1; then
+      # icc doesn't choke on unknown options, it will just issue warnings
+      # or remarks (even with -Werror).  So we grep stderr for any message
+      # that says an option was ignored or not supported.
+      # When given -MP, icc 7.0 and 7.1 complain thusly:
+      #   icc: Command line warning: ignoring option '-M'; no argument required
+      # The diagnosis changed in icc 8.0:
+      #   icc: Command line remark: option '-MP' not supported
+      if (grep 'ignoring option' conftest.err ||
+          grep 'not supported' conftest.err) >/dev/null 2>&1; then :; else
+        am_cv_$1_dependencies_compiler_type=$depmode
+        break
+      fi
+    fi
+  done
+
+  cd ..
+  rm -rf conftest.dir
+else
+  am_cv_$1_dependencies_compiler_type=none
+fi
+])
+AC_SUBST([$1DEPMODE], [depmode=$am_cv_$1_dependencies_compiler_type])
+AM_CONDITIONAL([am__fastdep$1], [
+  test "x$enable_dependency_tracking" != xno \
+  && test "$am_cv_$1_dependencies_compiler_type" = gcc3])
+])
+m4trace:/usr/share/aclocal-1.11/depend.m4:163: -1- AC_DEFUN([AM_SET_DEPDIR], [AC_REQUIRE([AM_SET_LEADING_DOT])dnl
+AC_SUBST([DEPDIR], ["${am__leading_dot}deps"])dnl
+])
+m4trace:/usr/share/aclocal-1.11/depend.m4:171: -1- AC_DEFUN([AM_DEP_TRACK], [AC_ARG_ENABLE(dependency-tracking,
+[  --disable-dependency-tracking  speeds up one-time build
+  --enable-dependency-tracking   do not reject slow dependency extractors])
+if test "x$enable_dependency_tracking" != xno; then
+  am_depcomp="$ac_aux_dir/depcomp"
+  AMDEPBACKSLASH='\'
+fi
+AM_CONDITIONAL([AMDEP], [test "x$enable_dependency_tracking" != xno])
+AC_SUBST([AMDEPBACKSLASH])dnl
+_AM_SUBST_NOTMAKE([AMDEPBACKSLASH])dnl
+])
+m4trace:/usr/share/aclocal-1.11/depout.m4:14: -1- AC_DEFUN([_AM_OUTPUT_DEPENDENCY_COMMANDS], [{
+  # Autoconf 2.62 quotes --file arguments for eval, but not when files
+  # are listed without --file.  Let's play safe and only enable the eval
+  # if we detect the quoting.
+  case $CONFIG_FILES in
+  *\'*) eval set x "$CONFIG_FILES" ;;
+  *)   set x $CONFIG_FILES ;;
+  esac
+  shift
+  for mf
+  do
+    # Strip MF so we end up with the name of the file.
+    mf=`echo "$mf" | sed -e 's/:.*$//'`
+    # Check whether this is an Automake generated Makefile or not.
+    # We used to match only the files named `Makefile.in', but
+    # some people rename them; so instead we look at the file content.
+    # Grep'ing the first line is not enough: some people post-process
+    # each Makefile.in and add a new line on top of each file to say so.
+    # Grep'ing the whole file is not good either: AIX grep has a line
+    # limit of 2048, but all sed's we know have understand at least 4000.
+    if sed -n 's,^#.*generated by automake.*,X,p' "$mf" | grep X >/dev/null 2>&1; then
+      dirpart=`AS_DIRNAME("$mf")`
+    else
+      continue
+    fi
+    # Extract the definition of DEPDIR, am__include, and am__quote
+    # from the Makefile without running `make'.
+    DEPDIR=`sed -n 's/^DEPDIR = //p' < "$mf"`
+    test -z "$DEPDIR" && continue
+    am__include=`sed -n 's/^am__include = //p' < "$mf"`
+    test -z "am__include" && continue
+    am__quote=`sed -n 's/^am__quote = //p' < "$mf"`
+    # When using ansi2knr, U may be empty or an underscore; expand it
+    U=`sed -n 's/^U = //p' < "$mf"`
+    # Find all dependency output files, they are included files with
+    # $(DEPDIR) in their names.  We invoke sed twice because it is the
+    # simplest approach to changing $(DEPDIR) to its actual value in the
+    # expansion.
+    for file in `sed -n "
+      s/^$am__include $am__quote\(.*(DEPDIR).*\)$am__quote"'$/\1/p' <"$mf" | \
+	 sed -e 's/\$(DEPDIR)/'"$DEPDIR"'/g' -e 's/\$U/'"$U"'/g'`; do
+      # Make sure the directory exists.
+      test -f "$dirpart/$file" && continue
+      fdir=`AS_DIRNAME(["$file"])`
+      AS_MKDIR_P([$dirpart/$fdir])
+      # echo "creating $dirpart/$file"
+      echo '# dummy' > "$dirpart/$file"
+    done
+  done
+}
+])
+m4trace:/usr/share/aclocal-1.11/depout.m4:75: -1- AC_DEFUN([AM_OUTPUT_DEPENDENCY_COMMANDS], [AC_CONFIG_COMMANDS([depfiles],
+     [test x"$AMDEP_TRUE" != x"" || _AM_OUTPUT_DEPENDENCY_COMMANDS],
+     [AMDEP_TRUE="$AMDEP_TRUE" ac_aux_dir="$ac_aux_dir"])
+])
+m4trace:/usr/share/aclocal-1.11/init.m4:26: -1- AC_DEFUN([AM_INIT_AUTOMAKE], [AC_PREREQ([2.62])dnl
+dnl Autoconf wants to disallow AM_ names.  We explicitly allow
+dnl the ones we care about.
+m4_pattern_allow([^AM_[A-Z]+FLAGS$])dnl
+AC_REQUIRE([AM_SET_CURRENT_AUTOMAKE_VERSION])dnl
+AC_REQUIRE([AC_PROG_INSTALL])dnl
+if test "`cd $srcdir && pwd`" != "`pwd`"; then
+  # Use -I$(srcdir) only when $(srcdir) != ., so that make's output
+  # is not polluted with repeated "-I."
+  AC_SUBST([am__isrc], [' -I$(srcdir)'])_AM_SUBST_NOTMAKE([am__isrc])dnl
+  # test to see if srcdir already configured
+  if test -f $srcdir/config.status; then
+    AC_MSG_ERROR([source directory already configured; run "make distclean" there first])
+  fi
+fi
+
+# test whether we have cygpath
+if test -z "$CYGPATH_W"; then
+  if (cygpath --version) >/dev/null 2>/dev/null; then
+    CYGPATH_W='cygpath -w'
+  else
+    CYGPATH_W=echo
+  fi
+fi
+AC_SUBST([CYGPATH_W])
+
+# Define the identity of the package.
+dnl Distinguish between old-style and new-style calls.
+m4_ifval([$2],
+[m4_ifval([$3], [_AM_SET_OPTION([no-define])])dnl
+ AC_SUBST([PACKAGE], [$1])dnl
+ AC_SUBST([VERSION], [$2])],
+[_AM_SET_OPTIONS([$1])dnl
+dnl Diagnose old-style AC_INIT with new-style AM_AUTOMAKE_INIT.
+m4_if(m4_ifdef([AC_PACKAGE_NAME], 1)m4_ifdef([AC_PACKAGE_VERSION], 1), 11,,
+  [m4_fatal([AC_INIT should be called with package and version arguments])])dnl
+ AC_SUBST([PACKAGE], ['AC_PACKAGE_TARNAME'])dnl
+ AC_SUBST([VERSION], ['AC_PACKAGE_VERSION'])])dnl
+
+_AM_IF_OPTION([no-define],,
+[AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE", [Name of package])
+ AC_DEFINE_UNQUOTED(VERSION, "$VERSION", [Version number of package])])dnl
+
+# Some tools Automake needs.
+AC_REQUIRE([AM_SANITY_CHECK])dnl
+AC_REQUIRE([AC_ARG_PROGRAM])dnl
+AM_MISSING_PROG(ACLOCAL, aclocal-${am__api_version})
+AM_MISSING_PROG(AUTOCONF, autoconf)
+AM_MISSING_PROG(AUTOMAKE, automake-${am__api_version})
+AM_MISSING_PROG(AUTOHEADER, autoheader)
+AM_MISSING_PROG(MAKEINFO, makeinfo)
+AC_REQUIRE([AM_PROG_INSTALL_SH])dnl
+AC_REQUIRE([AM_PROG_INSTALL_STRIP])dnl
+AC_REQUIRE([AM_PROG_MKDIR_P])dnl
+# We need awk for the "check" target.  The system "awk" is bad on
+# some platforms.
+AC_REQUIRE([AC_PROG_AWK])dnl
+AC_REQUIRE([AC_PROG_MAKE_SET])dnl
+AC_REQUIRE([AM_SET_LEADING_DOT])dnl
+_AM_IF_OPTION([tar-ustar], [_AM_PROG_TAR([ustar])],
+	      [_AM_IF_OPTION([tar-pax], [_AM_PROG_TAR([pax])],
+			     [_AM_PROG_TAR([v7])])])
+_AM_IF_OPTION([no-dependencies],,
+[AC_PROVIDE_IFELSE([AC_PROG_CC],
+		  [_AM_DEPENDENCIES(CC)],
+		  [define([AC_PROG_CC],
+			  defn([AC_PROG_CC])[_AM_DEPENDENCIES(CC)])])dnl
+AC_PROVIDE_IFELSE([AC_PROG_CXX],
+		  [_AM_DEPENDENCIES(CXX)],
+		  [define([AC_PROG_CXX],
+			  defn([AC_PROG_CXX])[_AM_DEPENDENCIES(CXX)])])dnl
+AC_PROVIDE_IFELSE([AC_PROG_OBJC],
+		  [_AM_DEPENDENCIES(OBJC)],
+		  [define([AC_PROG_OBJC],
+			  defn([AC_PROG_OBJC])[_AM_DEPENDENCIES(OBJC)])])dnl
+])
+_AM_IF_OPTION([silent-rules], [AC_REQUIRE([AM_SILENT_RULES])])dnl
+dnl The `parallel-tests' driver may need to know about EXEEXT, so add the
+dnl `am__EXEEXT' conditional if _AM_COMPILER_EXEEXT was seen.  This macro
+dnl is hooked onto _AC_COMPILER_EXEEXT early, see below.
+AC_CONFIG_COMMANDS_PRE(dnl
+[m4_provide_if([_AM_COMPILER_EXEEXT],
+  [AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])])])dnl
+])
+m4trace:/usr/share/aclocal-1.11/init.m4:126: -1- AC_DEFUN([_AC_AM_CONFIG_HEADER_HOOK], [# Compute $1's index in $config_headers.
+_am_arg=$1
+_am_stamp_count=1
+for _am_header in $config_headers :; do
+  case $_am_header in
+    $_am_arg | $_am_arg:* )
+      break ;;
+    * )
+      _am_stamp_count=`expr $_am_stamp_count + 1` ;;
+  esac
+done
+echo "timestamp for $_am_arg" >`AS_DIRNAME(["$_am_arg"])`/stamp-h[]$_am_stamp_count])
+m4trace:/usr/share/aclocal-1.11/install-sh.m4:11: -1- AC_DEFUN([AM_PROG_INSTALL_SH], [AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
+if test x"${install_sh}" != xset; then
+  case $am_aux_dir in
+  *\ * | *\	*)
+    install_sh="\${SHELL} '$am_aux_dir/install-sh'" ;;
+  *)
+    install_sh="\${SHELL} $am_aux_dir/install-sh"
+  esac
+fi
+AC_SUBST(install_sh)])
+m4trace:/usr/share/aclocal-1.11/lead-dot.m4:12: -1- AC_DEFUN([AM_SET_LEADING_DOT], [rm -rf .tst 2>/dev/null
+mkdir .tst 2>/dev/null
+if test -d .tst; then
+  am__leading_dot=.
+else
+  am__leading_dot=_
+fi
+rmdir .tst 2>/dev/null
+AC_SUBST([am__leading_dot])])
+m4trace:/usr/share/aclocal-1.11/make.m4:14: -1- AC_DEFUN([AM_MAKE_INCLUDE], [am_make=${MAKE-make}
+cat > confinc << 'END'
+am__doit:
+	@echo this is the am__doit target
+.PHONY: am__doit
+END
+# If we don't find an include directive, just comment out the code.
+AC_MSG_CHECKING([for style of include used by $am_make])
+am__include="#"
+am__quote=
+_am_result=none
+# First try GNU make style include.
+echo "include confinc" > confmf
+# Ignore all kinds of additional output from `make'.
+case `$am_make -s -f confmf 2> /dev/null` in #(
+*the\ am__doit\ target*)
+  am__include=include
+  am__quote=
+  _am_result=GNU
+  ;;
+esac
+# Now try BSD make style include.
+if test "$am__include" = "#"; then
+   echo '.include "confinc"' > confmf
+   case `$am_make -s -f confmf 2> /dev/null` in #(
+   *the\ am__doit\ target*)
+     am__include=.include
+     am__quote="\""
+     _am_result=BSD
+     ;;
+   esac
+fi
+AC_SUBST([am__include])
+AC_SUBST([am__quote])
+AC_MSG_RESULT([$_am_result])
+rm -f confinc confmf
+])
+m4trace:/usr/share/aclocal-1.11/missing.m4:14: -1- AC_DEFUN([AM_MISSING_PROG], [AC_REQUIRE([AM_MISSING_HAS_RUN])
+$1=${$1-"${am_missing_run}$2"}
+AC_SUBST($1)])
+m4trace:/usr/share/aclocal-1.11/missing.m4:24: -1- AC_DEFUN([AM_MISSING_HAS_RUN], [AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
+AC_REQUIRE_AUX_FILE([missing])dnl
+if test x"${MISSING+set}" != xset; then
+  case $am_aux_dir in
+  *\ * | *\	*)
+    MISSING="\${SHELL} \"$am_aux_dir/missing\"" ;;
+  *)
+    MISSING="\${SHELL} $am_aux_dir/missing" ;;
+  esac
+fi
+# Use eval to expand $SHELL
+if eval "$MISSING --run true"; then
+  am_missing_run="$MISSING --run "
+else
+  am_missing_run=
+  AC_MSG_WARN([`missing' script is too old or missing])
+fi
+])
+m4trace:/usr/share/aclocal-1.11/mkdirp.m4:11: -1- AC_DEFUN([AM_PROG_MKDIR_P], [AC_PREREQ([2.60])dnl
+AC_REQUIRE([AC_PROG_MKDIR_P])dnl
+dnl Automake 1.8 to 1.9.6 used to define mkdir_p.  We now use MKDIR_P,
+dnl while keeping a definition of mkdir_p for backward compatibility.
+dnl @MKDIR_P@ is magic: AC_OUTPUT adjusts its value for each Makefile.
+dnl However we cannot define mkdir_p as $(MKDIR_P) for the sake of
+dnl Makefile.ins that do not define MKDIR_P, so we do our own
+dnl adjustment using top_builddir (which is defined more often than
+dnl MKDIR_P).
+AC_SUBST([mkdir_p], ["$MKDIR_P"])dnl
+case $mkdir_p in
+  [[\\/$]]* | ?:[[\\/]]*) ;;
+  */*) mkdir_p="\$(top_builddir)/$mkdir_p" ;;
+esac
+])
+m4trace:/usr/share/aclocal-1.11/options.m4:13: -1- AC_DEFUN([_AM_MANGLE_OPTION], [[_AM_OPTION_]m4_bpatsubst($1, [[^a-zA-Z0-9_]], [_])])
+m4trace:/usr/share/aclocal-1.11/options.m4:19: -1- AC_DEFUN([_AM_SET_OPTION], [m4_define(_AM_MANGLE_OPTION([$1]), 1)])
+m4trace:/usr/share/aclocal-1.11/options.m4:25: -1- AC_DEFUN([_AM_SET_OPTIONS], [m4_foreach_w([_AM_Option], [$1], [_AM_SET_OPTION(_AM_Option)])])
+m4trace:/usr/share/aclocal-1.11/options.m4:31: -1- AC_DEFUN([_AM_IF_OPTION], [m4_ifset(_AM_MANGLE_OPTION([$1]), [$2], [$3])])
+m4trace:/usr/share/aclocal-1.11/runlog.m4:12: -1- AC_DEFUN([AM_RUN_LOG], [{ echo "$as_me:$LINENO: $1" >&AS_MESSAGE_LOG_FD
+   ($1) >&AS_MESSAGE_LOG_FD 2>&AS_MESSAGE_LOG_FD
+   ac_status=$?
+   echo "$as_me:$LINENO: \$? = $ac_status" >&AS_MESSAGE_LOG_FD
+   (exit $ac_status); }])
+m4trace:/usr/share/aclocal-1.11/sanity.m4:14: -1- AC_DEFUN([AM_SANITY_CHECK], [AC_MSG_CHECKING([whether build environment is sane])
+# Just in case
+sleep 1
+echo timestamp > conftest.file
+# Reject unsafe characters in $srcdir or the absolute working directory
+# name.  Accept space and tab only in the latter.
+am_lf='
+'
+case `pwd` in
+  *[[\\\"\#\$\&\'\`$am_lf]]*)
+    AC_MSG_ERROR([unsafe absolute working directory name]);;
+esac
+case $srcdir in
+  *[[\\\"\#\$\&\'\`$am_lf\ \	]]*)
+    AC_MSG_ERROR([unsafe srcdir value: `$srcdir']);;
+esac
+
+# Do `set' in a subshell so we don't clobber the current shell's
+# arguments.  Must try -L first in case configure is actually a
+# symlink; some systems play weird games with the mod time of symlinks
+# (eg FreeBSD returns the mod time of the symlink's containing
+# directory).
+if (
+   set X `ls -Lt "$srcdir/configure" conftest.file 2> /dev/null`
+   if test "$[*]" = "X"; then
+      # -L didn't work.
+      set X `ls -t "$srcdir/configure" conftest.file`
+   fi
+   rm -f conftest.file
+   if test "$[*]" != "X $srcdir/configure conftest.file" \
+      && test "$[*]" != "X conftest.file $srcdir/configure"; then
+
+      # If neither matched, then we have a broken ls.  This can happen
+      # if, for instance, CONFIG_SHELL is bash and it inherits a
+      # broken ls alias from the environment.  This has actually
+      # happened.  Such a system could not be considered "sane".
+      AC_MSG_ERROR([ls -t appears to fail.  Make sure there is not a broken
+alias in your environment])
+   fi
+
+   test "$[2]" = conftest.file
+   )
+then
+   # Ok.
+   :
+else
+   AC_MSG_ERROR([newly created file is older than distributed files!
+Check your system clock])
+fi
+AC_MSG_RESULT(yes)])
+m4trace:/usr/share/aclocal-1.11/silent.m4:14: -1- AC_DEFUN([AM_SILENT_RULES], [AC_ARG_ENABLE([silent-rules],
+[  --enable-silent-rules          less verbose build output (undo: `make V=1')
+  --disable-silent-rules         verbose build output (undo: `make V=0')])
+case $enable_silent_rules in
+yes) AM_DEFAULT_VERBOSITY=0;;
+no)  AM_DEFAULT_VERBOSITY=1;;
+*)   AM_DEFAULT_VERBOSITY=m4_if([$1], [yes], [0], [1]);;
+esac
+AC_SUBST([AM_DEFAULT_VERBOSITY])dnl
+AM_BACKSLASH='\'
+AC_SUBST([AM_BACKSLASH])dnl
+_AM_SUBST_NOTMAKE([AM_BACKSLASH])dnl
+])
+m4trace:/usr/share/aclocal-1.11/strip.m4:17: -1- AC_DEFUN([AM_PROG_INSTALL_STRIP], [AC_REQUIRE([AM_PROG_INSTALL_SH])dnl
+# Installed binaries are usually stripped using `strip' when the user
+# run `make install-strip'.  However `strip' might not be the right
+# tool to use in cross-compilation environments, therefore Automake
+# will honor the `STRIP' environment variable to overrule this program.
+dnl Don't test for $cross_compiling = yes, because it might be `maybe'.
+if test "$cross_compiling" != no; then
+  AC_CHECK_TOOL([STRIP], [strip], :)
+fi
+INSTALL_STRIP_PROGRAM="\$(install_sh) -c -s"
+AC_SUBST([INSTALL_STRIP_PROGRAM])])
+m4trace:/usr/share/aclocal-1.11/substnot.m4:14: -1- AC_DEFUN([_AM_SUBST_NOTMAKE])
+m4trace:/usr/share/aclocal-1.11/substnot.m4:19: -1- AC_DEFUN([AM_SUBST_NOTMAKE], [_AM_SUBST_NOTMAKE($@)])
+m4trace:/usr/share/aclocal-1.11/tar.m4:24: -1- AC_DEFUN([_AM_PROG_TAR], [# Always define AMTAR for backward compatibility.
+AM_MISSING_PROG([AMTAR], [tar])
+m4_if([$1], [v7],
+     [am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'],
+     [m4_case([$1], [ustar],, [pax],,
+              [m4_fatal([Unknown tar format])])
+AC_MSG_CHECKING([how to create a $1 tar archive])
+# Loop over all known methods to create a tar archive until one works.
+_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) pax cpio none'
+_am_tools=${am_cv_prog_tar_$1-$_am_tools}
+# Do not fold the above two line into one, because Tru64 sh and
+# Solaris sh will not grok spaces in the rhs of `-'.
+for _am_tool in $_am_tools
+do
+  case $_am_tool in
+  gnutar)
+    for _am_tar in tar gnutar gtar;
+    do
+      AM_RUN_LOG([$_am_tar --version]) && break
+    done
+    am__tar="$_am_tar --format=m4_if([$1], [pax], [posix], [$1]) -chf - "'"$$tardir"'
+    am__tar_="$_am_tar --format=m4_if([$1], [pax], [posix], [$1]) -chf - "'"$tardir"'
+    am__untar="$_am_tar -xf -"
+    ;;
+  plaintar)
+    # Must skip GNU tar: if it does not support --format= it doesn't create
+    # ustar tarball either.
+    (tar --version) >/dev/null 2>&1 && continue
+    am__tar='tar chf - "$$tardir"'
+    am__tar_='tar chf - "$tardir"'
+    am__untar='tar xf -'
+    ;;
+  pax)
+    am__tar='pax -L -x $1 -w "$$tardir"'
+    am__tar_='pax -L -x $1 -w "$tardir"'
+    am__untar='pax -r'
+    ;;
+  cpio)
+    am__tar='find "$$tardir" -print | cpio -o -H $1 -L'
+    am__tar_='find "$tardir" -print | cpio -o -H $1 -L'
+    am__untar='cpio -i -H $1 -d'
+    ;;
+  none)
+    am__tar=false
+    am__tar_=false
+    am__untar=false
+    ;;
+  esac
+
+  # If the value was cached, stop now.  We just wanted to have am__tar
+  # and am__untar set.
+  test -n "${am_cv_prog_tar_$1}" && break
+
+  # tar/untar a dummy directory, and stop if the command works
+  rm -rf conftest.dir
+  mkdir conftest.dir
+  echo GrepMe > conftest.dir/file
+  AM_RUN_LOG([tardir=conftest.dir && eval $am__tar_ >conftest.tar])
+  rm -rf conftest.dir
+  if test -s conftest.tar; then
+    AM_RUN_LOG([$am__untar <conftest.tar])
+    grep GrepMe conftest.dir/file >/dev/null 2>&1 && break
+  fi
+done
+rm -rf conftest.dir
+
+AC_CACHE_VAL([am_cv_prog_tar_$1], [am_cv_prog_tar_$1=$_am_tool])
+AC_MSG_RESULT([$am_cv_prog_tar_$1])])
+AC_SUBST([am__tar])
+AC_SUBST([am__untar])
+])
+m4trace:m4/aclocal_cc.m4:2: -1- AC_DEFUN([AC_PROG_CC_GNU], [])
+m4trace:m4/aclocal_cc.m4:5: -1- AC_DEFUN([PAC_PROG_CC], [
+	PAC_PUSH_FLAG([CFLAGS])
+	AC_PROG_CC([gcc icc pgcc xlc xlC pathcc cc])
+	PAC_POP_FLAG([CFLAGS])
+])
+m4trace:m4/aclocal_cc.m4:38: -1- AC_DEFUN([PAC_C_CHECK_COMPILER_OPTION], [
+AC_MSG_CHECKING([whether C compiler accepts option $1])
+pccco_save_CFLAGS="$CFLAGS"
+CFLAGS="$1 $CFLAGS"
+rm -f conftest.out
+pac_success=no
+# conftest3.c has an invalid prototype to ensure we generate warnings
+echo 'int main(){}' > conftest3.c
+echo 'int foo(void);int foo(void){return 0;}' > conftest2.c
+echo 'int main(void);int main(void){return 0;}' > conftest.c
+if ${CC-cc} $CFLAGS $CPPFLAGS -o conftest conftest3.c $LDFLAGS >/dev/null 2>&1 &&
+   ${CC-cc} $pccco_save_CFLAGS $CPPFLAGS -o conftest conftest.c $LDFLAGS >conftest.bas 2>&1 ; then
+   if ${CC-cc} $CFLAGS $CPPFLAGS -o conftest conftest.c $LDFLAGS >conftest.out 2>&1 ; then
+      if diff -b conftest.out conftest.bas >/dev/null 2>&1 ; then
+         AC_MSG_RESULT(yes)
+         AC_MSG_CHECKING([whether routines compiled with $1 can be linked with ones compiled without $1])       
+         rm -f conftest.out
+         rm -f conftest.bas
+         if ${CC-cc} -c $pccco_save_CFLAGS $CPPFLAGS conftest2.c >conftest2.out 2>&1 ; then
+            if ${CC-cc} $CFLAGS $CPPFLAGS -o conftest conftest2.o conftest.c $LDFLAGS >conftest.bas 2>&1 ; then
+               if ${CC-cc} $CFLAGS $CPPFLAGS -o conftest conftest2.o conftest.c $LDFLAGS >conftest.out 2>&1 ; then
+                  if diff -b conftest.out conftest.bas >/dev/null 2>&1 ; then
+		     pac_success=yes
+                  else
+		     :
+                  fi  
+               else
+                  :
+               fi
+	    else
+               # Could not link with the option!
+	       :
+            fi
+         else
+            if test -s conftest2.out ; then
+               cat conftest2.out >&AC_FD_CC
+            fi
+         fi
+      else
+         :
+      fi
+   else
+       :
+   fi
+else
+    # Could not compile without the option!
+    :
+fi
+CFLAGS="$pccco_save_CFLAGS"
+if test "$pac_success" = yes ; then
+   AC_MSG_RESULT(yes)	  
+   ifelse($2,,COPTIONS="$COPTIONS $1",$2)
+else
+   AC_MSG_RESULT(no)
+   if test -s conftest.out ; then cat conftest.out >&AC_FD_CC ; fi    
+   $3
+fi
+# This is needed for Mac OSX 10.5
+rm -rf conftest.dSYM
+rm -f conftest*
+])
+m4trace:m4/aclocal_cc.m4:116: -1- AC_DEFUN([PAC_C_OPTIMIZATION], [
+    for copt in "-O4 -Ofast" "-Ofast" "-fast" "-O3" "-xO3" "-O" ; do
+        PAC_C_CHECK_COMPILER_OPTION($copt,found_opt=yes,found_opt=no)
+        if test "$found_opt" = "yes" ; then
+	    ifelse($1,,COPTIONS="$COPTIONS $copt",$1)
+	    break
+        fi
+    done
+    if test "$ac_cv_prog_gcc" = "yes" ; then
+	for copt in "-fomit-frame-pointer" "-finline-functions" \
+		 "-funroll-loops" ; do
+	    PAC_C_CHECK_COMPILER_OPTION($copt,found_opt=yes,found_opt=no)
+	    if test "$found_opt" = "yes" ; then
+	        ifelse($1,,COPTIONS="$COPTIONS $copt",$1)
+	        # no break because we're trying to add them all
+	    fi
+	done
+	# We could also look for architecture-specific gcc options
+    fi
+
+])
+m4trace:m4/aclocal_cc.m4:149: -1- AC_DEFUN([PAC_PROG_C_UNALIGNED_DOUBLES], [
+AC_CACHE_CHECK([whether C compiler allows unaligned doubles],
+pac_cv_prog_c_unaligned_doubles,[
+AC_TRY_RUN([
+void fetch_double( v )
+double *v;
+{
+*v = 1.0;
+}
+int main( argc, argv )
+int argc;
+char **argv;
+{
+int p[4];
+double *p_val;
+fetch_double( (double *)&(p[0]) );
+p_val = (double *)&(p[0]);
+if (*p_val != 1.0) return 1;
+fetch_double( (double *)&(p[1]) );
+p_val = (double *)&(p[1]);
+if (*p_val != 1.0) return 1;
+return 0;
+}
+],pac_cv_prog_c_unaligned_doubles="yes",pac_cv_prog_c_unaligned_doubles="no",
+pac_cv_prog_c_unaligned_doubles="unknown")])
+ifelse($1,,,if test "X$pac_cv_prog_c_unaligned_doubles" = "yes" ; then 
+$1
+fi)
+ifelse($2,,,if test "X$pac_cv_prog_c_unaligned_doubles" = "no" ; then 
+$2
+fi)
+ifelse($3,,,if test "X$pac_cv_prog_c_unaligned_doubles" = "unknown" ; then 
+$3
+fi)
+])
+m4trace:m4/aclocal_cc.m4:209: -1- AC_DEFUN([PAC_PROG_C_WEAK_SYMBOLS], [
+pragma_extra_message=""
+AC_CACHE_CHECK([for type of weak symbol alias support],
+pac_cv_prog_c_weak_symbols,[
+# Test for weak symbol support...
+# We can't put # in the message because it causes autoconf to generate
+# incorrect code
+AC_TRY_LINK([
+extern int PFoo(int);
+#pragma weak PFoo = Foo
+int Foo(int a) { return a; }
+],[return PFoo(1);],has_pragma_weak=yes)
+#
+# Some systems (Linux ia64 and ecc, for example), support weak symbols
+# only within a single object file!  This tests that case.
+# Note that there is an extern int PFoo declaration before the
+# pragma.  Some compilers require this in order to make the weak symbol
+# extenally visible.  
+if test "$has_pragma_weak" = yes ; then
+    # This is needed for Mac OSX 10.5
+    rm -rf conftest.dSYM
+    rm -f conftest*
+    cat >>conftest1.c <<EOF
+extern int PFoo(int);
+#pragma weak PFoo = Foo
+int Foo(int);
+int Foo(int a) { return a; }
+EOF
+    cat >>conftest2.c <<EOF
+extern int PFoo(int);
+int main(int argc, char **argv) {
+return PFoo(0);}
+EOF
+    ac_link2='${CC-cc} -o conftest $CFLAGS $CPPFLAGS $LDFLAGS conftest1.c conftest2.c $LIBS >conftest.out 2>&1'
+    if eval $ac_link2 ; then
+        # The gcc 3.4.x compiler accepts the pragma weak, but does not
+        # correctly implement it on systems where the loader doesn't 
+        # support weak symbols (e.g., cygwin).  This is a bug in gcc, but it
+        # it is one that *we* have to detect.
+	# This is needed for Mac OSX 10.5
+	rm -rf conftest.dSYM
+        rm -f conftest*
+        cat >>conftest1.c <<EOF
+extern int PFoo(int);
+#pragma weak PFoo = Foo
+int Foo(int);
+int Foo(int a) { return a; }
+EOF
+    cat >>conftest2.c <<EOF
+extern int Foo(int);
+int PFoo(int a) { return a+1;}
+int main(int argc, char **argv) {
+return Foo(0);}
+EOF
+        if eval $ac_link2 ; then
+            pac_cv_prog_c_weak_symbols="pragma weak"
+        else 
+            echo "$ac_link2" >> config.log
+	    echo "Failed program was" >> config.log
+            cat conftest1.c >>config.log
+            cat conftest2.c >>config.log
+            if test -s conftest.out ; then cat conftest.out >> config.log ; fi
+            has_pragma_weak=0
+            pragma_extra_message="pragma weak accepted but does not work (probably creates two non-weak entries)"
+        fi
+    else
+      echo "$ac_link2" >>config.log
+      echo "Failed program was" >>config.log
+      cat conftest1.c >>config.log
+      cat conftest2.c >>config.log
+      if test -s conftest.out ; then cat conftest.out >> config.log ; fi
+      has_pragma_weak=0
+      pragma_extra_message="pragma weak does not work outside of a file"
+    fi
+    # This is needed for Mac OSX 10.5
+    rm -rf conftest.dSYM
+    rm -f conftest*
+fi
+dnl
+if test -z "$pac_cv_prog_c_weak_symbols" ; then 
+    AC_TRY_LINK([
+extern int PFoo(int);
+#pragma _HP_SECONDARY_DEF Foo  PFoo
+int Foo(int a) { return a; }
+],[return PFoo(1);],pac_cv_prog_c_weak_symbols="pragma _HP_SECONDARY_DEF")
+fi
+dnl
+if test -z "$pac_cv_prog_c_weak_symbols" ; then
+    AC_TRY_LINK([
+extern int PFoo(int);
+#pragma _CRI duplicate PFoo as Foo
+int Foo(int a) { return a; }
+],[return PFoo(1);],pac_cv_prog_c_weak_symbols="pragma _CRI duplicate x as y")
+fi
+dnl
+if test -z "$pac_cv_prog_c_weak_symbols" ; then
+    pac_cv_prog_c_weak_symbols="no"
+fi
+dnl
+dnl If there is an extra explanatory message, echo it now so that it
+dnl doesn't interfere with the cache result value
+if test -n "$pragma_extra_message" ; then
+    echo $pragma_extra_message
+fi
+dnl
+])
+if test "$pac_cv_prog_c_weak_symbols" = "no" ; then
+    ifelse([$2],,:,[$2])
+else
+    case "$pac_cv_prog_c_weak_symbols" in
+	"pragma weak") AC_DEFINE(HAVE_PRAGMA_WEAK,1,[Supports weak pragma]) 
+	;;
+	"pragma _HP")  AC_DEFINE(HAVE_PRAGMA_HP_SEC_DEF,1,[HP style weak pragma])
+	;;
+	"pragma _CRI") AC_DEFINE(HAVE_PRAGMA_CRI_DUP,1,[Cray style weak pragma])
+	;;
+    esac
+    ifelse([$1],,:,[$1])
+fi
+AC_CACHE_CHECK([whether __attribute__ ((weak)) allowed],
+pac_cv_attr_weak,[
+AC_TRY_COMPILE([int foo(int) __attribute__ ((weak));],[int a;],
+pac_cv_attr_weak=yes,pac_cv_attr_weak=no)])
+# Note that being able to compile with weak_import doesn't mean that 
+# it works.
+AC_CACHE_CHECK([whether __attribute__ ((weak_import)) allowed],
+pac_cv_attr_weak_import,[
+AC_TRY_COMPILE([int foo(int) __attribute__ ((weak_import));],[int a;],
+pac_cv_attr_weak_import=yes,pac_cv_attr_weak_import=no)])
+# Check if the alias option for weak attributes is allowed 
+AC_CACHE_CHECK([whether __attribute__((weak,alias(...))) allowed],
+pac_cv_attr_weak_alias,[
+AC_TRY_COMPILE([int foo(int) __attribute__((weak,alias("__foo")));],[int a;],
+pac_cv_attr_weak_alias=yes,pac_cv_attr_weak_alias=no)])
+])
+m4trace:m4/aclocal_cc.m4:352: -1- AC_DEFUN([AC_PROG_CC_WORKS], [])
+m4trace:m4/aclocal_cc.m4:354: -1- AC_DEFUN([PAC_PROG_CC_WORKS], [AC_PROG_CC_WORKS
+AC_MSG_CHECKING([whether the C compiler sets its return status correctly])
+AC_LANG_SAVE
+AC_LANG_C
+AC_TRY_COMPILE(,[int a = bzzzt;],notbroken=no,notbroken=yes)
+AC_MSG_RESULT($notbroken)
+if test "$notbroken" = "no" ; then
+    AC_MSG_ERROR([installation or configuration problem: C compiler does not
+correctly set error code when a fatal error occurs])
+fi
+])
+m4trace:m4/aclocal_cc.m4:376: -1- AC_DEFUN([PAC_PROG_C_MULTIPLE_WEAK_SYMBOLS], [
+AC_CACHE_CHECK([for multiple weak symbol support],
+pac_cv_prog_c_multiple_weak_symbols,[
+# Test for multiple weak symbol support...
+#
+# This is needed for Mac OSX 10.5
+rm -rf conftest.dSYM
+rm -f conftest*
+cat >>conftest1.c <<EOF
+extern int PFoo(int);
+extern int PFoo_(int);
+extern int pfoo_(int);
+#pragma weak PFoo = Foo
+#pragma weak PFoo_ = Foo
+#pragma weak pfoo_ = Foo
+int Foo(int);
+int Foo(a) { return a; }
+EOF
+cat >>conftest2.c <<EOF
+extern int PFoo(int), PFoo_(int), pfoo_(int);
+int main() {
+return PFoo(0) + PFoo_(1) + pfoo_(2);}
+EOF
+ac_link2='${CC-cc} -o conftest $CFLAGS $CPPFLAGS $LDFLAGS conftest1.c conftest2.c $LIBS >conftest.out 2>&1'
+if eval $ac_link2 ; then
+    pac_cv_prog_c_multiple_weak_symbols="yes"
+else
+    echo "$ac_link2" >>config.log
+    echo "Failed program was" >>config.log
+    cat conftest1.c >>config.log
+    cat conftest2.c >>config.log
+    if test -s conftest.out ; then cat conftest.out >> config.log ; fi
+fi
+# This is needed for Mac OSX 10.5
+rm -rf conftest.dSYM
+rm -f conftest*
+dnl
+])
+if test "$pac_cv_prog_c_multiple_weak_symbols" = "yes" ; then
+    ifelse([$1],,:,[$1])
+else
+    ifelse([$2],,:,[$2])
+fi
+])
+m4trace:m4/aclocal_cc.m4:431: -1- AC_DEFUN([PAC_CC_STRICT], [
+export enable_strict_done
+if test "$enable_strict_done" != "yes" ; then
+
+    # Some comments on strict warning options.
+    # These were added to reduce warnings:
+    #   -Wno-missing-field-initializers  -- We want to allow a struct to be 
+    #       initialized to zero using "struct x y = {0};" and not require 
+    #       each field to be initialized individually.
+    #   -Wno-unused-parameter -- For portability, some parameters go unused
+    #	    when we have different implementations of functions for 
+    #	    different platforms
+    #   -Wno-unused-label -- We add fn_exit: and fn_fail: on all functions, 
+    #	    but fn_fail may not be used if the function doesn't return an 
+    #	    error.
+    #   -Wno-sign-compare -- read() and write() return bytes read/written
+    #       as a signed value, but we often compare this to size_t (or
+    #	    msg_sz_t) variables.
+    #   -Wno-format-zero-length -- this warning is irritating and useless, since
+    #                              a zero-length format string is very well defined
+    #   -Wno-type-limits -- There are places where we compare an unsigned to 
+    #	    a constant that happens to be zero e.g., if x is unsigned and 
+    #	    MIN_VAL is zero, we'd like to do "MPIU_Assert(x >= MIN_VAL);".
+    #       Note this option is not supported by gcc 4.2.  This needs to be added 
+    #	    after most other warning flags, so that we catch a gcc bug on 32-bit 
+    #	    that doesn't give a warning that this is unsupported, unless another
+    #	    warning is triggered, and then if gives an error.
+    # These were removed to reduce warnings:
+    #   -Wcast-qual -- Sometimes we need to cast "volatile char*" to 
+    #	    "char*", e.g., for memcpy.
+    #   -Wpadded -- We catch struct padding with asserts when we need to
+    #   -Wredundant-decls -- Having redundant declarations is benign and the 
+    #	    code already has some.
+    #   -Waggregate-return -- This seems to be a performance-related warning
+    #       aggregate return values are legal in ANSI C, but they may be returned
+    #	    in memory rather than through a register.  We do use aggregate return
+    #	    values, but they are structs of a single basic type (used to enforce
+    #	    type checking for relative vs. absolute ptrs), and with optimization
+    #	    the aggregate value is converted to a scalar.
+    # the embedded newlines in this string are safe because we evaluate each
+    # argument in the for-loop below and append them to the CFLAGS with a space
+    # as the separator instead
+    pac_common_strict_flags="
+        -Wall
+        -Wextra
+        -Wno-missing-field-initializers
+        -Wstrict-prototypes
+        -Wmissing-prototypes
+        -DGCC_WALL
+        -Wno-unused-parameter
+        -Wno-unused-label
+        -Wshadow
+        -Wmissing-declarations
+        -Wno-long-long
+        -Wfloat-equal
+        -Wdeclaration-after-statement
+        -Wundef
+        -Wno-endif-labels
+        -Wpointer-arith
+        -Wbad-function-cast
+        -Wcast-align
+        -Wwrite-strings
+        -Wno-sign-compare
+        -Wold-style-definition
+        -Wno-multichar
+        -Wno-deprecated-declarations
+        -Wpacked
+        -Wnested-externs
+        -Winvalid-pch
+        -Wno-pointer-sign
+        -Wvariadic-macros
+        -Wno-format-zero-length
+	-Wno-type-limits
+    "
+
+    enable_c89=yes
+    enable_c99=no
+    enable_posix=yes
+    enable_opt=yes
+    flags="`echo $1 | sed -e 's/:/ /g' -e 's/,/ /g'`"
+    for flag in ${flags}; do
+        case "$flag" in
+	     c89)
+		enable_strict_done="yes"
+		enable_c89=yes
+		;;
+	     c99)
+		enable_strict_done="yes"
+		enable_c99=yes
+		;;
+	     posix)
+		enable_strict_done="yes"
+		enable_posix=yes
+		;;
+	     noposix)
+		enable_strict_done="yes"
+		enable_posix=no
+		;;
+	     opt)
+		enable_strict_done="yes"
+		enable_opt=yes
+		;;
+	     noopt)
+		enable_strict_done="yes"
+		enable_opt=no
+		;;
+	     all|yes)
+		enable_strict_done="yes"
+		enable_c89=yes
+		enable_posix=yes
+		enable_opt=yes
+	        ;;
+	     no)
+		# Accept and ignore this value
+		:
+		;;
+	     *)
+		if test -n "$flag" ; then
+		   AC_MSG_WARN([Unrecognized value for enable-strict:$flag])
+		fi
+		;;
+	esac
+    done
+
+    pac_cc_strict_flags=""
+    if test "${enable_strict_done}" = "yes" ; then
+       if test "${enable_opt}" = "yes" ; then
+       	  pac_cc_strict_flags="-O2"
+       fi
+       pac_cc_strict_flags="$pac_cc_strict_flags $pac_common_strict_flags"
+       if test "${enable_posix}" = "yes" ; then
+       	  PAC_APPEND_FLAG([-D_POSIX_C_SOURCE=199506L],[pac_cc_strict_flags])
+       fi
+       # We only allow one of strict-C99 or strict-C89 to be
+       # enabled. If C99 is enabled, we automatically disable C89.
+       if test "${enable_c99}" = "yes" ; then
+       	  PAC_APPEND_FLAG([-std=c99],[pac_cc_strict_flags])
+       elif test "${enable_c89}" = "yes" ; then
+       	  PAC_APPEND_FLAG([-std=c89],[pac_cc_strict_flags])
+       fi
+    fi
+
+    # See if the above options work with the compiler
+    accepted_flags=""
+    for flag in $pac_cc_strict_flags ; do
+        PAC_PUSH_FLAG([CFLAGS])
+	CFLAGS="$CFLAGS $accepted_flags"
+        PAC_C_CHECK_COMPILER_OPTION([$flag],[accepted_flags="$accepted_flags $flag"],)
+        PAC_POP_FLAG([CFLAGS])
+    done
+    pac_cc_strict_flags=$accepted_flags
+fi
+])
+m4trace:m4/aclocal_cc.m4:595: -1- AC_DEFUN([PAC_ARG_STRICT], [
+AC_ARG_ENABLE(strict,
+	AC_HELP_STRING([--enable-strict], [Turn on strict compilation testing]))
+PAC_CC_STRICT($enable_strict)
+CFLAGS="$CFLAGS $pac_cc_strict_flags"
+export CFLAGS
+])
+m4trace:m4/aclocal_cc.m4:612: -1- AC_DEFUN([PAC_C_MAX_INTEGER_ALIGN], [
+AC_CACHE_CHECK([for max C struct integer alignment],
+pac_cv_c_max_integer_align,[
+AC_TRY_RUN([
+#include <stdio.h>
+#define DBG(a,b,c)
+int main( int argc, char *argv[] )
+{
+    FILE *cf;
+    int is_packed  = 1;
+    int is_two     = 1;
+    int is_four    = 1;
+    int is_eight   = 1;
+    struct { char a; int b; } char_int;
+    struct { char a; short b; } char_short;
+    struct { char a; long b; } char_long;
+    struct { char a; int b; char c; } char_int_char;
+    struct { char a; short b; char c; } char_short_char;
+#ifdef HAVE_LONG_LONG_INT
+    struct { long long int a; char b; } lli_c;
+    struct { char a; long long int b; } c_lli;
+#endif
+    int size, extent, extent2;
+
+    /* assume max integer alignment isn't 8 if we don't have
+     * an eight-byte value :)
+     */
+#ifdef HAVE_LONG_LONG_INT
+    if (sizeof(int) < 8 && sizeof(long) < 8 && sizeof(long long int) < 8)
+	is_eight = 0;
+#else
+    if (sizeof(int) < 8 && sizeof(long) < 8) is_eight = 0;
+#endif
+
+    size = sizeof(char) + sizeof(int);
+    extent = sizeof(char_int);
+    if (size != extent) is_packed = 0;
+    if ( (extent % 2) != 0) is_two = 0;
+    if ( (extent % 4) != 0) is_four = 0;
+    if (sizeof(int) == 8 && (extent % 8) != 0) is_eight = 0;
+    DBG("char_int",size,extent);
+
+    size = sizeof(char) + sizeof(short);
+    extent = sizeof(char_short);
+    if (size != extent) is_packed = 0;
+    if ( (extent % 2) != 0) is_two = 0;
+    if (sizeof(short) == 4 && (extent % 4) != 0) is_four = 0;
+    if (sizeof(short) == 8 && (extent % 8) != 0) is_eight = 0;
+    DBG("char_short",size,extent);
+
+    size = sizeof(char) + sizeof(long);
+    extent = sizeof(char_long);
+    if (size != extent) is_packed = 0;
+    if ( (extent % 2) != 0) is_two = 0;
+    if ( (extent % 4) != 0) is_four = 0;
+    if (sizeof(long) == 8 && (extent % 8) != 0) is_eight = 0;
+    DBG("char_long",size,extent);
+
+#ifdef HAVE_LONG_LONG_INT
+    size = sizeof(char) + sizeof(long long int);
+    extent = sizeof(lli_c);
+    extent2 = sizeof(c_lli);
+    if (size != extent) is_packed = 0;
+    if ( (extent % 2) != 0 && (extent2 % 2) != 0) is_two = 0;
+    if ( (extent % 4) != 0 && (extent2 % 4) != 0) is_four = 0;
+    if (sizeof(long long int) >= 8 && (extent % 8) != 0 && (extent2 % 8) != 0)
+	is_eight = 0;
+#endif
+
+    size = sizeof(char) + sizeof(int) + sizeof(char);
+    extent = sizeof(char_int_char);
+    if (size != extent) is_packed = 0;
+    if ( (extent % 2) != 0) is_two = 0;
+    if ( (extent % 4) != 0) is_four = 0;
+    if (sizeof(int) == 8 && (extent % 8) != 0) is_eight = 0;
+    DBG("char_int_char",size,extent);
+
+    size = sizeof(char) + sizeof(short) + sizeof(char);
+    extent = sizeof(char_short_char);
+    if (size != extent) is_packed = 0;
+    if ( (extent % 2) != 0) is_two = 0;
+    if (sizeof(short) == 4 && (extent % 4) != 0) is_four = 0;
+    if (sizeof(short) == 8 && (extent % 8) != 0) is_eight = 0;
+    DBG("char_short_char",size,extent);
+
+    /* If aligned mod 8, it will be aligned mod 4 */
+    if (is_eight) { is_four = 0; is_two = 0; }
+
+    if (is_four) is_two = 0;
+
+    /* Tabulate the results */
+    cf = fopen( "ctest.out", "w" );
+    if (is_packed + is_two + is_four + is_eight == 0) {
+	fprintf( cf, "Could not determine alignment\n" );
+    }
+    else {
+	if (is_packed + is_two + is_four + is_eight != 1) {
+	    fprintf( cf, "error!\n" );
+	}
+	else {
+	    if (is_packed) fprintf( cf, "packed\n" );
+	    if (is_two) fprintf( cf, "two\n" );
+	    if (is_four) fprintf( cf, "four\n" );
+	    if (is_eight) fprintf( cf, "eight\n" );
+	}
+    }
+    fclose( cf );
+    return 0;
+}],
+pac_cv_c_max_integer_align=`cat ctest.out`,
+pac_cv_c_max_integer_align="unknown",
+pac_cv_c_max_integer_align="$CROSS_ALIGN_STRUCT_INT")
+rm -f ctest.out
+])
+if test -z "$pac_cv_c_max_integer_align" ; then
+    pac_cv_c_max_integer_align="unknown"
+fi
+])
+m4trace:m4/aclocal_cc.m4:743: -1- AC_DEFUN([PAC_C_MAX_FP_ALIGN], [
+AC_CACHE_CHECK([for max C struct floating point alignment],
+pac_cv_c_max_fp_align,[
+AC_TRY_RUN([
+#include <stdio.h>
+#define DBG(a,b,c)
+int main( int argc, char *argv[] )
+{
+    FILE *cf;
+    int is_packed  = 1;
+    int is_two     = 1;
+    int is_four    = 1;
+    int is_eight   = 1;
+    int is_sixteen = 1;
+    struct { char a; float b; } char_float;
+    struct { float b; char a; } float_char;
+    struct { char a; double b; } char_double;
+    struct { double b; char a; } double_char;
+#ifdef HAVE_LONG_DOUBLE
+    struct { char a; long double b; } char_long_double;
+    struct { long double b; char a; } long_double_char;
+    struct { long double a; int b; char c; } long_double_int_char;
+#endif
+    int size, extent1, extent2;
+
+    size = sizeof(char) + sizeof(float);
+    extent1 = sizeof(char_float);
+    extent2 = sizeof(float_char);
+    if (size != extent1) is_packed = 0;
+    if ( (extent1 % 2) != 0 && (extent2 % 2) != 0) is_two = 0;
+    if ( (extent1 % 4) != 0 && (extent2 % 4) != 0) is_four = 0;
+    if (sizeof(float) == 8 && (extent1 % 8) != 0 && (extent2 % 8) != 0)
+	is_eight = 0;
+    DBG("char_float",size,extent1);
+
+    size = sizeof(char) + sizeof(double);
+    extent1 = sizeof(char_double);
+    extent2 = sizeof(double_char);
+    if (size != extent1) is_packed = 0;
+    if ( (extent1 % 2) != 0 && (extent2 % 2) != 0) is_two = 0;
+    if ( (extent1 % 4) != 0 && (extent2 % 4) != 0) is_four = 0;
+    if (sizeof(double) == 8 && (extent1 % 8) != 0 && (extent2 % 8) != 0)
+	is_eight = 0;
+    DBG("char_double",size,extent1);
+
+#ifdef HAVE_LONG_DOUBLE
+    size = sizeof(char) + sizeof(long double);
+    extent1 = sizeof(char_long_double);
+    extent2 = sizeof(long_double_char);
+    if (size != extent1) is_packed = 0;
+    if ( (extent1 % 2) != 0 && (extent2 % 2) != 0) is_two = 0;
+    if ( (extent1 % 4) != 0 && (extent2 % 4) != 0) is_four = 0;
+    if (sizeof(long double) >= 8 && (extent1 % 8) != 0 && (extent2 % 8) != 0)
+	is_eight = 0;
+    if (sizeof(long double) > 8 && (extent1 % 16) != 0
+	&& (extent2 % 16) != 0) is_sixteen = 0;
+    DBG("char_long-double",size,extent1);
+
+    extent1 = sizeof(long_double_int_char);
+    if ( (extent1 % 2) != 0) is_two = 0;
+    if ( (extent1 % 4) != 0) is_four = 0;
+    if (sizeof(long double) >= 8 && (extent1 % 8) != 0)	is_eight = 0;
+    if (sizeof(long double) > 8 && (extent1 % 16) != 0) is_sixteen = 0;
+#else
+    is_sixteen = 0;
+#endif
+
+    if (is_sixteen) { is_eight = 0; is_four = 0; is_two = 0; }
+
+    if (is_eight) { is_four = 0; is_two = 0; }
+
+    if (is_four) is_two = 0;
+
+    /* Tabulate the results */
+    cf = fopen( "ctest.out", "w" );
+    if (is_packed + is_two + is_four + is_eight + is_sixteen == 0) {
+	fprintf( cf, "Could not determine alignment\n" );
+    }
+    else {
+	if (is_packed + is_two + is_four + is_eight + is_sixteen != 1) {
+	    fprintf( cf, "error!\n" );
+	}
+	else {
+	    if (is_packed) fprintf( cf, "packed\n" );
+	    if (is_two) fprintf( cf, "two\n" );
+	    if (is_four) fprintf( cf, "four\n" );
+	    if (is_eight) fprintf( cf, "eight\n" );
+	    if (is_sixteen) fprintf( cf, "sixteen\n" );
+	}
+    }
+    fclose( cf );
+    return 0;
+}],
+pac_cv_c_max_fp_align=`cat ctest.out`,
+pac_cv_c_max_fp_align="unknown",
+pac_cv_c_max_fp_align="$CROSS_ALIGN_STRUCT_FP")
+rm -f ctest.out
+])
+if test -z "$pac_cv_c_max_fp_align" ; then
+    pac_cv_c_max_fp_align="unknown"
+fi
+])
+m4trace:m4/aclocal_cc.m4:857: -1- AC_DEFUN([PAC_C_MAX_DOUBLE_FP_ALIGN], [
+AC_CACHE_CHECK([for max C struct alignment of structs with doubles],
+pac_cv_c_max_double_fp_align,[
+AC_TRY_RUN([
+#include <stdio.h>
+#define DBG(a,b,c)
+int main( int argc, char *argv[] )
+{
+    FILE *cf;
+    int is_packed  = 1;
+    int is_two     = 1;
+    int is_four    = 1;
+    int is_eight   = 1;
+    struct { char a; float b; } char_float;
+    struct { float b; char a; } float_char;
+    struct { char a; double b; } char_double;
+    struct { double b; char a; } double_char;
+    int size, extent1, extent2;
+
+    size = sizeof(char) + sizeof(float);
+    extent1 = sizeof(char_float);
+    extent2 = sizeof(float_char);
+    if (size != extent1) is_packed = 0;
+    if ( (extent1 % 2) != 0 && (extent2 % 2) != 0) is_two = 0;
+    if ( (extent1 % 4) != 0 && (extent2 % 4) != 0) is_four = 0;
+    if (sizeof(float) == 8 && (extent1 % 8) != 0 && (extent2 % 8) != 0)
+	is_eight = 0;
+    DBG("char_float",size,extent1);
+
+    size = sizeof(char) + sizeof(double);
+    extent1 = sizeof(char_double);
+    extent2 = sizeof(double_char);
+    if (size != extent1) is_packed = 0;
+    if ( (extent1 % 2) != 0 && (extent2 % 2) != 0) is_two = 0;
+    if ( (extent1 % 4) != 0 && (extent2 % 4) != 0) is_four = 0;
+    if (sizeof(double) == 8 && (extent1 % 8) != 0 && (extent2 % 8) != 0)
+	is_eight = 0;
+    DBG("char_double",size,extent1);
+
+    if (is_eight) { is_four = 0; is_two = 0; }
+
+    if (is_four) is_two = 0;
+
+    /* Tabulate the results */
+    cf = fopen( "ctest.out", "w" );
+    if (is_packed + is_two + is_four + is_eight == 0) {
+	fprintf( cf, "Could not determine alignment\n" );
+    }
+    else {
+	if (is_packed + is_two + is_four + is_eight != 1) {
+	    fprintf( cf, "error!\n" );
+	}
+	else {
+	    if (is_packed) fprintf( cf, "packed\n" );
+	    if (is_two) fprintf( cf, "two\n" );
+	    if (is_four) fprintf( cf, "four\n" );
+	    if (is_eight) fprintf( cf, "eight\n" );
+	}
+    }
+    fclose( cf );
+    return 0;
+}],
+pac_cv_c_max_double_fp_align=`cat ctest.out`,
+pac_cv_c_max_double_fp_align="unknown",
+pac_cv_c_max_double_fp_align="$CROSS_ALIGN_STRUCT_DOUBLE_FP")
+rm -f ctest.out
+])
+if test -z "$pac_cv_c_max_double_fp_align" ; then
+    pac_cv_c_max_double_fp_align="unknown"
+fi
+])
+m4trace:m4/aclocal_cc.m4:928: -1- AC_DEFUN([PAC_C_MAX_LONGDOUBLE_FP_ALIGN], [
+AC_CACHE_CHECK([for max C struct floating point alignment with long doubles],
+pac_cv_c_max_longdouble_fp_align,[
+AC_TRY_RUN([
+#include <stdio.h>
+#define DBG(a,b,c)
+int main( int argc, char *argv[] )
+{
+    FILE *cf;
+    int is_packed  = 1;
+    int is_two     = 1;
+    int is_four    = 1;
+    int is_eight   = 1;
+    int is_sixteen = 1;
+    struct { char a; long double b; } char_long_double;
+    struct { long double b; char a; } long_double_char;
+    struct { long double a; int b; char c; } long_double_int_char;
+    int size, extent1, extent2;
+
+    size = sizeof(char) + sizeof(long double);
+    extent1 = sizeof(char_long_double);
+    extent2 = sizeof(long_double_char);
+    if (size != extent1) is_packed = 0;
+    if ( (extent1 % 2) != 0 && (extent2 % 2) != 0) is_two = 0;
+    if ( (extent1 % 4) != 0 && (extent2 % 4) != 0) is_four = 0;
+    if (sizeof(long double) >= 8 && (extent1 % 8) != 0 && (extent2 % 8) != 0)
+	is_eight = 0;
+    if (sizeof(long double) > 8 && (extent1 % 16) != 0
+	&& (extent2 % 16) != 0) is_sixteen = 0;
+    DBG("char_long-double",size,extent1);
+
+    extent1 = sizeof(long_double_int_char);
+    if ( (extent1 % 2) != 0) is_two = 0;
+    if ( (extent1 % 4) != 0) is_four = 0;
+    if (sizeof(long double) >= 8 && (extent1 % 8) != 0)	is_eight = 0;
+    if (sizeof(long double) > 8 && (extent1 % 16) != 0) is_sixteen = 0;
+
+    if (is_sixteen) { is_eight = 0; is_four = 0; is_two = 0; }
+
+    if (is_eight) { is_four = 0; is_two = 0; }
+
+    if (is_four) is_two = 0;
+
+    /* Tabulate the results */
+    cf = fopen( "ctest.out", "w" );
+    if (is_packed + is_two + is_four + is_eight + is_sixteen == 0) {
+	fprintf( cf, "Could not determine alignment\n" );
+    }
+    else {
+	if (is_packed + is_two + is_four + is_eight + is_sixteen != 1) {
+	    fprintf( cf, "error!\n" );
+	}
+	else {
+	    if (is_packed) fprintf( cf, "packed\n" );
+	    if (is_two) fprintf( cf, "two\n" );
+	    if (is_four) fprintf( cf, "four\n" );
+	    if (is_eight) fprintf( cf, "eight\n" );
+	    if (is_sixteen) fprintf( cf, "sixteen\n" );
+	}
+    }
+    fclose( cf );
+    return 0;
+}],
+pac_cv_c_max_longdouble_fp_align=`cat ctest.out`,
+pac_cv_c_max_longdouble_fp_align="unknown",
+pac_cv_c_max_longdouble_fp_align="$CROSS_ALIGN_STRUCT_LONGDOUBLE_FP")
+rm -f ctest.out
+])
+if test -z "$pac_cv_c_max_longdouble_fp_align" ; then
+    pac_cv_c_max_longdouble_fp_align="unknown"
+fi
+])
+m4trace:m4/aclocal_cc.m4:1015: -1- AC_DEFUN([PAC_C_DOUBLE_ALIGNMENT_EXCEPTION], [
+AC_CACHE_CHECK([if double alignment breaks rules, find actual alignment],
+pac_cv_c_double_alignment_exception,[
+AC_TRY_RUN([
+#include <stdio.h>
+#define DBG(a,b,c)
+int main( int argc, char *argv[] )
+{
+    FILE *cf;
+    struct { char a; double b; } char_double;
+    struct { double b; char a; } double_char;
+    int extent1, extent2, align_4 = 0;
+
+    extent1 = sizeof(char_double);
+    extent2 = sizeof(double_char);
+
+    /* we're interested in the largest value, will let separate test
+     * deal with position-based issues.
+     */
+    if (extent1 < extent2) extent1 = extent2;
+    if ((sizeof(double) == 8) && (extent1 % 8) != 0) {
+       if (extent1 % 4 == 0) {
+#ifdef HAVE_MAX_FP_ALIGNMENT
+          if (HAVE_MAX_FP_ALIGNMENT >= 8) align_4 = 1;
+#else
+          align_4 = 1;
+#endif
+       }
+    }
+
+    cf = fopen( "ctest.out", "w" );
+
+    if (align_4) fprintf( cf, "four\n" );
+    else fprintf( cf, "no\n" );
+
+    fclose( cf );
+    return 0;
+}],
+pac_cv_c_double_alignment_exception=`cat ctest.out`,
+pac_cv_c_double_alignment_exception="unknown",
+pac_cv_c_double_alignment_exception="$CROSS_ALIGN_DOUBLE_EXCEPTION")
+rm -f ctest.out
+])
+if test -z "$pac_cv_c_double_alignment_exception" ; then
+    pac_cv_c_double_alignment_exception="unknown"
+fi
+])
+m4trace:m4/aclocal_cc.m4:1071: -1- AC_DEFUN([PAC_C_DOUBLE_POS_ALIGN], [
+AC_CACHE_CHECK([if alignment of structs with doubles is based on position],
+pac_cv_c_double_pos_align,[
+AC_TRY_RUN([
+#include <stdio.h>
+#define DBG(a,b,c)
+int main( int argc, char *argv[] )
+{
+    FILE *cf;
+    int padding_varies_by_pos = 0;
+    struct { char a; double b; } char_double;
+    struct { double b; char a; } double_char;
+    int extent1, extent2;
+
+    extent1 = sizeof(char_double);
+    extent2 = sizeof(double_char);
+    if (extent1 != extent2) padding_varies_by_pos = 1;
+
+    cf = fopen( "ctest.out", "w" );
+    if (padding_varies_by_pos) fprintf( cf, "yes\n" );
+    else fprintf( cf, "no\n" );
+
+    fclose( cf );
+    return 0;
+}],
+pac_cv_c_double_pos_align=`cat ctest.out`,
+pac_cv_c_double_pos_align="unknown",
+pac_cv_c_double_pos_align="$CROSS_ALIGN_DOUBLE_POS")
+rm -f ctest.out
+])
+if test -z "$pac_cv_c_double_pos_align" ; then
+    pac_cv_c_double_pos_align="unknown"
+fi
+])
+m4trace:m4/aclocal_cc.m4:1114: -1- AC_DEFUN([PAC_C_LLINT_POS_ALIGN], [
+AC_CACHE_CHECK([if alignment of structs with long long ints is based on position],
+pac_cv_c_llint_pos_align,[
+AC_TRY_RUN([
+#include <stdio.h>
+#define DBG(a,b,c)
+int main( int argc, char *argv[] )
+{
+    FILE *cf;
+    int padding_varies_by_pos = 0;
+#ifdef HAVE_LONG_LONG_INT
+    struct { char a; long long int b; } char_llint;
+    struct { long long int b; char a; } llint_char;
+    int extent1, extent2;
+
+    extent1 = sizeof(char_llint);
+    extent2 = sizeof(llint_char);
+    if (extent1 != extent2) padding_varies_by_pos = 1;
+#endif
+
+    cf = fopen( "ctest.out", "w" );
+    if (padding_varies_by_pos) fprintf( cf, "yes\n" );
+    else fprintf( cf, "no\n" );
+
+    fclose( cf );
+    return 0;
+}],
+pac_cv_c_llint_pos_align=`cat ctest.out`,
+pac_cv_c_llint_pos_align="unknown",
+pac_cv_c_llint_pos_align="$CROSS_ALIGN_LLINT_POS")
+rm -f ctest.out
+])
+if test -z "$pac_cv_c_llint_pos_align" ; then
+    pac_cv_c_llint_pos_align="unknown"
+fi
+])
+m4trace:m4/aclocal_cc.m4:1175: -1- AC_DEFUN([PAC_FUNC_NEEDS_DECL], [
+AC_CACHE_CHECK([whether $2 needs a declaration],
+pac_cv_func_decl_$2,[
+AC_TRY_COMPILE([$1
+int $2(double, int, double, const char *);],[int a=$2(1.0,27,1.0,"foo");],
+pac_cv_func_decl_$2=yes,pac_cv_func_decl_$2=no)])
+if test "$pac_cv_func_decl_$2" = "yes" ; then
+changequote(<<,>>)dnl
+define(<<PAC_FUNC_NAME>>, translit(NEEDS_$2_DECL, [a-z *], [A-Z__]))dnl
+changequote([, ])dnl
+    AC_DEFINE_UNQUOTED(PAC_FUNC_NAME,1,[Define if $2 needs a declaration])
+undefine([PAC_FUNC_NAME])
+fi
+])
+m4trace:m4/aclocal_cc.m4:1203: -1- AC_DEFUN([PAC_C_GNU_ATTRIBUTE], [
+AC_REQUIRE([AC_PROG_CC_GNU])
+if test "$ac_cv_prog_gcc" = "yes" ; then
+    AC_CACHE_CHECK([whether __attribute__ allowed],
+pac_cv_gnu_attr_pure,[
+AC_TRY_COMPILE([int foo(int) __attribute__ ((pure));],[int a;],
+pac_cv_gnu_attr_pure=yes,pac_cv_gnu_attr_pure=no)])
+AC_CACHE_CHECK([whether __attribute__((format)) allowed],
+pac_cv_gnu_attr_format,[
+AC_TRY_COMPILE([int foo(char *,...) __attribute__ ((format(printf,1,2)));],[int a;],
+pac_cv_gnu_attr_format=yes,pac_cv_gnu_attr_format=no)])
+    if test "$pac_cv_gnu_attr_pure" = "yes" -a "$pac_cv_gnu_attr_format" = "yes" ; then
+        AC_DEFINE(HAVE_GCC_ATTRIBUTE,1,[Define if GNU __attribute__ is supported])
+    fi
+fi
+])
+m4trace:m4/aclocal_cc.m4:1224: -1- AC_DEFUN([PAC_PROG_INSTALL_BREAKS_LIBS], [
+AC_CACHE_CHECK([whether install breaks libraries],
+ac_cv_prog_install_breaks_libs,[
+AC_REQUIRE([AC_PROG_RANLIB])
+AC_REQUIRE([AC_PROG_INSTALL])
+AC_REQUIRE([AC_PROG_CC])
+ac_cv_prog_install_breaks_libs=yes
+# This is needed for Mac OSX 10.5
+rm -rf conftest.dSYM
+rm -f libconftest* conftest*
+echo 'int foo(int);int foo(int a){return a;}' > conftest1.c
+echo 'extern int foo(int); int main( int argc, char **argv){ return foo(0); }' > conftest2.c
+if ${CC-cc} $CFLAGS -c conftest1.c >conftest.out 2>&1 ; then
+    if ${AR-ar} cr libconftest.a conftest1.o >/dev/null 2>&1 ; then
+        if ${RANLIB-:} libconftest.a >/dev/null 2>&1 ; then
+	    # Anything less than sleep 10, and Mac OS/X (Darwin) 
+	    # will claim that install works because ranlib won't complain
+	    sleep 10
+	    libinstall="$INSTALL_DATA"
+	    eval "libinstall=\"$libinstall\""
+	    if ${libinstall} libconftest.a libconftest1.a  >/dev/null 2>&1 ; then
+                if ${CC-cc} $CFLAGS -o conftest conftest2.c $LDFLAGS libconftest1.a >>conftest.out 2>&1 && test -x conftest ; then
+		    # Success!  Install works
+ 	            ac_cv_prog_install_breaks_libs=no
+	        else
+	            # Failure!  Does install -p work?	
+		    rm -f libconftest1.a
+		    if ${libinstall} -p libconftest.a libconftest1.a >/dev/null 2>&1 ; then
+                        if ${CC-cc} $CFLAGS -o conftest conftest2.c $LDFLAGS libconftest1.a >>conftest.out 2>&1 && test -x conftest ; then
+			# Success!  Install works
+			    ac_cv_prog_install_breaks_libs="no, with -p"
+			fi
+		    fi
+                fi
+            fi
+        fi
+    fi
+fi
+# This is needed for Mac OSX 10.5
+rm -rf conftest.dSYM
+rm -f conftest* libconftest*])
+
+if test -z "$RANLIB_AFTER_INSTALL" ; then
+    RANLIB_AFTER_INSTALL=no
+fi
+case "$ac_cv_prog_install_breaks_libs" in
+	yes)
+	    RANLIB_AFTER_INSTALL=yes
+	;;
+	"no, with -p")
+	    INSTALL_DATA="$INSTALL_DATA -p"
+	;;
+	*)
+	# Do nothing
+	:
+	;;
+esac
+AC_SUBST(RANLIB_AFTER_INSTALL)
+])
+m4trace:m4/aclocal_cc.m4:1296: -1- AC_DEFUN([PAC_CC_FUNCTION_NAME_SYMBOL], [
+AC_CACHE_CHECK([whether the compiler defines __func__],
+pac_cv_have__func__,[
+tmp_am_cross=no
+AC_RUN_IFELSE([
+AC_LANG_SOURCE([
+#include <string.h>
+int foo(void);
+int foo(void)
+{
+    return (strcmp(__func__, "foo") == 0);
+}
+int main(int argc, char ** argv)
+{
+    return (foo() ? 0 : 1);
+}
+])
+], pac_cv_have__func__=yes, pac_cv_have__func__=no,tmp_am_cross=yes)
+if test "$tmp_am_cross" = yes ; then
+    AC_LINK_IFELSE([
+    AC_LANG_SOURCE([
+#include <string.h>
+int foo(void);
+int foo(void)
+{
+    return (strcmp(__func__, "foo") == 0);
+}
+int main(int argc, char ** argv)
+{
+    return (foo() ? 0 : 1);
+}
+    ])
+], pac_cv_have__func__=yes, pac_cv_have__func__=no)
+fi
+])
+
+if test "$pac_cv_have__func__" = "yes" ; then
+    AC_DEFINE(HAVE__FUNC__,,[define if the compiler defines __func__])
+fi
+
+AC_CACHE_CHECK([whether the compiler defines __FUNC__],
+pac_cv_have_cap__func__,[
+tmp_am_cross=no
+AC_RUN_IFELSE([
+AC_LANG_SOURCE([
+#include <string.h>
+int foo(void);
+int foo(void)
+{
+    return (strcmp(__FUNC__, "foo") == 0);
+}
+int main(int argc, char ** argv)
+{
+    return (foo() ? 0 : 1);
+}
+])
+], pac_cv_have_cap__func__=yes, pac_cv_have_cap__func__=no,tmp_am_cross=yes)
+if test "$tmp_am_cross" = yes ; then
+    AC_LINK_IFELSE([
+    AC_LANG_SOURCE([
+#include <string.h>
+int foo(void);
+int foo(void)
+{
+    return (strcmp(__FUNC__, "foo") == 0);
+}
+int main(int argc, char ** argv)
+{
+    return (foo() ? 0 : 1);
+}
+    ])
+], pac_cv_have__func__=yes, pac_cv_have__func__=no)
+fi
+])
+
+if test "$pac_cv_have_cap__func__" = "yes" ; then
+    AC_DEFINE(HAVE_CAP__FUNC__,,[define if the compiler defines __FUNC__])
+fi
+
+AC_CACHE_CHECK([whether the compiler sets __FUNCTION__],
+pac_cv_have__function__,[
+tmp_am_cross=no
+AC_RUN_IFELSE([
+AC_LANG_SOURCE([
+#include <string.h>
+int foo(void);
+int foo(void)
+{
+    return (strcmp(__FUNCTION__, "foo") == 0);
+}
+int main(int argc, char ** argv)
+{
+    return (foo() ? 0 : 1);
+}
+])
+], pac_cv_have__function__=yes, pac_cv_have__function__=no,tmp_am_cross=yes)
+if test "$tmp_am_cross" = yes ; then
+    AC_LINK_IFELSE([
+    AC_LANG_SOURCE([
+#include <string.h>
+int foo(void);
+int foo(void)
+{
+    return (strcmp(__FUNCTION__, "foo") == 0);
+}
+int main(int argc, char ** argv)
+{
+    return (foo() ? 0 : 1);
+}
+    ])
+], pac_cv_have__func__=yes, pac_cv_have__func__=no)
+fi
+])
+
+if test "$pac_cv_have__function__" = "yes" ; then
+    AC_DEFINE(HAVE__FUNCTION__,,[define if the compiler defines __FUNCTION__])
+fi
+
+])
+m4trace:m4/aclocal_cc.m4:1418: -1- AC_DEFUN([PAC_STRUCT_ALIGNMENT], [
+	# Initialize alignment checks
+	is_packed=1
+	is_two=1
+	is_four=1
+	is_eight=1
+	is_largest=1
+
+	# See if long double exists
+	AC_TRY_COMPILE(,[long double a;],have_long_double=yes,have_long_double=no)
+
+	# Get sizes of regular types
+	AC_CHECK_SIZEOF(char)
+	AC_CHECK_SIZEOF(int)
+	AC_CHECK_SIZEOF(short)
+	AC_CHECK_SIZEOF(long)
+	AC_CHECK_SIZEOF(float)
+	AC_CHECK_SIZEOF(double)
+	AC_CHECK_SIZEOF(long double)
+
+	# char_int comparison
+	AC_CHECK_SIZEOF(char_int, 0, [typedef struct { char a; int b; } char_int; ])
+	size=`expr $ac_cv_sizeof_char + $ac_cv_sizeof_int`
+	extent=$ac_cv_sizeof_char_int
+	if test "$size" != "$extent" ; then is_packed=0 ; fi
+	if test "`expr $extent % $ac_cv_sizeof_int`" != "0" ; then is_largest=0 ; fi
+	if test "`expr $extent % 2`" != "0" ; then is_two=0 ; fi
+	if test "`expr $extent % 4`" != "0" ; then is_four=0 ; fi
+	if test "$ac_cv_sizeof_int" = "8" -a "`expr $extent % 8`" != "0" ; then
+	   is_eight=0
+	fi
+
+	# char_short comparison
+	AC_CHECK_SIZEOF(char_short, 0, [typedef struct { char a; short b; } char_short; ])
+	size=`expr $ac_cv_sizeof_char + $ac_cv_sizeof_short`
+	extent=$ac_cv_sizeof_char_short
+	if test "$size" != "$extent" ; then is_packed=0 ; fi
+	if test "`expr $extent % $ac_cv_sizeof_short`" != "0" ; then is_largest=0 ; fi
+	if test "`expr $extent % 2`" != "0" ; then is_two=0 ; fi
+	if test "$ac_cv_sizeof_short" = "4" -a "`expr $extent % 4`" != "0" ; then
+	   is_four=0
+	fi
+	if test "$ac_cv_sizeof_short" = "8" -a "`expr $extent % 8`" != "0" ; then
+	   is_eight=0
+	fi
+
+	# char_long comparison
+	AC_CHECK_SIZEOF(char_long, 0, [typedef struct { char a; long b; } char_long; ])
+	size=`expr $ac_cv_sizeof_char + $ac_cv_sizeof_long`
+	extent=$ac_cv_sizeof_char_long
+	if test "$size" != "$extent" ; then is_packed=0 ; fi
+	if test "`expr $extent % $ac_cv_sizeof_long`" != "0" ; then is_largest=0 ; fi
+	if test "`expr $extent % 2`" != "0" ; then is_two=0 ; fi
+	if test "`expr $extent % 4`" != "0" ; then is_four=0 ; fi
+	if test "$ac_cv_sizeof_long" = "8" -a "`expr $extent % 8`" != "0" ; then
+	   is_eight=0
+	fi
+
+	# char_float comparison
+	AC_CHECK_SIZEOF(char_float, 0, [typedef struct { char a; float b; } char_float; ])
+	size=`expr $ac_cv_sizeof_char + $ac_cv_sizeof_float`
+	extent=$ac_cv_sizeof_char_float
+	if test "$size" != "$extent" ; then is_packed=0 ; fi
+	if test "`expr $extent % $ac_cv_sizeof_float`" != "0" ; then is_largest=0 ; fi
+	if test "`expr $extent % 2`" != "0" ; then is_two=0 ; fi
+	if test "`expr $extent % 4`" != "0" ; then is_four=0 ; fi
+	if test "$ac_cv_sizeof_float" = "8" -a "`expr $extent % 8`" != "0" ; then
+	   is_eight=0
+	fi
+
+	# char_double comparison
+	AC_CHECK_SIZEOF(char_double, 0, [typedef struct { char a; double b; } char_double; ])
+	size=`expr $ac_cv_sizeof_char + $ac_cv_sizeof_double`
+	extent=$ac_cv_sizeof_char_double
+	if test "$size" != "$extent" ; then is_packed=0 ; fi
+	if test "`expr $extent % $ac_cv_sizeof_double`" != "0" ; then is_largest=0 ; fi
+	if test "`expr $extent % 2`" != "0" ; then is_two=0 ; fi
+	if test "`expr $extent % 4`" != "0" ; then is_four=0 ; fi
+	if test "$ac_cv_sizeof_double" = "8" -a "`expr $extent % 8`" != "0" ; then
+	   is_eight=0
+	fi
+
+	# char_long_double comparison
+	if test "$have_long_double" = "yes"; then
+	AC_CHECK_SIZEOF(char_long_double, 0, [
+				       typedef struct {
+				       	       char a;
+					       long double b;
+				       } char_long_double;
+				       ])
+	size=`expr $ac_cv_sizeof_char + $ac_cv_sizeof_long_double`
+	extent=$ac_cv_sizeof_char_long_double
+	if test "$size" != "$extent" ; then is_packed=0 ; fi
+	if test "`expr $extent % $ac_cv_sizeof_long_double`" != "0" ; then is_largest=0 ; fi
+	if test "`expr $extent % 2`" != "0" ; then is_two=0 ; fi
+	if test "`expr $extent % 4`" != "0" ; then is_four=0 ; fi
+	if test "$ac_cv_sizeof_long_double" = "8" -a "`expr $extent % 8`" != "0" ; then
+	   is_eight=0
+	fi
+	fi
+
+	# char_int_char comparison
+	AC_CHECK_SIZEOF(char_int_char, 0, [
+				       typedef struct {
+				       	       char a;
+					       int b;
+					       char c;
+				       } char_int_char;
+				       ])
+	size=`expr $ac_cv_sizeof_char + $ac_cv_sizeof_int + $ac_cv_sizeof_char`
+	extent=$ac_cv_sizeof_char_int_char
+	if test "$size" != "$extent" ; then is_packed=0 ; fi
+	if test "`expr $extent % $ac_cv_sizeof_int`" != "0" ; then is_largest=0 ; fi
+	if test "`expr $extent % 2`" != "0" ; then is_two=0 ; fi
+	if test "`expr $extent % 4`" != "0" ; then is_four=0 ; fi
+	if test "$ac_cv_sizeof_int" = "8" -a "`expr $extent % 8`" != "0" ; then
+	   is_eight=0
+	fi
+
+	# char_short_char comparison
+	AC_CHECK_SIZEOF(char_short_char, 0, [
+				       typedef struct {
+				       	       char a;
+					       short b;
+					       char c;
+				       } char_short_char;
+				       ])
+	size=`expr $ac_cv_sizeof_char + $ac_cv_sizeof_short + $ac_cv_sizeof_char`
+	extent=$ac_cv_sizeof_char_short_char
+	if test "$size" != "$extent" ; then is_packed=0 ; fi
+	if test "`expr $extent % $ac_cv_sizeof_short`" != "0" ; then is_largest=0 ; fi
+	if test "`expr $extent % 2`" != "0" ; then is_two=0 ; fi
+	if test "$ac_cv_sizeof_short" = "4" -a "`expr $extent % 4`" != "0" ; then
+	   is_four=0
+	fi
+	if test "$ac_cv_sizeof_short" = "8" -a "`expr $extent % 8`" != "0" ; then
+	   is_eight=0
+	fi
+
+	# If aligned mod 8, it will be aligned mod 4
+	if test $is_eight = 1 ; then is_four=0 ; is_two=0 ; fi
+	if test $is_four = 1 ; then is_two=0 ; fi
+
+	# Largest supersedes 8
+	if test $is_largest = 1 ; then is_eight=0 ; fi
+
+	# Find the alignment
+	if test "`expr $is_packed + $is_largest + $is_two + $is_four + $is_eight`" = "0" ; then
+	   pac_cv_struct_alignment="unknown"
+	elif test "`expr $is_packed + $is_largest + $is_two + $is_four + $is_eight`" != "1" ; then
+	   pac_cv_struct_alignment="unknown"
+	elif test $is_packed = 1 ; then
+	   pac_cv_struct_alignment="packed"
+	elif test $is_largest = 1 ; then
+	   pac_cv_struct_alignment="largest"
+	elif test $is_two = 1 ; then
+	   pac_cv_struct_alignment="two"
+	elif test $is_four = 1 ; then
+	   pac_cv_struct_alignment="four"
+	elif test $is_eight = 1 ; then
+	   pac_cv_struct_alignment="eight"
+	fi
+])
+m4trace:m4/aclocal_cc.m4:1586: -1- AC_DEFUN([PAC_C_MACRO_VA_ARGS], [
+    AC_MSG_CHECKING([for variable argument list macro functionality])
+    AC_LINK_IFELSE([AC_LANG_PROGRAM([
+        #include <stdio.h>
+        #define conftest_va_arg_macro(...) printf(__VA_ARGS__)
+    ],
+    [conftest_va_arg_macro("a test %d", 3);])],
+    [AC_DEFINE([HAVE_MACRO_VA_ARGS],[1],[Define if C99-style variable argument list macro functionality])
+     AC_MSG_RESULT([yes])],
+    [AC_MSG_RESULT([no])])
+])
+m4trace:m4/aclocal_util.m4:3: -1- AC_DEFUN([PAC_PUSH_FLAG], [
+	if test -z "${pac_save_$1_nesting}" ; then
+	   pac_save_$1_nesting=0
+	fi
+	eval pac_save_$1_${pac_save_$1_nesting}='"$$1"'
+	pac_save_$1_nesting=`expr ${pac_save_$1_nesting} + 1`
+])
+m4trace:m4/aclocal_util.m4:12: -1- AC_DEFUN([PAC_POP_FLAG], [
+	pac_save_$1_nesting=`expr ${pac_save_$1_nesting} - 1`
+	eval $1="\$pac_save_$1_${pac_save_$1_nesting}"
+	eval pac_save_$1_${pac_save_$1_nesting}=""
+])
+m4trace:m4/aclocal_util.m4:19: -1- AC_DEFUN([PAC_PUSH_ALL_FLAGS], [
+	PAC_PUSH_FLAG(CFLAGS)
+	PAC_PUSH_FLAG(CPPFLAGS)
+	PAC_PUSH_FLAG(CXXFLAGS)
+	PAC_PUSH_FLAG(FFLAGS)
+	PAC_PUSH_FLAG(FCFLAGS)
+	PAC_PUSH_FLAG(LDFLAGS)
+	PAC_PUSH_FLAG(LIBS)
+])
+m4trace:m4/aclocal_util.m4:30: -1- AC_DEFUN([PAC_POP_ALL_FLAGS], [
+	PAC_POP_FLAG(CFLAGS)
+	PAC_POP_FLAG(CPPFLAGS)
+	PAC_POP_FLAG(CXXFLAGS)
+	PAC_POP_FLAG(FFLAGS)
+	PAC_POP_FLAG(FCFLAGS)
+	PAC_POP_FLAG(LDFLAGS)
+	PAC_POP_FLAG(LIBS)
+])
+m4trace:m4/aclocal_util.m4:42: -1- AC_DEFUN([PAC_PREFIX_FLAG], [
+	$1_$2=$$2
+	export $1_$2
+	AC_SUBST($1_$2)
+])
+m4trace:m4/aclocal_util.m4:50: -1- AC_DEFUN([PAC_PREFIX_ALL_FLAGS], [
+	PAC_PREFIX_FLAG($1, CFLAGS)
+	PAC_PREFIX_FLAG($1, CPPFLAGS)
+	PAC_PREFIX_FLAG($1, CXXFLAGS)
+	PAC_PREFIX_FLAG($1, FFLAGS)
+	PAC_PREFIX_FLAG($1, FCFLAGS)
+	PAC_PREFIX_FLAG($1, LDFLAGS)
+	PAC_PREFIX_FLAG($1, LIBS)
+])
+m4trace:m4/aclocal_util.m4:63: -1- AC_DEFUN([PAC_APPEND_FLAG], [
+	AC_REQUIRE([AC_PROG_FGREP])
+	AS_IF(
+		[echo "$$2" | $FGREP -e '$1' >/dev/null 2>&1],
+		[echo "$2(='$$2') contains '$1', not appending" >&AS_MESSAGE_LOG_FD],
+		[echo "$2(='$$2') does not contain '$1', appending" >&AS_MESSAGE_LOG_FD
+		$2="$$2 $1"]
+	)
+])
+m4trace:m4/aclocal_util.m4:79: -1- AC_DEFUN([PAC_PREPEND_FLAG], [
+        AC_REQUIRE([AC_PROG_FGREP])
+        AS_IF(
+                [echo "$$2" | $FGREP -e '$1' >/dev/null 2>&1],
+                [echo "$2(='$$2') contains '$1', not prepending" >&AS_MESSAGE_LOG_FD],
+                [echo "$2(='$$2') does not contain '$1', prepending" >&AS_MESSAGE_LOG_FD
+                $2="$1 $$2"]
+        )
+])
+m4trace:m4/aclocal_util.m4:92: -1- AC_DEFUN([PAC_MKDIRS], [
+# Build any intermediate directories
+for dir in $1 ; do
+    saveIFS="$IFS"
+    IFS="/"
+    tmp_curdir=""
+    for tmp_subdir in $dir ; do
+	tmp_curdir="${tmp_curdir}$tmp_subdir"
+	if test ! -d "$tmp_curdir" ; then mkdir "$tmp_curdir" ; fi
+        tmp_curdir="${tmp_curdir}/"
+    done
+    IFS="$saveIFS"
+done
+])
+m4trace:m4/aclocal_util.m4:111: -1- AC_DEFUN([PAC_PROG_MKDIR_P], [
+AC_CACHE_CHECK([whether mkdir -p works],
+pac_cv_mkdir_p,[
+pac_cv_mkdir_p=no
+rm -rf .tmp
+if mkdir -p .tmp/.foo 1>/dev/null 2>&1 ; then
+    if test -d .tmp/.foo ; then
+        pac_cv_mkdir_p=yes
+    fi
+fi
+rm -rf .tmp
+])
+if test "$pac_cv_mkdir_p" = "yes" ; then
+   MKDIR_P="mkdir -p"
+   export MKDIR_P
+else
+   AC_MSG_WARN([mkdir -p does not work; the install step may fail])
+fi
+AC_SUBST(MKDIR_P)
+])
+m4trace:m4/aclocal_util.m4:140: -1- AC_DEFUN([PAC_VPATH_CHECK], [
+# This is needed for Mac OSX 10.5
+rm -rf conftest.dSYM
+rm -f conftest*
+date >conftest$$
+# If creating a file in the current directory does not show up in the srcdir
+# then we're doing a VPATH build (or something is very wrong)
+if test ! -s $srcdir/conftest$$ ; then
+    pac_dirtyfiles=""
+    pac_dirtydirs=""
+    pac_header=""
+    ifdef([AC_LIST_HEADER],[pac_header=AC_LIST_HEADER])
+    for file in config.status $pac_header $1 ; do
+        if test -f $srcdir/$file ; then 
+	    pac_dirtyfiles="$pac_dirtyfiles $file"
+	fi
+    done
+    ifelse($2,,,[
+ 	for dir in $2 ; do 
+            if test -d $srcdir/$dir ; then
+                pac_dirtydirs="$pac_dirtydirs $dir"
+	    fi
+	done
+    ])
+
+    if test -n "$pac_dirtyfiles" -o -n "$pac_dirtydirs" ; then
+	# Create a nice message about what to remove
+	rmmsg=""
+	if test -n "$pac_dirtyfiles" ; then
+	    rmmsg="files $pac_dirtyfiles"
+        fi
+ 	if test -n "$pac_dirtydirs" ; then
+	    if test -n "$rmmsg" ; then
+	        rmmsg="$rmmsg and directories $pac_dirtydirs"
+            else
+                rmmsg="directories $pac_dirtydirs"
+            fi
+        fi
+        if test -f $srcdir/Makefile ; then
+            AC_MSG_ERROR([You cannot do a VPATH build if the source directory has been
+    configured.  Run "make distclean" in $srcdir first and make sure that the
+    $rmmsg have been removed.])
+        else
+            AC_MSG_ERROR([You cannot do a VPATH build if the source directory has been
+    configured.  Remove the $rmmsg in $srcdir.])
+        fi
+    fi
+fi
+# This is needed for Mac OSX 10.5
+rm -rf conftest.dSYM
+rm -f conftest*
+])
+m4trace:configure.ac:7: -1- m4_pattern_forbid([^_?A[CHUM]_])
+m4trace:configure.ac:7: -1- m4_pattern_forbid([_AC_])
+m4trace:configure.ac:7: -1- m4_pattern_forbid([^LIBOBJS$], [do not use LIBOBJS directly, use AC_LIBOBJ (see section `AC_LIBOBJ vs LIBOBJS'])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^AS_FLAGS$])
+m4trace:configure.ac:7: -1- m4_pattern_forbid([^_?m4_])
+m4trace:configure.ac:7: -1- m4_pattern_forbid([^dnl$])
+m4trace:configure.ac:7: -1- m4_pattern_forbid([^_?AS_])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^SHELL$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^PATH_SEPARATOR$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^PACKAGE_NAME$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^PACKAGE_TARNAME$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^PACKAGE_VERSION$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^PACKAGE_STRING$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^PACKAGE_BUGREPORT$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^PACKAGE_URL$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^exec_prefix$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^prefix$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^program_transform_name$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^bindir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^sbindir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^libexecdir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^datarootdir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^datadir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^sysconfdir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^sharedstatedir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^localstatedir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^includedir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^oldincludedir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^docdir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^infodir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^htmldir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^dvidir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^pdfdir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^psdir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^libdir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^localedir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^mandir$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^PACKAGE_NAME$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^PACKAGE_TARNAME$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^PACKAGE_VERSION$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^PACKAGE_STRING$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^PACKAGE_BUGREPORT$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^PACKAGE_URL$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^DEFS$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^ECHO_C$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^ECHO_N$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^ECHO_T$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^LIBS$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^build_alias$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^host_alias$])
+m4trace:configure.ac:7: -1- m4_pattern_allow([^target_alias$])
+m4trace:configure.ac:10: -1- AM_INIT_AUTOMAKE([-Wall -Werror foreign 1.11 color-tests parallel-tests])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^AM_[A-Z]+FLAGS$])
+m4trace:configure.ac:10: -1- AM_SET_CURRENT_AUTOMAKE_VERSION
+m4trace:configure.ac:10: -1- AM_AUTOMAKE_VERSION([1.11.1])
+m4trace:configure.ac:10: -1- _AM_AUTOCONF_VERSION([2.65])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^INSTALL_PROGRAM$])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^INSTALL_SCRIPT$])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^INSTALL_DATA$])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^am__isrc$])
+m4trace:configure.ac:10: -1- _AM_SUBST_NOTMAKE([am__isrc])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^CYGPATH_W$])
+m4trace:configure.ac:10: -1- _AM_SET_OPTIONS([-Wall -Werror foreign 1.11 color-tests parallel-tests])
+m4trace:configure.ac:10: -1- _AM_SET_OPTION([-Wall])
+m4trace:configure.ac:10: -2- _AM_MANGLE_OPTION([-Wall])
+m4trace:configure.ac:10: -1- _AM_SET_OPTION([-Werror])
+m4trace:configure.ac:10: -2- _AM_MANGLE_OPTION([-Werror])
+m4trace:configure.ac:10: -1- _AM_SET_OPTION([foreign])
+m4trace:configure.ac:10: -2- _AM_MANGLE_OPTION([foreign])
+m4trace:configure.ac:10: -1- _AM_SET_OPTION([1.11])
+m4trace:configure.ac:10: -2- _AM_MANGLE_OPTION([1.11])
+m4trace:configure.ac:10: -1- _AM_SET_OPTION([color-tests])
+m4trace:configure.ac:10: -2- _AM_MANGLE_OPTION([color-tests])
+m4trace:configure.ac:10: -1- _AM_SET_OPTION([parallel-tests])
+m4trace:configure.ac:10: -2- _AM_MANGLE_OPTION([parallel-tests])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^PACKAGE$])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^VERSION$])
+m4trace:configure.ac:10: -1- _AM_IF_OPTION([no-define], [], [AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE", [Name of package])
+ AC_DEFINE_UNQUOTED(VERSION, "$VERSION", [Version number of package])])
+m4trace:configure.ac:10: -2- _AM_MANGLE_OPTION([no-define])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^PACKAGE$])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^VERSION$])
+m4trace:configure.ac:10: -1- AM_SANITY_CHECK
+m4trace:configure.ac:10: -1- AM_MISSING_PROG([ACLOCAL], [aclocal-${am__api_version}])
+m4trace:configure.ac:10: -1- AM_MISSING_HAS_RUN
+m4trace:configure.ac:10: -1- AM_AUX_DIR_EXPAND
+m4trace:configure.ac:10: -1- m4_pattern_allow([^ACLOCAL$])
+m4trace:configure.ac:10: -1- AM_MISSING_PROG([AUTOCONF], [autoconf])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^AUTOCONF$])
+m4trace:configure.ac:10: -1- AM_MISSING_PROG([AUTOMAKE], [automake-${am__api_version}])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^AUTOMAKE$])
+m4trace:configure.ac:10: -1- AM_MISSING_PROG([AUTOHEADER], [autoheader])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^AUTOHEADER$])
+m4trace:configure.ac:10: -1- AM_MISSING_PROG([MAKEINFO], [makeinfo])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^MAKEINFO$])
+m4trace:configure.ac:10: -1- AM_PROG_INSTALL_SH
+m4trace:configure.ac:10: -1- m4_pattern_allow([^install_sh$])
+m4trace:configure.ac:10: -1- AM_PROG_INSTALL_STRIP
+m4trace:configure.ac:10: -1- m4_pattern_allow([^STRIP$])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^INSTALL_STRIP_PROGRAM$])
+m4trace:configure.ac:10: -1- AM_PROG_MKDIR_P
+m4trace:configure.ac:10: -1- m4_pattern_allow([^MKDIR_P$])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^mkdir_p$])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^AWK$])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^SET_MAKE$])
+m4trace:configure.ac:10: -1- AM_SET_LEADING_DOT
+m4trace:configure.ac:10: -1- m4_pattern_allow([^am__leading_dot$])
+m4trace:configure.ac:10: -1- _AM_IF_OPTION([tar-ustar], [_AM_PROG_TAR([ustar])], [_AM_IF_OPTION([tar-pax], [_AM_PROG_TAR([pax])],
+			     [_AM_PROG_TAR([v7])])])
+m4trace:configure.ac:10: -2- _AM_MANGLE_OPTION([tar-ustar])
+m4trace:configure.ac:10: -1- _AM_IF_OPTION([tar-pax], [_AM_PROG_TAR([pax])], [_AM_PROG_TAR([v7])])
+m4trace:configure.ac:10: -2- _AM_MANGLE_OPTION([tar-pax])
+m4trace:configure.ac:10: -1- _AM_PROG_TAR([v7])
+m4trace:configure.ac:10: -1- AM_MISSING_PROG([AMTAR], [tar])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^AMTAR$])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^am__tar$])
+m4trace:configure.ac:10: -1- m4_pattern_allow([^am__untar$])
+m4trace:configure.ac:10: -1- _AM_IF_OPTION([no-dependencies], [], [AC_PROVIDE_IFELSE([AC_PROG_CC],
+		  [_AM_DEPENDENCIES(CC)],
+		  [define([AC_PROG_CC],
+			  defn([AC_PROG_CC])[_AM_DEPENDENCIES(CC)])])dnl
+AC_PROVIDE_IFELSE([AC_PROG_CXX],
+		  [_AM_DEPENDENCIES(CXX)],
+		  [define([AC_PROG_CXX],
+			  defn([AC_PROG_CXX])[_AM_DEPENDENCIES(CXX)])])dnl
+AC_PROVIDE_IFELSE([AC_PROG_OBJC],
+		  [_AM_DEPENDENCIES(OBJC)],
+		  [define([AC_PROG_OBJC],
+			  defn([AC_PROG_OBJC])[_AM_DEPENDENCIES(OBJC)])])dnl
+])
+m4trace:configure.ac:10: -2- _AM_MANGLE_OPTION([no-dependencies])
+m4trace:configure.ac:10: -1- _AM_IF_OPTION([silent-rules], [AC_REQUIRE([AM_SILENT_RULES])])
+m4trace:configure.ac:10: -2- _AM_MANGLE_OPTION([silent-rules])
+m4trace:configure.ac:19: -1- PAC_PUSH_FLAG([CFLAGS])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^CC$])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^CFLAGS$])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^LDFLAGS$])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^LIBS$])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^CPPFLAGS$])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^CC$])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^ac_ct_CC$])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^EXEEXT$])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^OBJEXT$])
+m4trace:configure.ac:20: -1- _AM_DEPENDENCIES([CC])
+m4trace:configure.ac:20: -1- AM_SET_DEPDIR
+m4trace:configure.ac:20: -1- m4_pattern_allow([^DEPDIR$])
+m4trace:configure.ac:20: -1- AM_OUTPUT_DEPENDENCY_COMMANDS
+m4trace:configure.ac:20: -1- AM_MAKE_INCLUDE
+m4trace:configure.ac:20: -1- m4_pattern_allow([^am__include$])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^am__quote$])
+m4trace:configure.ac:20: -1- AM_DEP_TRACK
+m4trace:configure.ac:20: -1- AM_CONDITIONAL([AMDEP], [test "x$enable_dependency_tracking" != xno])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^AMDEP_TRUE$])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^AMDEP_FALSE$])
+m4trace:configure.ac:20: -1- _AM_SUBST_NOTMAKE([AMDEP_TRUE])
+m4trace:configure.ac:20: -1- _AM_SUBST_NOTMAKE([AMDEP_FALSE])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^AMDEPBACKSLASH$])
+m4trace:configure.ac:20: -1- _AM_SUBST_NOTMAKE([AMDEPBACKSLASH])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^CCDEPMODE$])
+m4trace:configure.ac:20: -1- AM_CONDITIONAL([am__fastdepCC], [
+  test "x$enable_dependency_tracking" != xno \
+  && test "$am_cv_CC_dependencies_compiler_type" = gcc3])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^am__fastdepCC_TRUE$])
+m4trace:configure.ac:20: -1- m4_pattern_allow([^am__fastdepCC_FALSE$])
+m4trace:configure.ac:20: -1- _AM_SUBST_NOTMAKE([am__fastdepCC_TRUE])
+m4trace:configure.ac:20: -1- _AM_SUBST_NOTMAKE([am__fastdepCC_FALSE])
+m4trace:configure.ac:22: -1- PAC_POP_FLAG([CFLAGS])
+m4trace:configure.ac:25: -1- AM_SILENT_RULES([yes])
+m4trace:configure.ac:25: -1- m4_pattern_allow([^AM_DEFAULT_VERBOSITY$])
+m4trace:configure.ac:25: -1- m4_pattern_allow([^AM_BACKSLASH$])
+m4trace:configure.ac:25: -1- _AM_SUBST_NOTMAKE([AM_BACKSLASH])
+m4trace:configure.ac:36: -1- m4_pattern_allow([^libarmci_abi_version$])
+m4trace:configure.ac:83: -1- m4_pattern_allow([^ARMCI_NUMVERSION$])
+m4trace:configure.ac:84: -1- m4_pattern_allow([^ARMCI_VERSION$])
+m4trace:configure.ac:97: -1- PAC_ARG_STRICT
+m4trace:configure.ac:97: -2- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:209: AC_HELP_STRING is expanded from...
+m4/aclocal_cc.m4:595: PAC_ARG_STRICT is expanded from...
+configure.ac:97: the top level])
+m4trace:configure.ac:97: -1- PAC_CC_STRICT([$enable_strict])
+m4trace:configure.ac:97: -1- PAC_APPEND_FLAG([-D_POSIX_C_SOURCE=199506L], [pac_cc_strict_flags])
+m4trace:configure.ac:97: -1- m4_pattern_allow([^GREP$])
+m4trace:configure.ac:97: -1- m4_pattern_allow([^FGREP$])
+m4trace:configure.ac:97: -1- PAC_APPEND_FLAG([-std=c99], [pac_cc_strict_flags])
+m4trace:configure.ac:97: -1- PAC_APPEND_FLAG([-std=c89], [pac_cc_strict_flags])
+m4trace:configure.ac:97: -1- PAC_PUSH_FLAG([CFLAGS])
+m4trace:configure.ac:97: -1- PAC_C_CHECK_COMPILER_OPTION([$flag], [accepted_flags="$accepted_flags $flag"], [])
+m4trace:configure.ac:97: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:377: AC_FD_CC is expanded from...
+m4/aclocal_cc.m4:38: PAC_C_CHECK_COMPILER_OPTION is expanded from...
+m4/aclocal_cc.m4:431: PAC_CC_STRICT is expanded from...
+m4/aclocal_cc.m4:595: PAC_ARG_STRICT is expanded from...
+configure.ac:97: the top level])
+m4trace:configure.ac:97: -1- _m4_warn([obsolete], [The macro `AC_FD_CC' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:377: AC_FD_CC is expanded from...
+m4/aclocal_cc.m4:38: PAC_C_CHECK_COMPILER_OPTION is expanded from...
+m4/aclocal_cc.m4:431: PAC_CC_STRICT is expanded from...
+m4/aclocal_cc.m4:595: PAC_ARG_STRICT is expanded from...
+configure.ac:97: the top level])
+m4trace:configure.ac:97: -1- PAC_POP_FLAG([CFLAGS])
+m4trace:configure.ac:98: -1- PAC_CC_FUNCTION_NAME_SYMBOL
+m4trace:configure.ac:98: -1- m4_pattern_allow([^HAVE__FUNC__$])
+m4trace:configure.ac:98: -1- m4_pattern_allow([^HAVE_CAP__FUNC__$])
+m4trace:configure.ac:98: -1- m4_pattern_allow([^HAVE__FUNCTION__$])
+m4trace:configure.ac:110: -1- PAC_C_MACRO_VA_ARGS
+m4trace:configure.ac:110: -1- m4_pattern_allow([^HAVE_MACRO_VA_ARGS$])
+m4trace:configure.ac:113: -1- m4_pattern_allow([^const$])
+m4trace:configure.ac:114: -1- m4_pattern_allow([^restrict$])
+m4trace:configure.ac:114: -1- m4_pattern_allow([^restrict$])
+m4trace:configure.ac:119: -1- _m4_warn([obsolete], [The macro `AC_ERROR' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/oldnames.m4:34: AC_ERROR is expanded from...
+configure.ac:119: the top level])
+m4trace:configure.ac:122: -1- m4_pattern_allow([^CPP$])
+m4trace:configure.ac:122: -1- m4_pattern_allow([^CPPFLAGS$])
+m4trace:configure.ac:122: -1- m4_pattern_allow([^CPP$])
+m4trace:configure.ac:122: -1- m4_pattern_allow([^EGREP$])
+m4trace:configure.ac:122: -1- m4_pattern_allow([^STDC_HEADERS$])
+m4trace:configure.ac:123: -1- m4_pattern_allow([^_UINT8_T$])
+m4trace:configure.ac:123: -1- m4_pattern_allow([^uint8_t$])
+m4trace:configure.ac:126: -2- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:209: AC_HELP_STRING is expanded from...
+configure.ac:126: the top level])
+m4trace:configure.ac:136: -2- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:209: AC_HELP_STRING is expanded from...
+configure.ac:136: the top level])
+m4trace:configure.ac:142: -1- m4_pattern_allow([^NO_SEATBELTS$])
+m4trace:configure.ac:146: -2- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:209: AC_HELP_STRING is expanded from...
+configure.ac:146: the top level])
+m4trace:configure.ac:152: -1- m4_pattern_allow([^ARMCI_GROUP$])
+m4trace:configure.ac:156: -1- m4_pattern_allow([^DOXYGEN$])
+m4trace:configure.ac:157: -1- m4_pattern_allow([^DOXYGEN$])
+m4trace:configure.ac:159: -1- m4_pattern_allow([^top_srcdir$])
+m4trace:configure.ac:162: -1- _m4_warn([obsolete], [AC_OUTPUT should be used without arguments.
+You should run autoupdate.], [])
+m4trace:configure.ac:162: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+m4trace:configure.ac:162: -1- m4_pattern_allow([^LTLIBOBJS$])
+m4trace:configure.ac:162: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
+m4trace:configure.ac:162: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
+m4trace:configure.ac:162: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
+m4trace:configure.ac:162: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
+m4trace:configure.ac:162: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
+m4trace:configure.ac:162: -1- _AC_AM_CONFIG_HEADER_HOOK(["$ac_file"])
+m4trace:configure.ac:162: -1- _AM_OUTPUT_DEPENDENCY_COMMANDS
