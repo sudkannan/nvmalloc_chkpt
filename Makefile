@@ -198,6 +198,14 @@ install:
 	sudo cp libnvmchkpt.so /usr/lib/
 	#sudo cp pmem_intel/linux-examples_flex/libpmem/libpmem.so  /usr/lib/
 	#sudo cp pmem_intel/linux-examples_flex/libpmem/libpmem.so  /usr/lib64/
+
+localinstall:
+	mkdir -p ~/nvmchkpt/include
+	mkdir -p ~/nvmchkpt/lib
+	cp libnvmchkpt.so ~/nvmchkpt/lib
+	cp *.h ~/nvmchkpt/include
+
+
 uninstall:
 	rm -rf libnvmchkpt.*
 	rm -rf /usr/lib64/nvmalloc/lib/libnvmchkpt.so*
