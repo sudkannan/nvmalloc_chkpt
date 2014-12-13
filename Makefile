@@ -1,4 +1,5 @@
 LOGGING=/usr/lib64/logging
+NVMALLOC_HOME=/home/stewart/checkpoint/nvmalloc_chkpt
 INCLUDE=$(NVMALLOC_HOME)
 src_path=$(NVMALLOC_HOME)
 LIB_PATH := $(NVMALLOC_HOME)
@@ -165,7 +166,7 @@ SHARED_LIB: $(RBTREE_OBJS) $(JEMALLOC_OBJS) $(NVM_OBJS)
 	$(CXX) -c $(NVM_OBJS) -I$(INCLUDE) $(CPPFLAGS) $(NVFLAGS)  $(LDFLAGS)
 	$(CXX) -shared -fPIC -o libnvmchkpt.so $(OBJLIST) $(NVFLAGS) $(LIBS) $(LDFLAGS)
 	ar crf  libnvmchkpt.a $(OBJLIST) $(NVFLAGS)  
-	#$(CXX) -g varname_commit_test.cc -o varname_commit_test $(OBJLIST) -I$(INCLUDE) $(CPPFLAGS) $(NVFLAGS)  $(LIBS)
+	$(CXX) -g test/nv_chckpt_test.cc -o nv_chkpt_test $(OBJLIST) -I$(INCLUDE) $(CPPFLAGS) $(NVFLAGS)  $(LIBS)
 
 
 BENCHMARK: $(JEMALLOC_OBJS) $(NVM_OBJS) $(BENCHMARK_OBJS)

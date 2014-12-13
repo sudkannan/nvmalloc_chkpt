@@ -203,7 +203,7 @@ void* read_mmap_file( rqst_s* rqst, size_t *len);
 void close_mmap_file( rqst_s* rqst);
 int nvm_persist(void *addr, size_t len, int flags);
 
-void add_map(void *ptr, size_t size);
+void enable_alloc_prot(void* ptr, size_t size);
 size_t disable_alloc_prot(void *addr);
 void fault_handler (int sig, siginfo_t *si, void *unused);
 void remove_map(void *addr);

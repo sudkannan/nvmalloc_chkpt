@@ -18,6 +18,7 @@
 #include <signal.h>
 #include <sys/queue.h>
 #include <sys/resource.h>
+#include <malloc.h>
 
 #include "jemalloc/jemalloc.h"
 #include "nv_map.h"
@@ -41,6 +42,7 @@
 #define FREQUENCY 1
 //#define FREQ_MEASURE
 #define MAXVARLEN 30
+#define PAGESIZE
 
 #ifdef _USE_CMU_NVMALLOC
 #include "nvmalloc.h"
@@ -554,6 +556,12 @@ void* pnvalloc_( size_t size, char *var, int rqstid, unsigned long *ptr)
 extern "C" {
 void* p_c_nvalloc_( size_t size, char *var, int rqstid, int tid)
 {
+
+	 //align to page boundaries
+	 return valloc(size);
+
+#if 0 //We will uncomment this later when there is full intergration
+
 	void *buffer = NULL;
 	rqst_s rqst;
 	int id = BASEID_GET() + tid;
@@ -631,6 +639,7 @@ void* p_c_nvalloc_( size_t size, char *var, int rqstid, int tid)
 	set_chunk_protection(buffer, size, 1);	*/
 	fprintf(stdout,"rqst.nv_ptr %lu \n",(unsigned long)rqst.nv_ptr);
 	return rqst.nv_ptr;
+#endif
 }
 
 
