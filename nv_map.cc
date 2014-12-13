@@ -1986,7 +1986,7 @@ struct gt_spinlock_t spinlock_fault;
 unsigned long *fault_count;
 
 /*******************FAULT HANDLERS*****************************************/
-
+/*
 static void SIGABRT_handle(int sig, siginfo_t *si, void *unused)
 {
 	fprintf(stdout,"handling SIGABRT \n");
@@ -2009,17 +2009,14 @@ static void fault_handler (int sig, siginfo_t *si, void *unused)
 {
     disable_alloc_prot((void *)si->si_addr);
 }
-
+*/
 /*************************************************************************/
 
 
 void enable_alloc_prot(void* ptr, size_t size){
 
-	struct sigaction sa, sa1, sa2, sa3;
-
-
-
 #if 0 //Disable this, caller takes care of handling faults
+	struct sigaction sa, sa1, sa2, sa3;
 	std::map <void *, size_t>::iterator itr;
     memset (&sa, 0, sizeof (sa));
     sigemptyset(&sa.sa_mask);
@@ -2054,11 +2051,16 @@ void enable_alloc_prot(void* ptr, size_t size){
 	if(size < 4096) {
 		return;
 	}
-	size = size - size%4096-1;
+	//size = size - size%4096-1;
+	size = 4096;
+
+	fprintf(stdout,"protecting addr %lu, size %u\n", ptr, size);
 	//add_alloc_map(ptr, size);
-	if (mprotect((void *)ptr,size, PROT_READ)==-1) {
-          exit(-1);   
+	if (mprotect((void *)ptr,size, PROT_READ|PROT_WRITE)==-1) {
+          assert(0);
     }
+	//add_alloc_map(ptr, size);
+
 	//alloc_prot_map[ptr] = 1;
 	/*life_map[ptr]=1;
     for( itr= life_map.begin(); itr!=life_map.end(); ++itr){
@@ -2071,6 +2073,72 @@ void enable_alloc_prot(void* ptr, size_t size){
 		}	
 	}*/	
 }
+
+/*Function to disable protection of an address chunk
+ *
+ */
+size_t  disable_alloc_prot(void *addr){
+	size_t size = 0;
+	unsigned long faddr;
+	unsigned long laddr = 0;
+	unsigned long off = 0;
+	size_t protect_len =0;
+
+	//disable_malloc_hook();
+	gt_spin_lock(&spinlock_fault);
+
+	//alloc_prot_map[addr] = 0;
+	size = get_alloc_size(addr, &faddr);
+	if(faddr && size){
+		fault_stat[faddr]++;
+		alloc_prot_map[faddr] = 0;
+	}else {
+		fprintf(stderr,"CANNOT FIND SUITABLE MAP\n");
+		assert(faddr);
+	}
+
+#ifdef _FAULT_STATS
+	//if(faddr)alloc_prot_map[faddr]=0;
+	/*if(faddr && size){
+ 		 laddr = faddr - ((unsigned long)faddr%4096);
+		 //size = 4095;
+		 alloc_prot_map[faddr] = 0;
+		 //life_map[faddr] = 0;
+		 //fault_stat[faddr]++;
+		 //fprintf(stdout,"%lu %u\n",faddr, fault_stat[faddr]);
+	}
+    else*/
+#endif //_FAULT_STATS
+
+	{
+    	 /* align to page boundaries */
+		 laddr = faddr - ((unsigned long)faddr%4096);
+		 //size = 4095;
+
+	}
+
+	if (mprotect((void *)faddr,size, PROT_READ|PROT_WRITE)==-1) {
+          assert(0);
+    }
+
+#ifdef _FAULT_STATS
+	/*keep track of fault count*/
+	g_fault_count++;
+	/*debugging purpose, need to be removed*/
+	if(g_fault_count%10000 == 0){
+		fprintf(stderr,"g_fault_count %u %u\n",g_fault_count, allocmap.size());
+		//print_stat();
+	}
+#endif
+
+	fprintf(stderr,"disable_alloc_prot succeeded\n");
+
+	//enable_malloc_hook();
+	gt_spin_unlock(&spinlock_fault);
+	//gt_spin_unlock(&spin_lock);
+	return size;
+}
+
 
 
 
@@ -2100,63 +2168,6 @@ void protect_all_chunks(){
 	}
 }
 
-
-/*Function to disable protection of an address chunk
- *
- */
-size_t  disable_alloc_prot(void *addr){
-	size_t size = 0;
-	unsigned long faddr; 
-	unsigned long laddr = 0;
-	unsigned long off = 0;
-	size_t protect_len =0;
-
-
-	//disable_malloc_hook();
-	gt_spin_lock(&spinlock_fault);
-
-	//alloc_prot_map[addr] = 0;
-	size = get_alloc_size(addr, &faddr);
-	if(faddr && size){
-		fault_stat[faddr]++;
-		alloc_prot_map[faddr] = 0;
-	}
-
-
-	//assert(faddr);
-	//if(faddr)alloc_prot_map[faddr]=0;
-	/*if(faddr && size){
- 		 laddr = faddr - ((unsigned long)faddr%4096);
-		 //size = 4095;
-		 alloc_prot_map[faddr] = 0;
-		 //life_map[faddr] = 0;
-		 //fault_stat[faddr]++;
-		 //fprintf(stdout,"%lu %u\n",faddr, fault_stat[faddr]);
-	}
-    else*/{
-    	 /* align to page boundaries */
-		 laddr = addr - ((unsigned long)addr%4096);
-		 size = 4095;
-	}
-
-	if (mprotect((void *)laddr,size, PROT_READ|PROT_WRITE)==-1) {
-           //exit(-1);   
-    }
-
-	/*keep track of fault count*/
-	g_fault_count++;
-
-	/*debugging purpose, need to be removed*/
-	if(g_fault_count%10000 == 0){
-		fprintf(stderr,"g_fault_count %u %u\n",g_fault_count, allocmap.size());
-		//print_stat();
-	}
-
-	//enable_malloc_hook();
-	gt_spin_unlock(&spinlock_fault);
-	//gt_spin_unlock(&spin_lock);
-	return size;
-}
 
 
 void print_stat() {

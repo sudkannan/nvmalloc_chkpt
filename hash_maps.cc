@@ -42,6 +42,8 @@ std::map <void *, size_t> life_map;
 
 unsigned long *allocmap_long;
 unsigned long *allocmap_sz;
+unsigned long *shadow_addr_arr;
+
 std::unordered_map <unsigned long, size_t>::iterator alloc_itr;
 //std::map <void *, size_t> fault_stat;
 //hashtable_t *hashtable = NULL;
@@ -61,19 +63,22 @@ UINT next_vma_entry;
 
 
 
-void add_alloc_map(void* ptr, size_t size){
+void add_alloc_map(void* ptr, size_t size, unsigned long shadow_long){
 
 	unsigned long addr = (unsigned long)ptr;
-	allocmap[addr] = size;
 
 	if(!init_alloc){
 		allocmap_long = (unsigned long *)malloc(sizeof(unsigned long) * MAX_ENTRIES);
 		allocmap_sz = (unsigned long *)malloc(sizeof(unsigned long) * MAX_ENTRIES);
+		shadow_addr_arr= (unsigned long *)malloc(sizeof(unsigned long) * MAX_ENTRIES);
 		init_alloc = 1;
 	}
 	allocmap_long[alloc_cnt]= addr;
 	allocmap_sz[alloc_cnt]= size;
+	shadow_addr_arr[alloc_cnt]= shadow_long;
 	alloc_cnt++;
+
+	allocmap[addr] = size;
 }
 
 /* Given an addrress, this function returns which chunk
@@ -86,7 +91,9 @@ size_t get_alloc_size(void *ptr, unsigned long *faddr){
 	int idx = 0;
 	unsigned int value=0;
 	unsigned long addr=0, endaddr=0;
+	unsigned long nvmaddr=0;
 
+#if 0
 	/*if(allocmap.find((void *)ptr) != allocmap.end()){
 		*faddr = ptr;
 		return allocmap[ptr];
@@ -96,10 +103,14 @@ size_t get_alloc_size(void *ptr, unsigned long *faddr){
 		void *endaddr = addr + (size_t)(*alloc_itr).second;
 		if((unsigned long)ptr >= addr && (unsigned long)ptr <= endaddr) {
 			*faddr = (unsigned long)addr;
+			if((size_t)(*alloc_itr).second == 0)
+				assert(0);
 			return (size_t)(*alloc_itr).second;
 		} 
 	}
+   fprintf(stdout,"RETURNING NULL ptr %lu\n", ptr);
 	return 0;
+#endif
 
 	for(idx = 0; idx < alloc_cnt; idx++){
 
@@ -111,9 +122,43 @@ size_t get_alloc_size(void *ptr, unsigned long *faddr){
 			 //fprintf(stdout,"addr %lu %u %u\n",addr, value, alloc_cnt);
 			 return value;
 		}
+		fprintf(stdout,"addr %lu %lu %u\n",addr, addr+ value, value);
 	}
+	 fprintf(stdout,"RETURNING NULL ptr %lu\n", ptr);
 	return 0;	
 }
+
+/* Given an addrress, this function returns which chunk
+ * the address belongs to, and what is its size
+ *  ptr - is the address, and faddr - chunk starting address
+ */
+
+size_t get_size_shadowaddr(void *ptr, unsigned long *faddr, unsigned long *shadow){
+
+	int idx = 0;
+	unsigned int value=0;
+	unsigned long addr=0, endaddr=0;
+	unsigned long shadow_addr=0;
+
+
+	for(idx = 0; idx < alloc_cnt; idx++){
+
+		addr = allocmap_long[idx];
+		value = allocmap_sz[idx];
+		endaddr = addr + value;
+		if((unsigned long)ptr >= addr && (unsigned long)ptr <= endaddr) {
+			*faddr = addr;
+			 shadow_addr = shadow_addr_arr[idx];
+			 *shadow = shadow_addr;
+			 return value;
+		}
+		//fprintf(stdout,"addr %lu %lu %u\n",addr, addr+ value, value);
+	}
+	//fprintf(stdout,"RETURNING NULL ptr %lu\n", ptr);
+	return 0;
+}
+
+
 
 
 

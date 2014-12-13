@@ -10,8 +10,9 @@
 #include <fcntl.h>
 #include <math.h>
 #include <sched.h>
-#include "include/nv_map.h"
-#include "include/c_io.h"
+#include "../c_io.h"
+#include "../nv_map.h"
+
 
 #ifdef ENABLE_MPI_RANKS 
 #include "mpi.h"
@@ -60,6 +61,9 @@ int main (int argc, char ** argv)
 		size = NX*sizeof(int);
 		fprintf(stdout, "allocating from NVM \n");
 		p = (int *) nvalloc_(size,(char *)"zion", mype);
+
+		enable_alloc_prot(p, size);
+
 	 	chunk2 =(int *) nvalloc_(size,(char *)"chunk2", mype);
 		fprintf(stdout, "finished allocating from NVM \n");
 
@@ -76,7 +80,8 @@ int main (int argc, char ** argv)
     	    //        i, chunk2[i]);
 		 }
 		 fprintf(stdout,"starting checkpoint\n");
-		 nvchkpt_all_(&mype);
+		 //nvchkpt_all_(&mype);
+
 	}
 
 #ifdef ENABLE_MPI_RANKS 

@@ -23,8 +23,10 @@ void *get_chunk_from_map_o1(void *addr);
 int record_vmas(int vmaid, size_t size);
 int record_metadata_vma(int vmaid, size_t size);
 size_t get_vma_size(int vmaid);
-void add_alloc_map(void *ptr, size_t size);
+//void add_alloc_map(void *ptr, size_t size);
+void add_alloc_map(void* ptr, size_t size, unsigned long shadow_long);
 size_t get_alloc_size(void *ptr, unsigned long *addr);
+size_t get_size_shadowaddr(void *ptr, unsigned long *faddr, unsigned long *shadow);
 void protect_all_chunks();
 
 #ifdef __cplusplus
